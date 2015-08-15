@@ -1,0 +1,2 @@
+Campo1|Campo2|Campo3|Campo4
+15/08/2015|Hola mundo|1|ddd
