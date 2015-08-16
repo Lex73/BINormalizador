@@ -10,152 +10,169 @@ class Welcome extends CI_Controller
 
 	public function procesar()
 	{
-		if(file_exists('./assets/documents/'.$this->input->post('archivo')))
+		$arch = trim($this->input->post('archivo'));
+		if($arch != '')
 		{
-			$file_i = fopen(base_url().'/assets/documents/'.$this->input->post('archivo'), "r");
-			$nombreCampo = array('Campo1','Campo2','Campo3','Campo4');
-			$cantidadDeCampos = 3;
-			$tipoCampo = array('Fecha','Cadena','Entero','Flotante');
-			$numeroLinea=-1;
-			$encabezado = true;
-			$archivo = rand();
-
-			while(!feof($file_i))
+			if(file_exists('./assets/documents/'.$this->input->post('archivo')))
 			{
-				$linea = fgets($file_i);
-				if($linea != '')
+				$file_i = fopen('./assets/documents/'.$this->input->post('archivo'), "r");
+				$nombreCampo = array('Campo1','Campo2','Campo3','Campo4');
+				$cantidadDeCampos = 3;
+				$tipoCampo = array('Fecha','Cadena','Entero','Flotante');
+				$numeroLinea=-1;
+				$encabezado = true;
+				$archivo = rand();
+
+				while(!feof($file_i))
 				{
-					$numeroLinea++;
-					$campo = explode ( '|' , $linea);
-					$i=0;
-					foreach($campo as $valor)
+					$linea = fgets($file_i);
+					if($linea != '')
 					{
-						if($numeroLinea > 0)
+						$numeroLinea++;
+						$campo = explode ( '|' , $linea);
+						$i=0;
+						foreach($campo as $valor)
 						{
-								if($tipoCampo[$i] == 'Fecha')
-								{
-									 try
-									 {
-									    $fecha = new DateTime($valor);
-											$valor = $fecha->format('Y-m-d');
-										} catch (Exception $e) {
-											try
-											{
-												$valor = str_replace('/','-',$valor);
-									    	$fecha = new DateTime($valor);
+							if($numeroLinea > 0)
+							{
+									if($tipoCampo[$i] == 'Fecha')
+									{
+										 try
+										 {
+										    $fecha = new DateTime($valor);
 												$valor = $fecha->format('Y-m-d');
-											}
-											catch (Exception $e)
-											{
-												$mensaje['error'] = 'Error al convertir fecha: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
-												echo $mensaje['error'];
-												$this->load->view('errors/errores',$mensaje);
-												unlink('./assets/documents/archivo_'.$archivo.'.txt');
-												exit();
-											}
-										}
-								}
-								elseif ($tipoCampo[$i] == 'Cadena')
-								{
-									$valor = $valor;
-								}
-								elseif ($tipoCampo[$i] == 'Entero')
-								{
-									$pos = strpos($valor, ',');
-									if($pos !== false)
-									{
-										$entero = explode ( ',' , $valor);
-										$valor = $entero[0];
-									}
-									else
-									{
-										$pos = strpos($valor, '.');
-										if($pos !== false)
-										{
-											$entero = explode ( '.' , $valor);
-											$valor = $entero[0];
-										}
-									}
-
-									if(!is_numeric($valor))
-									{
-											$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
-											echo $mensaje['error'];
-											$this->load->view('errors/errores',$mensaje);
-											unlink('./assets/documents/archivo_'.$archivo.'.txt');
-											exit();
-									}
-								}
-								elseif ($tipoCampo[$i] == 'Flotante')
-								{
-										$esNumero = true;
-									  $cambiadoACero = false;
-										$valor = str_replace(',','.',$valor);
-										$componentes = explode ( '.' , $valor);
-
-										if($componentes[0] == '')
-										{
-											$componentes[0] = '0';
-											$cambiadoACero = true;
-										}
-
-										try
-										{
-											$entero = (float)$componentes[0];
-											if($entero == 0)
-											{
-												if($cambiadoACero == false)
-												{
-													$esNumero = false;
-												}
-											}
-									  }
-										catch(Exception $e)
-										{
-											$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
-											echo $mensaje['error'];
-											$this->load->view('errors/errores',$mensaje);
-											unlink('./assets/documents/archivo_'.$archivo.'.txt');
-											exit();
-										}
-
-										if(count($componentes) > 1)
-										{
+											} catch (Exception $e) {
 												try
 												{
-													if($componentes[1] != '0')
-													{
-														$decimal = (float)$componentes[1];
-														if($decimal == 0)
-														{
-																$esNumero = false;
-														}
-													}
-											  }
-												catch(Exception $e)
+													$valor = str_replace('/','-',$valor);
+										    	$fecha = new DateTime($valor);
+													$valor = $fecha->format('Y-m-d');
+												}
+												catch (Exception $e)
 												{
-													$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+													$mensaje['error'] = 'Error al convertir fecha: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 													echo $mensaje['error'];
 													$this->load->view('errors/errores',$mensaje);
 													unlink('./assets/documents/archivo_'.$archivo.'.txt');
 													exit();
 												}
-									  }
-										if($esNumero == true)
+											}
+									}
+									elseif ($tipoCampo[$i] == 'Cadena')
+									{
+										$valor = $valor;
+									}
+									elseif ($tipoCampo[$i] == 'Entero')
+									{
+										$pos = strpos($valor, ',');
+										if($pos !== false)
 										{
-											$valor = (float)$valor;
+											$entero = explode ( ',' , $valor);
+											$valor = $entero[0];
 										}
 										else
 										{
-											$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
-											echo $error;
-											$this->load->view('errors/errores',$mensaje);
-											unlink('./assets/documents/archivo_'.$archivo.'.txt');
-											exit();
+											$pos = strpos($valor, '.');
+											if($pos !== false)
+											{
+												$entero = explode ( '.' , $valor);
+												$valor = $entero[0];
+											}
 										}
-								}
-								$file_o = fopen('./assets/documents/archivo_'.$archivo.'.txt', "a");
 
+										if(!is_numeric($valor))
+										{
+												$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+												echo $mensaje['error'];
+												$this->load->view('errors/errores',$mensaje);
+												unlink('./assets/documents/archivo_'.$archivo.'.txt');
+												exit();
+										}
+									}
+									elseif ($tipoCampo[$i] == 'Flotante')
+									{
+											$esNumero = true;
+										  $cambiadoACero = false;
+											$valor = str_replace(',','.',$valor);
+											$componentes = explode ( '.' , $valor);
+
+											if($componentes[0] == '')
+											{
+												$componentes[0] = '0';
+												$cambiadoACero = true;
+											}
+
+											try
+											{
+												$entero = (float)$componentes[0];
+												if($entero == 0)
+												{
+													if($cambiadoACero == false)
+													{
+														$esNumero = false;
+													}
+												}
+										  }
+											catch(Exception $e)
+											{
+												$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+												echo $mensaje['error'];
+												$this->load->view('errors/errores',$mensaje);
+												unlink('./assets/documents/archivo_'.$archivo.'.txt');
+												exit();
+											}
+
+											if(count($componentes) > 1)
+											{
+													try
+													{
+														if($componentes[1] != '0')
+														{
+															$decimal = (float)$componentes[1];
+															if($decimal == 0)
+															{
+																	$esNumero = false;
+															}
+														}
+												  }
+													catch(Exception $e)
+													{
+														$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+														echo $mensaje['error'];
+														$this->load->view('errors/errores',$mensaje);
+														unlink('./assets/documents/archivo_'.$archivo.'.txt');
+														exit();
+													}
+										  }
+											if($esNumero == true)
+											{
+												$valor = (float)$valor;
+											}
+											else
+											{
+												$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+												echo $mensaje['error'];
+												$this->load->view('errors/errores',$mensaje);
+												unlink('./assets/documents/archivo_'.$archivo.'.txt');
+												exit();
+											}
+									}
+									$file_o = fopen('./assets/documents/archivo_'.$archivo.'.txt', "a");
+
+									if($i == $cantidadDeCampos)
+									{
+										fwrite($file_o,$valor);
+									}
+									else
+									{
+										fwrite($file_o,$valor.';');
+									}
+									fclose($file_o);
+									$i++;
+							}
+							else
+							{
+								$file_o = fopen('./assets/documents/archivo_'.$archivo.'.txt', "a");
 								if($i == $cantidadDeCampos)
 								{
 									fwrite($file_o,$valor);
@@ -166,36 +183,27 @@ class Welcome extends CI_Controller
 								}
 								fclose($file_o);
 								$i++;
-						}
-						else
-						{
-							$file_o = fopen('./assets/documents/archivo_'.$archivo.'.txt', "a");
-							if($i == $cantidadDeCampos)
-							{
-								fwrite($file_o,$valor);
 							}
-							else
-							{
-								fwrite($file_o,$valor.';');
-							}
-							fclose($file_o);
-							$i++;
 						}
 					}
 				}
-			}
-			fclose($file_i);
+				fclose($file_i);
 
-			$datos = file_get_contents('./assets/documents/archivo_'.$archivo.'.txt');
-			$nombre = 'archivo_o.txt';
-			force_download($nombre, $datos);
+				$datos = file_get_contents('./assets/documents/archivo_'.$archivo.'.txt');
+				$nombre = 'archivo_o.txt';
+				force_download($nombre, $datos);
+			}
+			else
+			{
+				$mensaje['error'] = 'Archivo no encontrado';
+				echo $mensaje['error'];
+				$this->load->view('errors/errores',$mensaje);
+				exit();
+			}
 		}
 		else
 		{
-			$mensaje['error'] = 'Archivo no encontrado';
-			echo $mensaje['error'];
-			$this->load->view('errors/errores',$mensaje);
-			exit();
+			echo 'El campo no puede estar vacio';
 		}
 	}
 }
