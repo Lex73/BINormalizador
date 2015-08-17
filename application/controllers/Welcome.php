@@ -5,17 +5,18 @@ class Welcome extends CI_Controller
 {
 	public function index()
 	{
-		$this->load->view('Pruebas/Index');
+		$mensaje['error'] = '';
+		$mensaje['upload_data']='';
+		$this->load->view('Pruebas/Index',$mensaje);
 	}
 
-	public function procesar()
+	public function procesar($arch)
 	{
-		$arch = trim($this->input->post('archivo'));
 		if($arch != '')
 		{
-			if(file_exists('./assets/documents/'.$this->input->post('archivo')))
+			if(file_exists('./assets/documents/upload/'.$arch))
 			{
-				$file_i = fopen('./assets/documents/'.$this->input->post('archivo'), "r");
+				$file_i = fopen('./assets/documents/upload/'.$arch, "r");
 				$nombreCampo = array('Campo1','Campo2','Campo3','Campo4');
 				$cantidadDeCampos = 3;
 				$tipoCampo = array('Fecha','Cadena','Entero','Flotante');
@@ -53,7 +54,7 @@ class Welcome extends CI_Controller
 													$mensaje['error'] = 'Error al convertir fecha: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 													echo $mensaje['error'];
 													$this->load->view('errors/errores',$mensaje);
-													unlink('./assets/documents/archivo_'.$archivo.'.txt');
+													//unlink('./assets/documents/archivo_'.$archivo.'.txt');
 													exit();
 												}
 											}
@@ -118,7 +119,7 @@ class Welcome extends CI_Controller
 												$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 												echo $mensaje['error'];
 												$this->load->view('errors/errores',$mensaje);
-												unlink('./assets/documents/archivo_'.$archivo.'.txt');
+												//unlink('./assets/documents/archivo_'.$archivo.'.txt');
 												exit();
 											}
 
@@ -140,7 +141,7 @@ class Welcome extends CI_Controller
 														$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 														echo $mensaje['error'];
 														$this->load->view('errors/errores',$mensaje);
-														unlink('./assets/documents/archivo_'.$archivo.'.txt');
+														//unlink('./assets/documents/archivo_'.$archivo.'.txt');
 														exit();
 													}
 										  }
@@ -153,11 +154,11 @@ class Welcome extends CI_Controller
 												$mensaje['error'] = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 												echo $mensaje['error'];
 												$this->load->view('errors/errores',$mensaje);
-												unlink('./assets/documents/archivo_'.$archivo.'.txt');
+												//unlink('./assets/documents/archivo_'.$archivo.'.txt');
 												exit();
 											}
 									}
-									$file_o = fopen('./assets/documents/archivo_'.$archivo.'.txt', "a");
+									$file_o = fopen('./assets/documents/process/archivo_'.$archivo.'.txt', "a");
 
 									if($i == $cantidadDeCampos)
 									{
@@ -172,7 +173,7 @@ class Welcome extends CI_Controller
 							}
 							else
 							{
-								$file_o = fopen('./assets/documents/archivo_'.$archivo.'.txt', "a");
+								$file_o = fopen('./assets/documents/process/archivo_'.$archivo.'.txt', "a");
 								if($i == $cantidadDeCampos)
 								{
 									fwrite($file_o,$valor);
@@ -189,13 +190,14 @@ class Welcome extends CI_Controller
 				}
 				fclose($file_i);
 
-				$datos = file_get_contents('./assets/documents/archivo_'.$archivo.'.txt');
+				$datos = file_get_contents('./assets/documents/process/archivo_'.$archivo.'.txt');
 				$nombre = 'archivo_o.txt';
 				force_download($nombre, $datos);
+				echo 'archivo procesado correctamente';
 			}
 			else
 			{
-				$mensaje['error'] = 'Archivo no encontrado';
+				$mensaje['error'] = 'Archivo: '.$arch.' no encontrado';
 				echo $mensaje['error'];
 				$this->load->view('errors/errores',$mensaje);
 				exit();
@@ -204,6 +206,34 @@ class Welcome extends CI_Controller
 		else
 		{
 			echo 'El campo no puede estar vacio';
+		}
+	}
+
+	public function do_upload()
+	{
+		$config['upload_path'] = './assets/documents/upload/';
+		$config['allowed_types'] = 'txt|csv|xls|xlsx';
+		$config['max_size']	= '1000';
+		//$config['max_width']  = '1024';
+		//$config['max_height']  = '768';
+
+		$this->load->library('upload', $config);
+
+		if ( ! $this->upload->do_upload())
+		{
+			$mensaje['error'] = $this->upload->display_errors();
+
+			$this->load->view('Pruebas/Index', $mensaje);
+		}
+		else
+		{
+			$mensaje['upload_data'] = $this->upload->data();
+			$mensaje['error'] = '';
+			$arch = $this->upload->data('file_name');
+			//echo $arch;
+			$this->procesar($arch);
+
+			//$this->load->view('Pruebas/Index', $mensaje);
 		}
 	}
 }
