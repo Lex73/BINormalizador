@@ -5,15 +5,11 @@
     <title></title>
   </head>
   <body>
-    <?php
-      if(isset($error))
-      {
-        echo $error;
-      }
-      else
-      {
-        echo 'aca';
-      }
+    OK
+    <?php if(isset($mens))
+        {
+          echo $mens;
+        }
     ?>
   </body>
 </html>

@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/BINormalizador/';
+$config['base_url'] = 'http://localhost:81/BINormalizador/';
 
 /*
 |--------------------------------------------------------------------------
@@ -498,3 +498,15 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Variables propias
+|--------------------------------------------------------------------------
+*/
+$config['ALLTY'] = ''; //Tipos de mimes aceptados
+$config['FOLPR'] = ''; //Carpeta de subida de Archivos procesados
+$config['FOLUP'] = ''; //Carpeta de subida de Archivos
+$config['FOLDO'] = ''; //Carpeta de archivos bajados
+$config['FOLLG'] = ''; //Carpeta de archivos logs
+$config['NARCH'] = ''; //Nombre del archivo

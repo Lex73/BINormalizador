@@ -1,0 +1,13 @@
+Cpanel Username: b7_16523850
+Cpanel Password: 991973Lex
+Your URL: http://magicweb.byethost7.com or http://www.magicweb.byethost7.com
+FTP Server : ftp.byethost7.com
+FTP Login : b7_16523850
+FTP Password : 991973Lex
+MySQL Database Name: MUST CREATE IN CPANEL
+MySQL Username : b7_16523850
+MySQL Password : 991973Lex
+MySQL Server: SEE THE CPANEL
+
+
+Cpanel URL: http://cpanel.byethost7.com/
