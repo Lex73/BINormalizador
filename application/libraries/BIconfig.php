@@ -41,6 +41,14 @@ class Biconfig
 							{
 								$this->ci->config->set_item('FOLLG',$row->VALOR);
 							}
+              elseif($row->IDClave =='DATFO')
+              {
+                $this->ci->config->set_item('DATFO',$row->VALOR);
+              }
+              elseif($row->IDClave =='DATSE')
+              {
+                $this->ci->config->set_item('DATSE',$row->VALOR);
+              }
 							else
 							{
 

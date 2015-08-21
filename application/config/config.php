@@ -510,3 +510,5 @@ $config['FOLUP'] = ''; //Carpeta de subida de Archivos
 $config['FOLDO'] = ''; //Carpeta de archivos bajados
 $config['FOLLG'] = ''; //Carpeta de archivos logs
 $config['NARCH'] = ''; //Nombre del archivo
+$config['DATFO'] = ''; //Formato de fecha
+$config['DATSE'] = ''; //Separador de datos

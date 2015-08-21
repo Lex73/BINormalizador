@@ -20,7 +20,10 @@ class Welcome extends CI_Controller
 		{
 			$mensaje['ok'] = '';
 			$mensaje['upload_data']='';
-			$this->load->view('Pruebas/Index',$mensaje);
+			$mensaje['titulo']= 'Principal';
+			$this->load->view('Plantillas/Header',$mensaje);
+			$this->load->view('Pruebas/Index');
+			$this->load->view('Plantillas/Footer');
 	  }
 		else
 		{
@@ -28,7 +31,7 @@ class Welcome extends CI_Controller
 		}
 	}
 
-	public function procesar($arch)
+	public function procesar($arch,$tipo)
 	{
 		if($arch != '')
 		{
@@ -50,180 +53,389 @@ class Welcome extends CI_Controller
 					array_push($nombreCampo, $row->NOMCampo);
 					array_push($tipoCampo, $row->TYPCampo);
 					$cantidadDeCampos++;
+					$numeroLinea=-1;
+					$encabezado = true;
+					$archivo = rand();
+					$soloNombre = explode('.',$arch);
 				}
-				
-				$file_i = fopen($this->config->item('FOLUP').$arch, "r");
-				$numeroLinea=-1;
-				$encabezado = true;
-				$archivo = rand();
-				$soloNombre = explode('.',$arch);
 
-				while(!feof($file_i))
+				if($tipo == 'txt')
 				{
-					$linea = fgets($file_i);
-					if($linea != '')
+					$file_i = fopen($this->config->item('FOLUP').$arch, "r");
+					while(!feof($file_i))
 					{
-						$numeroLinea++;
-						$campo = explode ( '|' , $linea);
-						$i=0;
-						foreach($campo as $valor)
+						$linea = fgets($file_i);
+						if($linea != '')
 						{
-							if($numeroLinea > 0)
+							$numeroLinea++;
+							$campo = explode ( '|' , $linea);
+							$i=0;
+							foreach($campo as $valor)
 							{
-									if($tipoCampo[$i] == 'Fecha')
-									{
-										 try
-										 {
-										    $fecha = new DateTime($valor);
-												$valor = $fecha->format('Y-m-d');
-											} catch (Exception $e) {
-												try
-												{
-													$valor = str_replace('/','-',$valor);
-										    	$fecha = new DateTime($valor);
-													$valor = $fecha->format('Y-m-d');
-												}
-												catch (Exception $e)
-												{
-													$this->BIerror = 'Error al convertir fecha: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
-													$this->load->library('bilog');
-													$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
-													return false;
-												}
-											}
-									}
-									elseif ($tipoCampo[$i] == 'Cadena')
-									{
-										$valor = $valor;
-									}
-									elseif ($tipoCampo[$i] == 'Entero')
-									{
-										$pos = strpos($valor, ',');
-										if($pos !== false)
+								if($numeroLinea > 0)
+								{
+										if($tipoCampo[$i] == 'Fecha')
 										{
-											$entero = explode ( ',' , $valor);
-											$valor = $entero[0];
-										}
-										else
-										{
-											$pos = strpos($valor, '.');
-											if($pos !== false)
-											{
-												$entero = explode ( '.' , $valor);
-												$valor = $entero[0];
-											}
-										}
-
-										if(!is_numeric($valor))
-										{
-												$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
-												$this->load->library('bilog');
-												$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
-												return false;
-										}
-									}
-									elseif ($tipoCampo[$i] == 'Flotante')
-									{
-											$esNumero = true;
-										  $cambiadoACero = false;
-											$valor = str_replace(',','.',$valor);
-											$componentes = explode ( '.' , $valor);
-
-											if($componentes[0] == '')
-											{
-												$componentes[0] = '0';
-												$cambiadoACero = true;
-											}
-
-											try
-											{
-												$entero = (float)$componentes[0];
-												if($entero == 0)
-												{
-													if($cambiadoACero == false)
-													{
-														$esNumero = false;
-													}
-												}
-										  }
-											catch(Exception $e)
-											{
-												$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
-												$this->load->library('bilog');
-												$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
-												return false;
-											}
-
-											if(count($componentes) > 1)
-											{
+											 try
+											 {
+											    $fecha = new DateTime($valor);
+													$valor = $fecha->format($this->config->item('DATFO'));
+												} catch (Exception $e) {
 													try
 													{
-														if($componentes[1] != '0')
-														{
-															$decimal = (float)$componentes[1];
-															if($decimal == 0)
-															{
-																	$esNumero = false;
-															}
-														}
-												  }
-													catch(Exception $e)
+														$valor = str_replace('/','-',$valor);
+											    	$fecha = new DateTime($valor);
+														$valor = $fecha->format($this->config->item('DATFO'));
+													}
+													catch (Exception $e)
 													{
-														$this->BIerror= 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+														$this->BIerror = 'Error al convertir fecha: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 														$this->load->library('bilog');
 														$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
 														return false;
 													}
-										  }
-											if($esNumero == true)
+												}
+										}
+										elseif ($tipoCampo[$i] == 'Cadena')
+										{
+											$valor = $valor;
+										}
+										elseif ($tipoCampo[$i] == 'Entero')
+										{
+											$pos = strpos($valor, ',');
+											if($pos !== false)
 											{
-												$valor = (float)$valor;
+												$entero = explode ( ',' , $valor);
+												$valor = $entero[0];
 											}
 											else
 											{
-												$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
-												$this->load->library('bilog');
-												$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
-												return false;
+												$pos = strpos($valor, '.');
+												if($pos !== false)
+												{
+													$entero = explode ( '.' , $valor);
+													$valor = $entero[0];
+												}
 											}
-									}
-									$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.txt', "a");
 
+											if(!is_numeric($valor))
+											{
+													$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+													$this->load->library('bilog');
+													$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+													return false;
+											}
+										}
+										elseif ($tipoCampo[$i] == 'Flotante')
+										{
+												$esNumero = true;
+											  $cambiadoACero = false;
+												$valor = str_replace(',','.',$valor);
+												$componentes = explode ( '.' , $valor);
+
+												if($componentes[0] == '')
+												{
+													$componentes[0] = '0';
+													$cambiadoACero = true;
+												}
+
+												try
+												{
+													$entero = (float)$componentes[0];
+													if($entero == 0)
+													{
+														if($cambiadoACero == false)
+														{
+															$esNumero = false;
+														}
+													}
+											  }
+												catch(Exception $e)
+												{
+													$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+													$this->load->library('bilog');
+													$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+													return false;
+												}
+
+												if(count($componentes) > 1)
+												{
+														try
+														{
+															if($componentes[1] != '0')
+															{
+																$decimal = (float)$componentes[1];
+																if($decimal == 0)
+																{
+																		$esNumero = false;
+																}
+															}
+													  }
+														catch(Exception $e)
+														{
+															$this->BIerror= 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+															$this->load->library('bilog');
+															$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+															return false;
+														}
+											  }
+												if($esNumero == true)
+												{
+													$valor = (float)$valor;
+												}
+												else
+												{
+													$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+													$this->load->library('bilog');
+													$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+													return false;
+												}
+										}
+										$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.txt', "a");
+
+										if($i == $cantidadDeCampos)
+										{
+											fwrite($file_o,$valor);
+										}
+										else
+										{
+											fwrite($file_o,$valor.$this->config->item('DATSE'));
+										}
+										fclose($file_o);
+										$i++;
+								}
+								else
+								{
+									$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.txt', "a");
 									if($i == $cantidadDeCampos)
 									{
 										fwrite($file_o,$valor);
 									}
 									else
 									{
-										fwrite($file_o,$valor.';');
+										fwrite($file_o,$valor.$this->config->item('DATSE'));
 									}
 									fclose($file_o);
 									$i++;
-							}
-							else
-							{
-								$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.txt', "a");
-								if($i == $cantidadDeCampos)
-								{
-									fwrite($file_o,$valor);
 								}
-								else
-								{
-									fwrite($file_o,$valor.';');
-								}
-								fclose($file_o);
-								$i++;
 							}
 						}
 					}
-				}
-				fclose($file_i);
+					fclose($file_i);
 
-				$datos = file_get_contents($this->config->item('FOLPR').'archivo_'.$archivo.'.txt');
-				$nombre = $this->config->item('NARCH').'_o.txt';
-				force_download($nombre, $datos);
-				rename($this->config->item('FOLPR').'archivo_'.$archivo.'.txt', $this->config->item('FOLDO').'archivo_'.$archivo.'.txt');
-				return true;
+					$datos = file_get_contents($this->config->item('FOLPR').'archivo_'.$archivo.'.txt');
+					$nombre = $this->config->item('NARCH').'_o.txt';
+					force_download($nombre, $datos);
+					rename($this->config->item('FOLPR').'archivo_'.$archivo.'.txt', $this->config->item('FOLDO').'archivo_'.$archivo.'.txt');
+					return true;
+				}
+				else
+				{
+						$no = false;
+						$this->load->library('excel');
+						$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+						$objReader->setReadDataOnly(true);
+
+						$objPHPExcel = $objReader->load($this->config->item('FOLUP').$arch);
+						$objWorksheet = $objPHPExcel->getActiveSheet();
+
+						$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.txt', "a");
+
+						//echo '<table>' . "\n";
+						foreach ($objWorksheet->getRowIterator() as $row)
+						{
+								//echo '<tr>' . "\n";
+
+								$cellIterator = $row->getCellIterator();
+								$cellIterator->setIterateOnlyExistingCells(false); // This loops all cells,
+								// even if it is not set.
+								// By default, only cells
+								// that are set will be
+								// iterated.
+								$numeroLinea++;
+								$i=0;
+								$j=1;
+									foreach ($cellIterator as $cell)
+									{
+										if($numeroLinea > 0)
+										{
+												$valor = $cell->getValue();
+												if($valor != 0)
+												{
+														if($tipoCampo[$i] == 'Fecha')
+														{
+																try
+			 											 		{
+																		$UNIX_DATE = ($valor - 25569) * 86400;
+																		$valor = gmdate($this->config->item('DATFO'), $UNIX_DATE);
+				 											    	//$fecha = new DateTime($valor);
+				 														//$valor = $fecha->format('Y-m-d');
+			 													}
+																catch (Exception $e)
+																{
+			 														try
+			 														{
+			 															$valor = str_replace('/','-',$valor);
+			 											    		$fecha = new DateTime($valor);
+			 															$valor = $fecha->format($this->config->item('DATFO'));
+			 														}
+			 														catch (Exception $e)
+			 														{
+				 														$this->BIerror = 'Error al convertir fecha: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+				 														$this->load->library('bilog');
+				 														$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+																		$no = true;
+				 														return false;
+			 														}
+			 													}
+														}
+														elseif($tipoCampo[$i] == 'Entero')
+														{
+															$pos = strpos($valor, ',');
+															if($pos !== false)
+															{
+																$entero = explode ( ',' , $valor);
+																$valor = $entero[0];
+															}
+															else
+															{
+																$pos = strpos($valor, '.');
+																if($pos !== false)
+																{
+																	$entero = explode ( '.' , $valor);
+																	$valor = $entero[0];
+																}
+															}
+
+															if(!is_numeric($valor))
+															{
+																	$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+																	$this->load->library('bilog');
+																	$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+																	$no = true;
+																	return false;
+															}
+														}
+														elseif($tipoCampo[$i] == 'Flotante')
+														{
+															$esNumero = true;
+														  $cambiadoACero = false;
+															$valor = str_replace(',','.',$valor);
+															$componentes = explode ( '.' , $valor);
+
+															if($componentes[0] == '')
+															{
+																$componentes[0] = '0';
+																$cambiadoACero = true;
+															}
+
+															try
+															{
+																$entero = (float)$componentes[0];
+																if($entero == 0)
+																{
+																	if($cambiadoACero == false)
+																	{
+																		$esNumero = false;
+																	}
+																}
+														  }
+															catch(Exception $e)
+															{
+																$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+																$this->load->library('bilog');
+																$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+																$no = true;
+																return false;
+															}
+
+															if(count($componentes) > 1)
+															{
+																	try
+																	{
+																		if($componentes[1] != '0')
+																		{
+																			$decimal = (float)$componentes[1];
+																			if($decimal == 0)
+																			{
+																					$esNumero = false;
+																			}
+																		}
+																  }
+																	catch(Exception $e)
+																	{
+																		$this->BIerror= 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+																		$this->load->library('bilog');
+																		$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+																		$no = true;
+																		return false;
+																	}
+														  }
+															if($esNumero == true)
+															{
+																$valor = (float)$valor;
+															}
+															else
+															{
+																$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
+																$this->load->library('bilog');
+																$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+																$no = true;
+																return false;
+															}
+														}
+												}
+												else
+												{
+													if($tipoCampo[$i] == 'Cadena')
+													{
+													}
+												}
+										}
+										else
+										{
+												$valor = $cell->getValue();
+										}
+
+										if($j == $cantidadDeCampos)
+										{
+											if($no == false)
+											{
+												if($valor !='')
+												{
+													fwrite($file_o,$valor);
+												}
+										  }
+											else
+											{
+												fclose($file_o);
+												unlink($this->config->item('FOLPR').'archivo_'.$archivo.'.txt');
+											}
+										}
+										else
+										{
+											if($no == false)
+											{
+												if($valor !='')
+												{
+													fwrite($file_o,$valor.$this->config->item('DATSE'));
+											  }
+											}
+											else
+											{
+												fclose($file_o);
+												unlink($this->config->item('FOLPR').'archivo_'.$archivo.'.txt');
+											}
+										}
+
+									$i++;
+									$j++;
+								}
+									fwrite($file_o,PHP_EOL);
+						}
+						fclose($file_o);
+
+				}
 			}
 			else
 			{
@@ -243,6 +455,7 @@ class Welcome extends CI_Controller
 		$config['upload_path'] = $this->config->item('FOLUP');
 		$config['allowed_types'] = $this->config->item('ALLTY');
 		$config['max_size']	= '1000';
+		$tipo = $this->input->post('Tipo');
 		//$config['max_width']  = '1024';
 		//$config['max_height']  = '768';
 
@@ -258,8 +471,9 @@ class Welcome extends CI_Controller
 			$mensaje['upload_data'] = $this->upload->data();
 			$mensaje['mens'] = '';
 			$mensaje['error'] = '';
+
 			$arch = $this->upload->data('file_name');
-			$ok = $this->procesar($arch);
+			$ok = $this->procesar($arch,$tipo);
 
 			if($ok == true)
 			{
