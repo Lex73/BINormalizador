@@ -30,7 +30,6 @@
                 </select>
               </div>
             </div>
-            <!--
             <br/>
             <div class="form-group">
               <label for="FormatoSalida" class="col-lg-2 control-label">Formato de Salida:</label>
@@ -42,11 +41,18 @@
                   <option value="xls">Archivo Excel</option>';
                 </select>
               </div>
-            </div>-->
+            </div>
             <br>
             <div class="form-group">
               <div class="col-lg-offset-2 col-lg-10">
                 <input class="btn btn-sm btn-primary" type="submit" value="upload" />
+              </div>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="bajar" class="col-lg-2 control-label">Bajar Archivo</label>
+              <div class="col-sm-4">
+                <input type="radio" name="bajar" id="bajar" value="medium" />
               </div>
             </div>
       </form>
@@ -55,7 +61,6 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-
     </div>
   </div>
 </div>

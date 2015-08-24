@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-08-2015 a las 23:35:28
+-- Tiempo de generación: 24-08-2015 a las 23:14:16
 -- Versión del servidor: 5.6.24
 -- Versión de PHP: 5.6.8
 
@@ -131,6 +131,29 @@ INSERT INTO `biperfil` (`IDPerfil`, `NOMBPerfil`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `biprocesos`
+--
+
+CREATE TABLE IF NOT EXISTS `biprocesos` (
+  `IDPro` int(11) NOT NULL,
+  `Archivo` varchar(25) COLLATE latin1_spanish_ci NOT NULL,
+  `NOMOriginal` varchar(25) COLLATE latin1_spanish_ci NOT NULL,
+  `IDUsuario` varchar(10) COLLATE latin1_spanish_ci NOT NULL,
+  `IDCuenta` int(11) NOT NULL,
+  `FECCreacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Ubicacion` varchar(255) COLLATE latin1_spanish_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `biprocesos`
+--
+
+INSERT INTO `biprocesos` (`IDPro`, `Archivo`, `NOMOriginal`, `IDUsuario`, `IDCuenta`, `FECCreacion`, `Ubicacion`) VALUES
+(9, 'archivo_31778.csv', 'archivo_OK.txt', 'Prueba', 1, '2015-08-24 16:34:17', './assets/documents/process/');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `bitablas`
 --
 
@@ -203,6 +226,12 @@ ALTER TABLE `biperfil`
   ADD PRIMARY KEY (`IDPerfil`);
 
 --
+-- Indices de la tabla `biprocesos`
+--
+ALTER TABLE `biprocesos`
+  ADD PRIMARY KEY (`IDPro`,`Archivo`);
+
+--
 -- Indices de la tabla `bitablas`
 --
 ALTER TABLE `bitablas`
@@ -227,6 +256,11 @@ ALTER TABLE `biclientes`
 --
 ALTER TABLE `bicuentas`
   MODIFY `IDCuenta` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `biprocesos`
+--
+ALTER TABLE `biprocesos`
+  MODIFY `IDPro` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT de la tabla `bitablas`
 --
