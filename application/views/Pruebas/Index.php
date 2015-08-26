@@ -1,11 +1,13 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <?php if(isset($mens))
-          {
-            echo $mens;
-            echo 'OK';
-          }
+      <?php
+        if(isset($descargar))
+        {
+          $datos = file_get_contents($archivo);
+  				$nombre = $this->config->item('NARCH').'.'.$salida;
+  				force_download($nombre, $datos);
+        }
       ?>
    </div>
     <div class="row">
@@ -30,6 +32,18 @@
                 </select>
               </div>
             </div>
+            <div class="form-group">
+              <label for="SeparadorE" class="col-lg-2 control-label">Separador:</label>
+              <div class="col-sm-4">
+                <select class="input-sm form-control" name="SeparadorE">
+                  <option value="">Seleccione el separador de valores</option>
+                  <option value="|">Barra vertical</option>';
+                  <option value=",">Coma</option>';
+                  <option value=";">Punto y Coma</option>';
+                  <option value="$">Signo Pesos</option>';
+                </select>
+              </div>
+            </div>
             <br/>
             <div class="form-group">
               <label for="FormatoSalida" class="col-lg-2 control-label">Formato de Salida:</label>
@@ -38,7 +52,7 @@
                   <option value="">Seleccione el formato de salida</option>
                   <option value="csv">Archivo CSV</option>';
                   <option value="txt">Archivo txt</option>';
-                  <option value="xls">Archivo Excel</option>';
+                  <option value="xlsx">Archivo Excel</option>';
                 </select>
               </div>
             </div>

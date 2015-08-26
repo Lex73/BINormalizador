@@ -5,12 +5,16 @@ class Welcome extends CI_Controller
 {
 	public $BIconfiguracion;
 	public $BIError;
+	public $m_Archivo;
+	public $m_Salida;
 
 	public function __construct()
 	{
 		parent:: __construct();
 		$this->BIconfiguracion = $this->biconfig->getConfig();
 		$this->BIerror = '';
+		$this->m_Archivo = '';
+		$this->m_Salida = '';
 		$this->load->model('tablas_model');
 		$this->load->model('log_model');
 	}
@@ -19,8 +23,6 @@ class Welcome extends CI_Controller
 	{
 		if($this->BIconfiguracion == true)
 		{
-			$mensaje['ok'] = '';
-			$mensaje['upload_data']='';
 			$mensaje['titulo']= 'Principal';
 			$this->load->view('Plantillas/Header',$mensaje);
 			$this->load->view('Pruebas/Index');
@@ -32,7 +34,7 @@ class Welcome extends CI_Controller
 		}
 	}
 
-	public function procesar($arch,$tipo,$descargar,$salida)
+	public function procesar($arch,$tipo,$descargar,$salida,$SeparadorE)
 	{
 		if($arch != '')
 		{
@@ -48,16 +50,18 @@ class Welcome extends CI_Controller
 				$nombreCampo = array();
 				$tipoCampo = array();
 				$cantidadDeCampos = 0;
+				$arrExcelEncab = array();
+				$arrExcelVal = array();
+				$archivo = rand();
+				$soloNombre = explode('.',$arch);
+				$numeroLinea=-1;
+				$encabezado = true;
 
 				foreach ($query as $row)
 				{
 					array_push($nombreCampo, $row->NOMCampo);
 					array_push($tipoCampo, $row->TYPCampo);
 					$cantidadDeCampos++;
-					$numeroLinea=-1;
-					$encabezado = true;
-					$archivo = rand();
-					$soloNombre = explode('.',$arch);
 				}
 
 				if($tipo == 'txt')
@@ -69,7 +73,7 @@ class Welcome extends CI_Controller
 						if($linea != '')
 						{
 							$numeroLinea++;
-							$campo = explode ( '|' , $linea);
+							$campo = explode ($SeparadorE,$linea);
 							$i=0;
 							foreach($campo as $valor)
 							{
@@ -81,7 +85,9 @@ class Welcome extends CI_Controller
 											 {
 											    $fecha = new DateTime($valor);
 													$valor = $fecha->format($this->config->item('DATFO'));
-												} catch (Exception $e) {
+												}
+												catch (Exception $e)
+												{
 													try
 													{
 														$valor = str_replace('/','-',$valor);
@@ -193,13 +199,14 @@ class Welcome extends CI_Controller
 												}
 										}
 
-										if($salida != 'xls')
+										if($salida != 'xlsx')
 										{
 												$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.'.$salida, "a");
 
-												if($i == $cantidadDeCampos)
+												if($i == $cantidadDeCampos-1)
 												{
 													fwrite($file_o,$valor);
+													fwrite($file_o,PHP_EOL);
 												}
 												else
 												{
@@ -208,15 +215,21 @@ class Welcome extends CI_Controller
 												fclose($file_o);
 												$i++;
 									  }
+										else
+										{
+												array_push($arrExcelVal,$valor);
+												$i++;
+										}
 								}
 								else
 								{
-									if($salida != 'xls')
+									if($salida != 'xlsx')
 									{
 											$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.'.$salida, "a");
 											if($i == $cantidadDeCampos)
 											{
 												fwrite($file_o,$valor);
+												fwrite($file_o,PHP_EOL);
 											}
 											else
 											{
@@ -225,14 +238,25 @@ class Welcome extends CI_Controller
 											fclose($file_o);
 											$i++;
 								  }
+									else
+									{
+											array_push($arrExcelEncab,$valor);
+											$i++;
+									}
 								}
 							}
 						}
+					}
+					if($salida == 'xlsx')
+					{
+							$file_o = $this->config->item('FOLPR').'archivo_'.$archivo;
+							$this->escribeExcel($file_o,$arrExcelEncab,$arrExcelVal,$cantidadDeCampos);
 					}
 					fclose($file_i);
 				}
 				else
 				{
+						$encab = 0;
 						$no = false;
 						$this->load->library('excel');
 						$objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -240,10 +264,6 @@ class Welcome extends CI_Controller
 
 						$objPHPExcel = $objReader->load($this->config->item('FOLUP').$arch);
 						$objWorksheet = $objPHPExcel->getActiveSheet();
-
-						if($salida != 'xls')
-						{
-								$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.'.$salida, "a");
 
 								foreach ($objWorksheet->getRowIterator() as $row)
 								{
@@ -386,64 +406,79 @@ class Welcome extends CI_Controller
 															{
 															}
 														}
+														$encab = 1;
 												}
 												else
 												{
 														$valor = $cell->getValue();
+														$encab = 0;
 												}
 
-												if($j == $cantidadDeCampos)
+												if($salida != 'xlsx')
 												{
-													if($no == false)
-													{
-														if($valor !='')
+														$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.'.$salida, "a");
+
+														if($j == $cantidadDeCampos)
 														{
-															fwrite($file_o,$valor);
+															if($no == false)
+															{
+																if($valor !='')
+																{
+																	fwrite($file_o,$valor);
+																	fwrite($file_o,PHP_EOL);
+																}
+														  }
+															else
+															{
+																fclose($file_o);
+															}
 														}
-												  }
-													else
-													{
-														fclose($file_o);
-													}
+														else
+														{
+															if($no == false)
+															{
+																if($valor !='')
+																{
+																	fwrite($file_o,$valor.$this->config->item('DATSE'));
+															  }
+															}
+															else
+															{
+																fclose($file_o);
+															}
+														}
+
+													$i++;
+													$j++;
+													fclose($file_o);
 												}
 												else
 												{
-													if($no == false)
+													if($encab == 0)
 													{
-														if($valor !='')
-														{
-															fwrite($file_o,$valor.$this->config->item('DATSE'));
-													  }
+														array_push($arrExcelEncab,$valor);
 													}
 													else
 													{
-														fclose($file_o);
+														array_push($arrExcelVal,$valor);
 													}
+													$i++;
+													$j++;
 												}
-
-											$i++;
-											$j++;
 										}
-											fwrite($file_o,PHP_EOL);
+										if($salida == 'xlsx')
+										{
+												$file_o = $this->config->item('FOLPR').'archivo_'.$archivo;
+												$this->escribeExcel($file_o,$arrExcelEncab,$arrExcelVal,$cantidadDeCampos);
+										}
 								}
-								fclose($file_o);
-					}
-					else
-					{
-
-					}
-
 				}
 
-				if($descargar == true)
-				{
-					$archivo = $this->config->item('FOLPR').'archivo_'.$archivo.'.'.$salida;
-					$this->do_download($archivo,$salida);
-				}
+				$ok = $this->do_dataBase_log('archivo_'.$archivo.'.'.$salida,$arch,'Prueba',1,$this->config->item('FOLPR'));
+				$this->m_Archivo = $this->config->item('FOLPR').'archivo_'.$archivo.'.'.$salida;
+				$this->m_Salida = $salida;
 
-				$this->do_dataBase_log('archivo_'.$archivo.'.'.$salida,$arch,'Prueba',1,$this->config->item('FOLPR'));
-
-				return true;
+				return $ok;
 			}
 			else
 			{
@@ -466,6 +501,7 @@ class Welcome extends CI_Controller
 		$tipo = $this->input->post('Tipo');
 		$descargar = $this->input->post('bajar');
 		$salida = $this->input->post('TipoS');
+		$SeparadorE = $this->input->post('SeparadorE');
 		//$config['max_width']  = '1024';
 		//$config['max_height']  = '768';
 
@@ -483,13 +519,13 @@ class Welcome extends CI_Controller
 			$mensaje['error'] = '';
 
 			$arch = $this->upload->data('file_name');
-			$ok = $this->procesar($arch,$tipo,$descargar,$salida);
+			$ok = $this->procesar($arch,$tipo,$descargar,$salida,$SeparadorE);
 
 			if($ok == true)
 			{
-				$mensaje['mens'] = 'Archivo procesado correctamente';
-				$mensaje['ok'] = '';
-				$mensaje['upload_data']='';
+				$mensaje['archivo'] = $this->m_Archivo;
+				$mensaje['salida'] = $this->m_Salida;
+				$mensaje['descargar'] = $descargar;
 				$mensaje['titulo']= 'Principal';
 				$this->load->view('Plantillas/Header',$mensaje);
 				$this->load->view('Pruebas/Index');
@@ -505,20 +541,82 @@ class Welcome extends CI_Controller
 
 	public function do_download($archivo,$salida)
 	{
-		$datos = file_get_contents($archivo);
-		$nombre = $this->config->item('NARCH').'_o.'.$salida;
-		force_download($nombre, $datos);
-		return;
+		try
+		{
+				$datos = file_get_contents($archivo);
+				$nombre = $this->config->item('NARCH').'_o.'.$salida;
+				force_download($nombre, $datos);
+				return true;
+		}
+		catch(Exception $e)
+		{
+			return false;
+		}
 	}
 
 	public function do_dataBase_log($archivo,$orig,$usuario,$cuenta,$ruta)
 	{
-			$data = array('archivo' => $archivo,
-										'NOMOriginal' => $orig,
-									  'IDUsuario' => $usuario,
-									  'IDCuenta' => $cuenta,
-									  'Ubicacion' => $ruta);
+		try
+		{
+				$data = array('archivo' => $archivo,
+											'NOMOriginal' => $orig,
+										  'IDUsuario' => $usuario,
+										  'IDCuenta' => $cuenta,
+										  'Ubicacion' => $ruta);
 
-			$this->log_model->insert_log($data);
+				$this->log_model->insert_log($data);
+				return true;
+		}
+		catch(Exception $e)
+		{
+			return false;
+		}
+	}
+
+	public function escribeExcel($archivo,$arrExcelEncab,$arrExcelVal,$cantidadDeCampos)
+	{
+				$this->load->library('excel');
+
+				$i = 0;
+				$column = 0;
+				$row = 1;
+
+				$objPHPExcel = new PHPExcel();
+				// Set properties
+				$objPHPExcel->getProperties()->setCreator("BINormalizador")
+										->setLastModifiedBy("Prueba")
+										->setTitle("BINormalizador Document")
+										->setSubject("BINormalizador Document")
+										->setDescription("BINormalizador, generated by PHPExcel.");
+
+				$objPHPExcel->getActiveSheet()->setTitle('Datos');
+
+				foreach($arrExcelEncab as $campo)
+				{
+						$objPHPExcel->setActiveSheetIndex(0)
+												->setCellValueByColumnAndRow($column, $row, $campo);
+						$column++;
+				}
+
+				$row++;
+				$column = 0;
+				foreach($arrExcelVal as $campo)
+				{
+					if($i == $cantidadDeCampos)
+					{
+						$i = 0;
+						$row++;
+						$column = 0;
+					}
+						$objPHPExcel->setActiveSheetIndex(0)
+												->setCellValueByColumnAndRow($column, $row, $campo);
+						$column++;
+						$i++;
+				}
+
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				//Si queremos crear un PDF
+				//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
+				$objWriter->save($archivo.'.xlsx');
 	}
 }
