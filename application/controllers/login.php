@@ -20,16 +20,16 @@ class Login extends CI_Controller {
 		if($this->input->post('submit_login'))
 		{
 			$data = array('IDUsuario'=>$this->input->post('inputUser',TRUE),
-						  //'ClaveUsuario'=>$this->input->post('inputPassword',TRUE)
-						  'ClaveUsuario'=>do_hash($this->input->post('inputPassword',TRUE),'md5'));
+						  		  'ClaveUsuario'=>do_hash($this->input->post('inputPassword',TRUE),'md5'));
 
 			$resultado  = $this->usuarios_model->very_user($data);
 
 			foreach ($resultado as $row)
 			{
 				$datos = array('usuario'=> $row->IDUsuario,
-							   'nombre'=> $row->NombreUsuario,
-							   'perfil'=> $row->IDProfile);
+										   'nombre'=> $row->NombreUsuario,
+										   'perfil'=> $row->IDProfile,
+										 	 'cuenta'=> $row->IDCuenta);
 
 				$this->session->set_userdata($datos);
 				redirect(base_url().'home/');

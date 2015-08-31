@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Usuarios_model extends CI_Model
 {
 	public function __construct()
@@ -14,6 +14,27 @@ class Usuarios_model extends CI_Model
 		$this->db->join('perfiles', 'perfiles.IDPerfiles = usuarios.IDProfile');
 
 		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function getall_cuentas()
+	{
+		$this->db->select('*');
+		$this->db->from('usuarios');
+		$this->db->join('perfiles', 'perfiles.IDPerfiles = usuarios.IDProfile');
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function get_cuenta($id)
+	{
+		$this->db->select('*');
+		$this->db->from('usuarios');
+		$this->db->join('perfiles', 'perfiles.IDPerfiles = usuarios.IDProfile');
+		$this->db->where('IDUsuario',$id);
+		$query = $this->db->get();
+
 		return $query->result();
 	}
 
@@ -43,6 +64,17 @@ class Usuarios_model extends CI_Model
 
 	}
 
+	public function insert_cuenta($data)
+	{
+		$data['ClaveUsuario'] = do_hash($data['ClaveUsuario'], 'md5');
+		$this->db->insert('usuarios',$data);
+	}
+
+	public function update_cuenta($data)
+	{
+		$this->db->update('usuarios', $data, "IDUsuario ='".$data['IDUsuario']."'");
+	}
+	
 	public function insert_usuario($data)
 	{
 		$data['ClaveUsuario'] = do_hash($data['ClaveUsuario'], 'md5');
@@ -65,7 +97,7 @@ class Usuarios_model extends CI_Model
 	{
 		$data = array('ClaveUsuario' => do_hash('654321','md5'));
 
-		$condicion = "IDUsuario = '".$id."'"; 
+		$condicion = "IDUsuario = '".$id."'";
 
 		$str = $this->db->update_string('usuarios', $data, $condicion);
 
@@ -76,7 +108,7 @@ class Usuarios_model extends CI_Model
 	{
 		$sql = array('ClaveUsuario' => do_hash($data['ClaveUsuario'],'md5'));
 
-		$condicion = "IDUsuario = '".$data['IDUsuario']."'"; 
+		$condicion = "IDUsuario = '".$data['IDUsuario']."'";
 
 		$str = $this->db->update_string('usuarios', $sql, $condicion);
 

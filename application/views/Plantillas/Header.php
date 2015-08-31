@@ -11,7 +11,8 @@
   <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/justified-nav.css" >
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css"  media="all">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css" >
-  <script src="<?php echo base_url(); ?>assets/js/ie-emulation-modes-warning.js"></script>
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/barra.css" >
+	<script src="<?php echo base_url(); ?>assets/js/ie-emulation-modes-warning.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.min.js"></script>
   <style>
       .think{
@@ -20,6 +21,12 @@
       .lexHide{
         display: none;
       }
+			.sep{
+				display: none;
+			}
+			.bloq1{
+				display: none;
+			}
       #dateRangeForm .form-control-feedback {
           top: 0;
           right: -15px;

@@ -1,31 +1,31 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12">
-      <?php
-        if(isset($descargar))
-        {
-          $datos = file_get_contents($archivo);
-  				$nombre = $this->config->item('NARCH').'.'.$salida;
-  				force_download($nombre, $datos);
-        }
-      ?>
-   </div>
     <div class="row">
       <div class="col-sm-12">
-      <form class="form-horizontal" role="form" name="Form_Agregar_Usuarios"
+      <form class="form-horizontal" role="form" name="Form_Upload" id="Form_Upload"
             action="<?php echo base_url(); ?>welcome/do_upload"
             method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="Archivo" class="col-lg-2 control-label">Archivo:</label>
-            <div class="col-sm-4">
-              <input class="btn btn-sm btn-primary" type="file" name="userfile" size="20" />
+            <div class="form-group">
+              <label for="Archivo" class="col-lg-2 control-label">Archivo:</label>
+              <div class="col-sm-4">
+                <input class="btn btn-sm btn-primary" type="file" name="userfile" id="userfile" size="20" />
+              </div>
+              <div class="col-sm-2">
+                <input class="btn btn-sm btn-primary" name="uploadDoc" id="uploadDoc" type="submit" value="upload" />
+                <i class="fa fa-refresh fa-lg fa-spin think"></i>
+              </div>
             </div>
-        </div>
-          <br/>
+        </form>
+        <br/>
+        <form class="form-horizontal bloq1" role="form" name="Form_Process" id="Form_Process"
+              action="<?php echo base_url(); ?>welcome/procesar"
+              method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+            </div>
             <div class="form-group">
               <label for="FormatoEntrada" class="col-lg-2 control-label">Formato de Entrada:</label>
               <div class="col-sm-4">
-                <select class="input-sm form-control" name="Tipo">
+                <select class="input-sm form-control bloq1" name="Tipo">
                   <option value="">Seleccione el formato de entrada</option>
                   <option value="txt">Archivo plano</option>';
                   <option value="xls">Archivo Excel</option>';
@@ -33,9 +33,9 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="SeparadorE" class="col-lg-2 control-label">Separador:</label>
+              <label for="SeparadorE" class="col-lg-2 control-label sep">Separador:</label>
               <div class="col-sm-4">
-                <select class="input-sm form-control" name="SeparadorE">
+                <select class="input-sm form-control sep" name="SeparadorE">
                   <option value="">Seleccione el separador de valores</option>
                   <option value="|">Barra vertical</option>';
                   <option value=",">Coma</option>';
@@ -48,7 +48,7 @@
             <div class="form-group">
               <label for="FormatoSalida" class="col-lg-2 control-label">Formato de Salida:</label>
               <div class="col-sm-4">
-                <select class="input-sm form-control" name="TipoS">
+                <select class="input-sm form-control bloq1" name="TipoS">
                   <option value="">Seleccione el formato de salida</option>
                   <option value="csv">Archivo CSV</option>';
                   <option value="txt">Archivo txt</option>';
@@ -57,18 +57,6 @@
               </div>
             </div>
             <br>
-            <div class="form-group">
-              <div class="col-lg-offset-2 col-lg-10">
-                <input class="btn btn-sm btn-primary" type="submit" value="upload" />
-              </div>
-            </div>
-            <br>
-            <div class="form-group">
-              <label for="bajar" class="col-lg-2 control-label">Bajar Archivo</label>
-              <div class="col-sm-4">
-                <input type="radio" name="bajar" id="bajar" value="medium" />
-              </div>
-            </div>
       </form>
       </div>
     </div>

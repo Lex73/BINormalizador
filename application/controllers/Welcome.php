@@ -34,8 +34,12 @@ class Welcome extends CI_Controller
 		}
 	}
 
-	public function procesar($arch,$tipo,$descargar,$salida,$SeparadorE)
+	public function procesar()
 	{
+		$arch = $this->input->post();
+		$tipo = $this->input->post('Tipo');
+		$salida = $this->input->post('TipoS');
+		$SeparadorE = $this->input->post('SeparadorE');
 		if($arch != '')
 		{
 			if(file_exists($this->config->item('FOLUP').$arch))
@@ -205,12 +209,18 @@ class Welcome extends CI_Controller
 
 												if($i == $cantidadDeCampos-1)
 												{
-													fwrite($file_o,$valor);
-													fwrite($file_o,PHP_EOL);
+															if(trim($valor) != '')
+															{
+																	fwrite($file_o,$valor);
+																	fwrite($file_o,PHP_EOL);
+														  }
 												}
 												else
 												{
-													fwrite($file_o,$valor.$this->config->item('DATSE'));
+													if(trim($valor) != '')
+													{
+															fwrite($file_o,$valor.$this->config->item('DATSE'));
+													}
 												}
 												fclose($file_o);
 												$i++;
@@ -226,14 +236,20 @@ class Welcome extends CI_Controller
 									if($salida != 'xlsx')
 									{
 											$file_o = fopen($this->config->item('FOLPR').'archivo_'.$archivo.'.'.$salida, "a");
-											if($i == $cantidadDeCampos)
+											if($i == $cantidadDeCampos-1)
 											{
-												fwrite($file_o,$valor);
-												fwrite($file_o,PHP_EOL);
+													if(trim($valor) != '')
+													{
+															fwrite($file_o,$valor);
+															//fwrite($file_o,PHP_EOL);
+												  }
 											}
 											else
 											{
-												fwrite($file_o,$valor.$this->config->item('DATSE'));
+												if(trim($valor) != '')
+												{
+														fwrite($file_o,$valor.$this->config->item('DATSE'));
+											  }
 											}
 											fclose($file_o);
 											$i++;
@@ -422,7 +438,7 @@ class Welcome extends CI_Controller
 														{
 															if($no == false)
 															{
-																if($valor !='')
+																if($valor != '')
 																{
 																	fwrite($file_o,$valor);
 																	fwrite($file_o,PHP_EOL);
@@ -437,7 +453,7 @@ class Welcome extends CI_Controller
 														{
 															if($no == false)
 															{
-																if($valor !='')
+																if(trim($valor) != '')
 																{
 																	fwrite($file_o,$valor.$this->config->item('DATSE'));
 															  }
@@ -475,7 +491,7 @@ class Welcome extends CI_Controller
 				}
 
 				$ok = $this->do_dataBase_log('archivo_'.$archivo.'.'.$salida,$arch,'Prueba',1,$this->config->item('FOLPR'));
-				$this->m_Archivo = $this->config->item('FOLPR').'archivo_'.$archivo.'.'.$salida;
+				$this->m_Archivo = 'archivo_'.$archivo.'.'.$salida;
 				$this->m_Salida = $salida;
 
 				return $ok;
@@ -495,56 +511,57 @@ class Welcome extends CI_Controller
 
 	public function do_upload()
 	{
-		$config['upload_path'] = $this->config->item('FOLUP');
-		$config['allowed_types'] = $this->config->item('ALLTY');
-		$config['max_size']	= '1000';
-		$tipo = $this->input->post('Tipo');
-		$descargar = $this->input->post('bajar');
-		$salida = $this->input->post('TipoS');
-		$SeparadorE = $this->input->post('SeparadorE');
-		//$config['max_width']  = '1024';
-		//$config['max_height']  = '768';
+				$config['upload_path'] = $this->config->item('FOLUP');
+				$config['allowed_types'] = $this->config->item('ALLTY');
+				$config['max_size']	= '1000';
+				$tipo = $this->input->post('Tipo');
+				$descargar = $this->input->post('bajar');
+				$salida = $this->input->post('TipoS');
+				$SeparadorE = $this->input->post('SeparadorE');
+				//$config['max_width']  = '1024';
+				//$config['max_height']  = '768';
 
-		$this->load->library('upload', $config);
+				$this->load->library('upload', $config);
 
-		if (!$this->upload->do_upload())
-		{
-			$mensaje['mens'] = $this->upload->display_errors().' - '.$config['upload_path'];
-			$this->load->view('errors/errores',$mensaje);
-		}
-		else
-		{
-			$mensaje['upload_data'] = $this->upload->data();
-			$mensaje['mens'] = '';
-			$mensaje['error'] = '';
+				if (!$this->upload->do_upload())
+				{
+					$mensaje['mens'] = $this->upload->display_errors().' - '.$config['upload_path'];
+					$this->load->view('errors/errores',$mensaje);
+				}
+				else
+				{
+					$mensaje['upload_data'] = $this->upload->data();
+					$mensaje['mens'] = '';
+					$mensaje['error'] = '';
 
-			$arch = $this->upload->data('file_name');
-			$ok = $this->procesar($arch,$tipo,$descargar,$salida,$SeparadorE);
+					$arch = $this->upload->data('file_name');
+					$ok = $this->procesar($arch,$tipo,$descargar,$salida,$SeparadorE);
 
-			if($ok == true)
-			{
-				$mensaje['archivo'] = $this->m_Archivo;
-				$mensaje['salida'] = $this->m_Salida;
-				$mensaje['descargar'] = $descargar;
-				$mensaje['titulo']= 'Principal';
-				$this->load->view('Plantillas/Header',$mensaje);
-				$this->load->view('Pruebas/Index');
-				$this->load->view('Plantillas/Footer');
-			}
-			else
-			{
-				$mensaje['error'] = $this->BIerror;
-				$this->load->view('errors/errores',$mensaje);
-			}
-		}
+					if($ok == true)
+					{
+						$mensaje['archivo'] = $this->m_Archivo;
+						$mensaje['salida'] = $this->m_Salida;
+						$mensaje['descargar'] = $descargar;
+						$mensaje['titulo']= 'Principal';
+						$mensaje['mens']= 'Proceso finalizado correctamente';
+						$this->load->view('Plantillas/Header',$mensaje);
+						$this->load->view('Pruebas/Success');
+						$this->load->view('Plantillas/Footer');
+					}
+					else
+					{
+						$mensaje['error'] = $this->BIerror;
+						$this->load->view('errors/errores',$mensaje);
+					}
+				}
 	}
 
 	public function do_download($archivo,$salida)
 	{
 		try
 		{
-				$datos = file_get_contents($archivo);
-				$nombre = $this->config->item('NARCH').'_o.'.$salida;
+				$datos = file_get_contents($this->config->item('FOLPR').$archivo);
+				$nombre = $this->config->item('NARCH').'o.'.$salida;
 				force_download($nombre, $datos);
 				return true;
 		}
@@ -618,5 +635,10 @@ class Welcome extends CI_Controller
 				//Si queremos crear un PDF
 				//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
 				$objWriter->save($archivo.'.xlsx');
+	}
+
+	public function FunctionName()
+	{
+			echo 'ok';
 	}
 }
