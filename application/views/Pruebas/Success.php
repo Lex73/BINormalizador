@@ -15,7 +15,7 @@
               method="POST" enctype="multipart/form-data">
           <div class="form-group">
               <div class="col-sm-4">
-                <input class="btn btn-sm btn-primary" name="downloadDoc" id="downloadDoc" type="submit" value="Download" />
+                <input class="btn btn-sm btn-primary mitooltip" title="Descargar el archivo"  name="downloadDoc" id="downloadDoc" type="submit" value="Download" />
               </div>
           </div>
         </form>

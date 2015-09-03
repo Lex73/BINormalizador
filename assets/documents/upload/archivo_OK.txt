@@ -1,0 +1,4 @@
+Campo1|Campo2|Campo3|Campo4
+2015/08/15|Hola mundo 1|1|1,555666
+2015/08/16|Hola mundo 2|2|2,555666
+2015/08/17|Hola mundo 3|3|3,555666

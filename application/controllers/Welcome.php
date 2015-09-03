@@ -36,7 +36,7 @@ class Welcome extends CI_Controller
 
 	public function procesar()
 	{
-		$arch = $this->input->post();
+		$arch = $this->input->post('Archivo');
 		$tipo = $this->input->post('Tipo');
 		$salida = $this->input->post('TipoS');
 		$SeparadorE = $this->input->post('SeparadorE');
@@ -494,7 +494,7 @@ class Welcome extends CI_Controller
 				$this->m_Archivo = 'archivo_'.$archivo.'.'.$salida;
 				$this->m_Salida = $salida;
 
-				return $ok;
+				//return $ok;
 			}
 			else
 			{
@@ -507,53 +507,16 @@ class Welcome extends CI_Controller
 			$this->BIerror = 'El campo no puede estar vacio';
 			return false;
 		}
-	}
 
-	public function do_upload()
-	{
-				$config['upload_path'] = $this->config->item('FOLUP');
-				$config['allowed_types'] = $this->config->item('ALLTY');
-				$config['max_size']	= '1000';
-				$tipo = $this->input->post('Tipo');
-				$descargar = $this->input->post('bajar');
-				$salida = $this->input->post('TipoS');
-				$SeparadorE = $this->input->post('SeparadorE');
-				//$config['max_width']  = '1024';
-				//$config['max_height']  = '768';
-
-				$this->load->library('upload', $config);
-
-				if (!$this->upload->do_upload())
-				{
-					$mensaje['mens'] = $this->upload->display_errors().' - '.$config['upload_path'];
-					$this->load->view('errors/errores',$mensaje);
-				}
-				else
-				{
-					$mensaje['upload_data'] = $this->upload->data();
-					$mensaje['mens'] = '';
-					$mensaje['error'] = '';
-
-					$arch = $this->upload->data('file_name');
-					$ok = $this->procesar($arch,$tipo,$descargar,$salida,$SeparadorE);
-
-					if($ok == true)
-					{
 						$mensaje['archivo'] = $this->m_Archivo;
 						$mensaje['salida'] = $this->m_Salida;
-						$mensaje['descargar'] = $descargar;
+						$mensaje['descargar'] = true;
 						$mensaje['titulo']= 'Principal';
 						$mensaje['mens']= 'Proceso finalizado correctamente';
 						$this->load->view('Plantillas/Header',$mensaje);
 						$this->load->view('Pruebas/Success');
 						$this->load->view('Plantillas/Footer');
-					}
-					else
-					{
-						$mensaje['error'] = $this->BIerror;
-						$this->load->view('errors/errores',$mensaje);
-					}
-				}
+
 	}
 
 	public function do_download($archivo,$salida)
@@ -637,8 +600,33 @@ class Welcome extends CI_Controller
 				$objWriter->save($archivo.'.xlsx');
 	}
 
-	public function FunctionName()
+	public function Upload()
 	{
-			echo 'ok';
+		$ruta = $this->config->item('FOLUP');
+		$mensaje = 'nada';
+
+		foreach ($_FILES as $key)
+		{
+				if ($key['error'] == UPLOAD_ERR_OK)
+				{
+					$NombreOriginal = $key['name'];
+					$temporal = $key['tmp_name'];
+					$Destino = $ruta.$NombreOriginal;
+
+					move_uploaded_file($temporal,$Destino);
+				}
+
+				if ($key['error'] == '')
+				{
+					$mensaje = $NombreOriginal;
+				}
+
+				if ($key['error'] != '')
+				{
+					$mensaje = 'KO';
+				}
+		}
+
+		echo $mensaje;
 	}
 }

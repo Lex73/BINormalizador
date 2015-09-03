@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.3.11
+-- version 4.4.14
 -- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 24-08-2015 a las 23:14:16
--- Versión del servidor: 5.6.24
--- Versión de PHP: 5.6.8
+-- Servidor: localhost
+-- Tiempo de generación: 03-09-2015 a las 22:25:12
+-- Versión del servidor: 5.6.26
+-- Versión de PHP: 5.6.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `bi`
@@ -142,14 +142,7 @@ CREATE TABLE IF NOT EXISTS `biprocesos` (
   `IDCuenta` int(11) NOT NULL,
   `FECCreacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Ubicacion` varchar(255) COLLATE latin1_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Volcado de datos para la tabla `biprocesos`
---
-
-INSERT INTO `biprocesos` (`IDPro`, `Archivo`, `NOMOriginal`, `IDUsuario`, `IDCuenta`, `FECCreacion`, `Ubicacion`) VALUES
-(9, 'archivo_31778.csv', 'archivo_OK.txt', 'Prueba', 1, '2015-08-24 16:34:17', './assets/documents/process/');
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -260,7 +253,7 @@ ALTER TABLE `bicuentas`
 -- AUTO_INCREMENT de la tabla `biprocesos`
 --
 ALTER TABLE `biprocesos`
-  MODIFY `IDPro` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `IDPro` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT de la tabla `bitablas`
 --

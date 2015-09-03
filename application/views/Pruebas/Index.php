@@ -1,31 +1,51 @@
 <div class="container">
   <div class="row">
-    <div class="row">
-      <div class="col-sm-12">
-      <form class="form-horizontal" role="form" name="Form_Upload" id="Form_Upload"
-            action="<?php echo base_url(); ?>welcome/do_upload"
-            method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="Archivo" class="col-lg-2 control-label">Archivo:</label>
-              <div class="col-sm-4">
-                <input class="btn btn-sm btn-primary" type="file" name="userfile" id="userfile" size="20" />
-              </div>
-              <div class="col-sm-2">
-                <input class="btn btn-sm btn-primary" name="uploadDoc" id="uploadDoc" type="submit" value="upload" />
-                <i class="fa fa-refresh fa-lg fa-spin think"></i>
-              </div>
-            </div>
-        </form>
-        <br/>
+       <label class="col-lg-12 control-label bloq0">Seleccione un archivo para subir:</label>
+  </div>
+  <div class="row">
+    <div class="col-lg-2">
+       <input class="btn btn-sm btn-primary control-label bloq0" type="file" id="archivo1" name="archivo1"/>
+    </div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-2"></div>
+  </div>
+  <br>
+  <div class="row">
+      <div class="col-lg-2">
+          <input class="btn btn-sm btn-primary control-label bloq0 mitooltip" title="Subir el archivo"  type="submit" value="Subir" id="enviar"/>
+      </div>
+      <div class="col-lg-2"></div>
+      <div class="col-lg-2"></div>
+      <div class="col-lg-2"></div>
+      <div class="col-lg-2"></div>
+      <div class="col-lg-2"></div>
+  </div>
+        <div class="row">
+          <div class="col-lg-6">
+              <label class="control-label bloq1">Archivo subido correctamente. Continue con el proceso:</label>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-2"></div>
+        </div>
+        <div class="row">
         <form class="form-horizontal bloq1" role="form" name="Form_Process" id="Form_Process"
-              action="<?php echo base_url(); ?>welcome/procesar"
+              action="<?php echo base_url(); ?>Welcome/procesar"
               method="POST" enctype="multipart/form-data">
             <div class="form-group">
+              <label for="Archivo" class="col-lg-2 control-label">Archivo:</label>
+              <div class="col-lg-4">
+                  <!-- <div id="mensaje"></div> -->
+                  <input class="mitooltip" title="Archivo que se ha subido" id="mensaje" type="text" class="form-control" name ="Archivo">
+              </div>
             </div>
             <div class="form-group">
               <label for="FormatoEntrada" class="col-lg-2 control-label">Formato de Entrada:</label>
               <div class="col-sm-4">
-                <select class="input-sm form-control bloq1" name="Tipo">
+                <select class="input-sm form-control bloq1 mitooltip" title="Seleccione el formato de entrada"  name="Tipo" id="tipo">
                   <option value="">Seleccione el formato de entrada</option>
                   <option value="txt">Archivo plano</option>';
                   <option value="xls">Archivo Excel</option>';
@@ -35,7 +55,7 @@
             <div class="form-group">
               <label for="SeparadorE" class="col-lg-2 control-label sep">Separador:</label>
               <div class="col-sm-4">
-                <select class="input-sm form-control sep" name="SeparadorE">
+                <select class="input-sm form-control sep mitooltip" title="Seleccione el tipo de separador" name="SeparadorE">
                   <option value="">Seleccione el separador de valores</option>
                   <option value="|">Barra vertical</option>';
                   <option value=",">Coma</option>';
@@ -44,11 +64,10 @@
                 </select>
               </div>
             </div>
-            <br/>
             <div class="form-group">
               <label for="FormatoSalida" class="col-lg-2 control-label">Formato de Salida:</label>
               <div class="col-sm-4">
-                <select class="input-sm form-control bloq1" name="TipoS">
+                <select class="input-sm form-control bloq1  mitooltip" title="Seleccione el formato de salida"  name="TipoS">
                   <option value="">Seleccione el formato de salida</option>
                   <option value="csv">Archivo CSV</option>';
                   <option value="txt">Archivo txt</option>';
@@ -56,11 +75,13 @@
                 </select>
               </div>
             </div>
-            <br>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                  <input class="btn btn-sm btn-primary mitooltip" title="Procesar el archivo"  type="submit" id="submit" value="Aceptar" name="submit_Procesar"/>
+                </div>
+            </div>
       </form>
       </div>
-    </div>
-  </div>
   <div class="row">
     <div class="col-xs-12">
     </div>
