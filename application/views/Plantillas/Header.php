@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/justified-nav.css" >
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css"  media="all">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css" >
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/barra.css" >
+  <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/barra.css" > -->
 	<script src="<?php echo base_url(); ?>assets/js/ie-emulation-modes-warning.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.min.js"></script>
   <style>
@@ -80,10 +80,10 @@
 				            echo '<i class="fa fa-university fa-lg fa-fw"></i>Administración';
 				          echo '</button>';
 				          echo '<ul class="dropdown-menu" role="menu">';
-										echo '<li><a href="<?php echo base_url(); ?>usuarios/"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>';
-										echo '<li><a href="<?php echo base_url(); ?>perfiles/"><i class="fa fa-graduation-cap fa-fw"></i> Perfiles</a></li>';
-										echo '<li><a href="<?php echo base_url(); ?>clientes/"><i class="fa fa-btc fa-fw"></i> Clientes</a></li>';
-										echo '<li><a href="<?php echo base_url(); ?>cuentas/"><i class="fa fa-credit-card fa-fw"></i> Cuentas</a>';
+										echo '<li><a href="'.base_url().'Usuarios/"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>';
+										echo '<li><a href="'.base_url().'Perfiles/"><i class="fa fa-graduation-cap fa-fw"></i> Perfiles</a></li>';
+										echo '<li><a href="'.base_url().'Clientes/"><i class="fa fa-btc fa-fw"></i> Clientes</a></li>';
+										echo '<li><a href="'.base_url().'Cuentas/"><i class="fa fa-credit-card fa-fw"></i> Cuentas</a>';
 				          echo '</ul>';
 				        echo '</div>';
 						}

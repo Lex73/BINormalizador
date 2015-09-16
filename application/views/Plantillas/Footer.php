@@ -9,6 +9,8 @@
 				</div>
 				<div class="col-xs-4"></div>
 				<div class="col-xs-4"></div>
+			</div>
+		</div>
 					<script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
 					<script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
 					<script src="<?php echo base_url(); ?>assets/js/fileinput.min.js"></script>
@@ -57,7 +59,5 @@
 							});
 
 			    </script>
-		    </div>
-		</div>
 	</body>
 </html>
