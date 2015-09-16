@@ -19,20 +19,24 @@ class Login extends CI_Controller {
 	{
 		if($this->input->post('submit_login'))
 		{
-			$data = array('IDUsuario'=>$this->input->post('inputUser',TRUE),
-						  		  'ClaveUsuario'=>do_hash($this->input->post('inputPassword',TRUE),'md5'));
+			$data = array('IDUsuarios'=>$this->input->post('inputUser',TRUE),
+										'CLAVUsuario'=>$this->input->post('inputPassword',TRUE));
+						  		  //'CLAVUsuario'=>do_hash($this->input->post('inputPassword',TRUE),'md5'));
 
 			$resultado  = $this->usuarios_model->very_user($data);
 
 			foreach ($resultado as $row)
 			{
-				$datos = array('usuario'=> $row->IDUsuario,
-										   'nombre'=> $row->NombreUsuario,
-										   'perfil'=> $row->IDProfile,
-										 	 'cuenta'=> $row->IDCuenta);
+				$cuenta = $this->usuarios_model->get_cuenta($row->IDCuenta);
+
+				$datos = array('usuario'=> $row->IDUsuarios,
+										   'nombre'=> $row->NOMBUsuario,
+										   'perfil'=> $row->PERFUsuario,
+										 	 'IDcuenta'=> $row->IDCuenta,
+										 	 'cuenta'=> $cuenta);
 
 				$this->session->set_userdata($datos);
-				redirect(base_url().'home/');
+				redirect(base_url().'Home/');
 				return;
 			}
 

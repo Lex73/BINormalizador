@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller
 {
-	public $BIconfiguracion;
 	public $BIError;
 	public $m_Archivo;
 	public $m_Salida;
@@ -11,27 +10,11 @@ class Welcome extends CI_Controller
 	public function __construct()
 	{
 		parent:: __construct();
-		$this->BIconfiguracion = $this->biconfig->getConfig();
-		$this->BIerror = '';
-		$this->m_Archivo = '';
-		$this->m_Salida = '';
-		$this->load->model('tablas_model');
-		$this->load->model('log_model');
+		$this->very_sesion();
 	}
 
 	public function index()
 	{
-		if($this->BIconfiguracion == true)
-		{
-			$mensaje['titulo']= 'Principal';
-			$this->load->view('Plantillas/Header',$mensaje);
-			$this->load->view('Pruebas/Index');
-			$this->load->view('Plantillas/Footer');
-	  }
-		else
-		{
-			echo 'Error al cargar la configuración';
-		}
 	}
 
 	public function procesar()
@@ -629,4 +612,12 @@ class Welcome extends CI_Controller
 
 		echo $mensaje;
 	}
+
+	function very_sesion()
+  {
+    if(!$this->session->userdata('usuario'))
+    {
+      redirect(base_url().'Login/');
+    }
+  }
 }

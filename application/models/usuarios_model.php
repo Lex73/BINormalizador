@@ -10,8 +10,8 @@ class Usuarios_model extends CI_Model
 	public function getall_usuarios()
 	{
 		$this->db->select('*');
-		$this->db->from('usuarios');
-		$this->db->join('perfiles', 'perfiles.IDPerfiles = usuarios.IDProfile');
+		$this->db->from('biusuarios');
+		$this->db->join('biperfil', 'biperfil.IDPerfil = biusuarios.PERFUsuario');
 
 		$query = $this->db->get();
 		return $query->result();
@@ -20,8 +20,8 @@ class Usuarios_model extends CI_Model
 	public function getall_cuentas()
 	{
 		$this->db->select('*');
-		$this->db->from('usuarios');
-		$this->db->join('perfiles', 'perfiles.IDPerfiles = usuarios.IDProfile');
+		$this->db->from('bicuentas');
+		$this->db->join('biclientes', 'biclientes.IDCliente = bicuentas.IDCliente');
 
 		$query = $this->db->get();
 		return $query->result();
@@ -30,20 +30,25 @@ class Usuarios_model extends CI_Model
 	public function get_cuenta($id)
 	{
 		$this->db->select('*');
-		$this->db->from('usuarios');
-		$this->db->join('perfiles', 'perfiles.IDPerfiles = usuarios.IDProfile');
-		$this->db->where('IDUsuario',$id);
+		$this->db->from('bicuentas');
+		$this->db->where('IDCuenta',$id);
 		$query = $this->db->get();
 
-		return $query->result();
+		$res = $query->result();
+
+		foreach ($res as $value)
+		{
+			return $value->DESCCuenta;
+		}
+
 	}
 
 	public function get_usuario($id)
 	{
 		$this->db->select('*');
-		$this->db->from('usuarios');
-		$this->db->join('perfiles', 'perfiles.IDPerfiles = usuarios.IDProfile');
-		$this->db->where('IDUsuario',$id);
+		$this->db->from('biusuarios');
+		$this->db->join('biperfil', 'biperfil.IDPerfil = biusuarios.PERFUsuario');
+		$this->db->where('IDUsuarios',$id);
 		$query = $this->db->get();
 
 		return $query->result();
@@ -51,7 +56,7 @@ class Usuarios_model extends CI_Model
 
 	public function verif_usuario($id)
 	{
-		$consulta = $this->db->get_where('usuarios', array('IDUsuario =' => $id));
+		$consulta = $this->db->get_where('biusuarios', array('IDUsuarios =' => $id));
 
 		if($consulta->num_rows() == 1)
 		{
@@ -66,51 +71,51 @@ class Usuarios_model extends CI_Model
 
 	public function insert_cuenta($data)
 	{
-		$data['ClaveUsuario'] = do_hash($data['ClaveUsuario'], 'md5');
-		$this->db->insert('usuarios',$data);
+		$data['CLAVUsuario'] = do_hash($data['ClaveUsuario'], 'md5');
+		$this->db->insert('biusuarios',$data);
 	}
 
 	public function update_cuenta($data)
 	{
-		$this->db->update('usuarios', $data, "IDUsuario ='".$data['IDUsuario']."'");
+		$this->db->update('biusuarios', $data, "IDUsuarios ='".$data['IDUsuario']."'");
 	}
-	
+
 	public function insert_usuario($data)
 	{
-		$data['ClaveUsuario'] = do_hash($data['ClaveUsuario'], 'md5');
-		$this->db->insert('usuarios',$data);
+		$data['CLAVUsuario'] = do_hash($data['ClaveUsuario'], 'md5');
+		$this->db->insert('biusuarios',$data);
 	}
 
 	public function update_usuario($data)
 	{
-		$this->db->update('usuarios', $data, "IDUsuario ='".$data['IDUsuario']."'");
+		$this->db->update('biusuarios', $data, "IDUsuarios ='".$data['IDUsuario']."'");
 	}
 
 	public function very_user($data)
 	{
-		$query = $this->db->get_where('usuarios',$data);
+		$query = $this->db->get_where('biusuarios',$data);
 
 		return $query->result();
 	}
 
 	public function blanquea_clave($id)
 	{
-		$data = array('ClaveUsuario' => do_hash('654321','md5'));
+		$data = array('CLAVUsuario' => do_hash('654321','md5'));
 
-		$condicion = "IDUsuario = '".$id."'";
+		$condicion = "IDUsuarios = '".$id."'";
 
-		$str = $this->db->update_string('usuarios', $data, $condicion);
+		$str = $this->db->update_string('biusuarios', $data, $condicion);
 
 		$this->db->query($str);
 	}
 
 	public function cambia_clave($data)
 	{
-		$sql = array('ClaveUsuario' => do_hash($data['ClaveUsuario'],'md5'));
+		$sql = array('CLAVUsuario' => do_hash($data['ClaveUsuario'],'md5'));
 
-		$condicion = "IDUsuario = '".$data['IDUsuario']."'";
+		$condicion = "IDUsuarios = '".$data['IDUsuario']."'";
 
-		$str = $this->db->update_string('usuarios', $sql, $condicion);
+		$str = $this->db->update_string('biusuarios', $sql, $condicion);
 
 		$this->db->query($str);
 	}

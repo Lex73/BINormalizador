@@ -1,15 +1,14 @@
 		<hr />
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-4"></div>
-				<div class="col-xs-4"></div>
 				<div class="col-xs-4">
 					<footer class="footer">
 				       <p>&copy; LexStanley 2015</p>
-				       <?php 	echo base_url();
-				       ?>
-				    </footer>
+				       <?php 	echo base_url();?>
+				  </footer>
 				</div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
 					<script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
 					<script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
 					<script src="<?php echo base_url(); ?>assets/js/fileinput.min.js"></script>

@@ -49,12 +49,13 @@
         <div class="col-xs-1"></div>
         <div class="col-xs-1"></div>
         <div class="col-xs-6">
-            <h6 class="text-right text-muted">Usuario : <?php echo 'Prueba';//$usuario ?> </h6>
-            <h6 class="text-right text-muted">Nombre : <?php echo 'Prueba';//$nombre ?> </h6>
-            <h6 class="text-right text-muted">Perfil : <?php echo 'Prueba';//$perfil ?> </h6>
+            <h6 class="text-right text-muted">Usuario : <?php echo $usuario ?> </h6>
+            <h6 class="text-right text-muted">Nombre : <?php echo  $nombre ?> </h6>
+            <h6 class="text-right text-muted">Perfil : <?php echo  $perfil ?> </h6>
+						<h6 class="text-right text-muted">Cuenta : <?php echo  $cuenta ?> </h6>
         </div>
         <div class="col-xs-2">
-          <img class="img-circle" src="<?php echo base_url(); ?>assets/Imagenes/Usuarios/<?php echo 'Prueba.gif';//$usuario.'.gif' ?> " alt="Generic placeholder image" width="80" height="80">
+          <img class="img-circle" src="<?php echo base_url(); ?>assets/Imagenes/Usuarios/<?php echo $usuario.'.gif' ?> " alt="Generic placeholder image" width="80" height="80">
         </div>
       </div>
     </div><!--row-->
@@ -68,24 +69,25 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li><a href="<?php echo base_url(); ?>home/"><i class="fa fa-header fa-fw"></i> Home</a></a></li>
-            <li><a href="<?php echo base_url(); ?>usuarios/CambiaClave"><i class="fa fa-asterisk fa-fw"></i> Clave</a></li>
-            <li><a href="<?php echo base_url(); ?>about/"><i class="fa fa-thumbs-up fa-fw"></i> About</a></li>
-            <li class="divider"></li>
-            <li><a href="<?php echo base_url(); ?>login/"><i class="fa fa-user-times fa-fw"></i> Logout</a></li>
+						<li><a href="<?php echo base_url(); ?>usuarios/"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>
+						<li><a href="<?php echo base_url(); ?>perfiles/"><i class="fa fa-graduation-cap fa-fw"></i> Perfiles</a></li>
+						<li><a href="<?php echo base_url(); ?>clientes/"><i class="fa fa-btc fa-fw"></i> Clientes</a></li>
+						<li><a href="<?php echo base_url(); ?>cuentas/"><i class="fa fa-credit-card fa-fw"></i> Cuentas</a>
           </ul>
         </div>
 
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <i class="fa fa-list-ol fa-lg fa-fw"></i>Maestros
+          <i class="fa fa-list-ol fa-lg fa-fw"></i>Operaciones
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="<?php echo base_url(); ?>usuarios/"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>
-            <li><a href="<?php echo base_url(); ?>perfiles/"><i class="fa fa-graduation-cap fa-fw"></i> Perfiles</a></li>
-            <li><a href="<?php echo base_url(); ?>estados/"><i class="fa fa-level-up fa-fw"></i> Estados</a></li>
-            <li><a href="<?php echo base_url(); ?>etapas/"><i class="fa fa-sort-amount-asc fa-fw"></i> Etapas</a></li>
-            <li><a href="<?php echo base_url(); ?>sistemas/"><i class="fa fa-tablet fa-fw"></i> Sistemas</a></li>
-            <li><a href="<?php echo base_url(); ?>clientes/"><i class="fa fa-btc fa-fw"></i> Clientes</a></li>
+            <li><a href="<?php echo base_url(); ?>estados/"><i class="fa fa-level-up fa-fw"></i> Procesar</a></li>
+            <li><a href="<?php echo base_url(); ?>etapas/"><i class="fa fa-sort-amount-asc fa-fw"></i> Registros</a></li>
+						<li class="divider"></li>
+						<li><a href="<?php echo base_url(); ?>usuarios/CambiaClave"><i class="fa fa-asterisk fa-fw"></i> Clave</a></li>
+            <li><a href="<?php echo base_url(); ?>login/"><i class="fa fa-user-times fa-fw"></i> Logout</a></li>
+						<li class="divider"></li>
+						<li><a href="<?php echo base_url(); ?>about/"><i class="fa fa-thumbs-up fa-fw"></i> About</a></li>
           </ul>
         </div>
 

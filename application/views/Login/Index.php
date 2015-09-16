@@ -19,13 +19,13 @@
           <small>   BINormalizador</small></h1>
       </div>
     </div>
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-xs-4"></div>
 				<div class="col-xs-4">
-    			<a class="btn btn-lg btn-primary btn-block" href="<?php echo base_url(); ?>welcome">bridge</a>
+    			<a class="btn btn-lg btn-primary btn-block" href="<?php echo base_url(); ?>Home">bridge</a>
       	</div>
 				<div class="col-xs-4"></div>
-			</div>
+			</div> -->
 			<div class="row">
 			<div class="col-xs-12">
 			<form class="form-signin" role="form" name="Form_Login" action="<?php echo base_url(); ?>login/ingresar" method="POST">
@@ -34,9 +34,9 @@
         <label for="inputUser" class="sr-only">
           <os-p>Nombre de usuario</os-p></label>
         <input type="text" name="inputUser" id="inputUser" class="form-control" placeholder="ID de usuario">
-        <label for="inputPassword" class="sr-only">
+        <!-- <label for="inputPassword" class="sr-only">
           <os-p>Cuenta</os-p></label>
-        <input type="text" name="inputCuenta" id="inputCuenta" class="form-control" placeholder="Cuenta">
+        <input type="text" name="inputCuenta" id="inputCuenta" class="form-control" placeholder="Cuenta"> -->
         <label for="inputPassword" class="sr-only">
           <os-p>Contraseña</os-p></label>
         <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Contraseña">

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-    class Upload extends CI_Controller
-    {
+class Upload extends CI_Controller
+{
       public function json_get_uploadprogress()
       {
              $data = array();
@@ -84,6 +84,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
              $this->load->view("ajax/generic_response_view",array("resp" => $div_start."The file has been uploaded successfully.".$div_end));
              return;
          }
+      }
+
+      function very_sesion()
+      {
+        if(!$this->session->userdata('usuario'))
+        {
+          redirect(base_url().'Login/');
+        }
       }
   }
 ?>
