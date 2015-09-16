@@ -10,8 +10,6 @@ class Home extends CI_Controller
 		parent:: __construct();
     $this->very_sesion();
 		$this->BIconfiguracion = $this->biconfig->getConfig();
-		$this->load->model('tablas_model');
-		$this->load->model('log_model');
 	}
 
 	public function index()

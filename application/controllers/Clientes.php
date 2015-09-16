@@ -15,9 +15,9 @@ class Clientes extends CI_Controller {
 
 	public function index()
 	{
-		$data['titulo'] = 'Clientes';
 		$data['query'] = $this->Clientes_model->getall_clientes();
 		$data['mensaje'] = $this->mensaje;
+		$data['titulo'] = 'Clientes';
 		$mensaje['usuario'] = $this->session->userdata('usuario');
     $mensaje['nombre'] = $this->session->userdata('nombre');
     $mensaje['perfil'] = $this->session->userdata('perfil');

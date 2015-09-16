@@ -33,7 +33,7 @@
         </div>
         <div class="row">
         <form class="form-horizontal bloq1" role="form" name="Form_Process" id="Form_Process"
-              action="<?php echo base_url(); ?>Welcome/procesar"
+              action="<?php echo base_url(); ?>Procesos/procesar"
               method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <label for="Archivo" class="col-lg-2 control-label">Archivo:</label>

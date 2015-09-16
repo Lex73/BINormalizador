@@ -27,7 +27,7 @@
 										archivos.append("archivo" + 1, archivo[0]);
 
 										$.ajax({
-												url: "<?php echo base_url(); ?>Welcome/Upload",
+												url: "<?php echo base_url(); ?>Procesos/Upload",
 												type: "POST",
 												contentType: false,
 												data: archivos,

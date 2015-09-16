@@ -1,10 +1,5 @@
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+<div class="container">
+  <div class="row">
     <?php
       if(isset($error))
       {
@@ -15,5 +10,5 @@
         echo 'error';
       }
     ?>
-  </body>
-</html>
+  </div>
+</div>

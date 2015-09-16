@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col-sm-12">
         <form class="form-horizontal" role="form" name="Download" id="Download"
-              action='<?php echo base_url().'welcome/do_download/'.$archivo.'/'.$salida ?>'
+              action='<?php echo base_url().'Procesos/do_download/'.$archivo.'/'.$salida ?>'
               method="POST" enctype="multipart/form-data">
           <div class="form-group">
               <div class="col-sm-4">

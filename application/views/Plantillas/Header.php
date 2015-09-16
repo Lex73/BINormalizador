@@ -64,39 +64,42 @@
 			<br>
       <div class="col-lg-12">
         <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-university fa-lg fa-fw"></i>Administracion
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="<?php echo base_url(); ?>home/"><i class="fa fa-header fa-fw"></i> Home</a></a></li>
-						<li><a href="<?php echo base_url(); ?>usuarios/"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>
-						<li><a href="<?php echo base_url(); ?>perfiles/"><i class="fa fa-graduation-cap fa-fw"></i> Perfiles</a></li>
-						<li><a href="<?php echo base_url(); ?>clientes/"><i class="fa fa-btc fa-fw"></i> Clientes</a></li>
-						<li><a href="<?php echo base_url(); ?>cuentas/"><i class="fa fa-credit-card fa-fw"></i> Cuentas</a>
-          </ul>
-        </div>
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-safari fa-fw"></i>Navegación
+					</button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="<?php echo base_url(); ?>home/"><i class="fa fa-home fa-fw"></i> Home</a></a></li>
+						</ul>
+					</div>
 
+				<?php
+						if($cuenta == 'Adm sitio')
+						{
+								echo '<div class="btn-group">';
+				          echo '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">';
+				            echo '<i class="fa fa-university fa-lg fa-fw"></i>Administración';
+				          echo '</button>';
+				          echo '<ul class="dropdown-menu" role="menu">';
+										echo '<li><a href="<?php echo base_url(); ?>usuarios/"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>';
+										echo '<li><a href="<?php echo base_url(); ?>perfiles/"><i class="fa fa-graduation-cap fa-fw"></i> Perfiles</a></li>';
+										echo '<li><a href="<?php echo base_url(); ?>clientes/"><i class="fa fa-btc fa-fw"></i> Clientes</a></li>';
+										echo '<li><a href="<?php echo base_url(); ?>cuentas/"><i class="fa fa-credit-card fa-fw"></i> Cuentas</a>';
+				          echo '</ul>';
+				        echo '</div>';
+						}
+				?>
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-list-ol fa-lg fa-fw"></i>Operaciones
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="<?php echo base_url(); ?>estados/"><i class="fa fa-level-up fa-fw"></i> Procesar</a></li>
-            <li><a href="<?php echo base_url(); ?>etapas/"><i class="fa fa-sort-amount-asc fa-fw"></i> Registros</a></li>
+            <li><a href="<?php echo base_url(); ?>Procesos/"><i class="fa fa-level-up fa-fw"></i> Procesar</a></li>
+            <li><a href="<?php echo base_url(); ?>Registros/"><i class="fa fa-sort-amount-asc fa-fw"></i> Registros</a></li>
 						<li class="divider"></li>
 						<li><a href="<?php echo base_url(); ?>usuarios/CambiaClave"><i class="fa fa-asterisk fa-fw"></i> Clave</a></li>
             <li><a href="<?php echo base_url(); ?>login/"><i class="fa fa-user-times fa-fw"></i> Logout</a></li>
 						<li class="divider"></li>
 						<li><a href="<?php echo base_url(); ?>about/"><i class="fa fa-thumbs-up fa-fw"></i> About</a></li>
-          </ul>
-        </div>
-
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-cog fa-lg fa-fw"></i>Operaciones
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="<?php echo base_url(); ?>proyectos/"><i class="fa fa-cubes fa-fw"></i> Proyectos</a></li>
           </ul>
         </div>
       </div>

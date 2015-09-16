@@ -1,20 +1,35 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller
+class Procesos extends CI_Controller
 {
 	public $BIError;
 	public $m_Archivo;
 	public $m_Salida;
+	public $BIconfiguracion;
 
 	public function __construct()
 	{
 		parent:: __construct();
 		$this->very_sesion();
+		$this->BIconfiguracion = $this->biconfig->getConfig();
+		$this->m_Archivo = "";
+		$this->m_Salida = "";
+		$this->BIError = "";
+		$this->load->model('Tablas_model');
+		$this->load->model('Log_model');
 	}
 
 	public function index()
 	{
+		$mensaje['titulo']= 'Procesar';
+		$mensaje['usuario'] = $this->session->userdata('usuario');
+		$mensaje['nombre'] = $this->session->userdata('nombre');
+		$mensaje['perfil'] = $this->session->userdata('perfil');
+		$mensaje['cuenta'] = $this->session->userdata('cuenta');
+		$this->load->view('Plantillas/Header',$mensaje);
+		$this->load->view('Procesos/Index');
+		$this->load->view('Plantillas/Footer');
 	}
 
 	public function procesar()
@@ -27,13 +42,13 @@ class Welcome extends CI_Controller
 		{
 			if(file_exists($this->config->item('FOLUP').$arch))
 			{
-				$query = $this->tablas_model->get_tabla('Prueba',1);
+				$query = $this->Tablas_model->get_tabla('Prueba',1);//El nombre de la tabla debe venir como parametro
 				foreach ($query as  $row)
 				{
 					$tabla = $row->IDTabla;
 				}
 
-				$query = $this->tablas_model->get_campos($tabla);
+				$query = $this->Tablas_model->get_campos($tabla);
 				$nombreCampo = array();
 				$tipoCampo = array();
 				$cantidadDeCampos = 0;
@@ -86,6 +101,7 @@ class Welcome extends CI_Controller
 														$this->BIerror = 'Error al convertir fecha: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 														$this->load->library('bilog');
 														$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+														$this->do_error();
 														return false;
 													}
 												}
@@ -117,6 +133,7 @@ class Welcome extends CI_Controller
 													$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 													$this->load->library('bilog');
 													$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+													$this->do_error();
 													return false;
 											}
 										}
@@ -149,7 +166,8 @@ class Welcome extends CI_Controller
 													$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 													$this->load->library('bilog');
 													$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
-													return false;
+													$this->do_error();
+													//return false;
 												}
 
 												if(count($componentes) > 1)
@@ -170,6 +188,7 @@ class Welcome extends CI_Controller
 															$this->BIerror= 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 															$this->load->library('bilog');
 															$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+															$this->do_error();
 															return false;
 														}
 											  }
@@ -182,6 +201,7 @@ class Welcome extends CI_Controller
 													$this->BIerror = 'Error al convertir el numero: '.$valor.' campo: '.$nombreCampo[$i].' en la linea: '.$numeroLinea;
 													$this->load->library('bilog');
 													$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
+													$this->do_error();
 													return false;
 												}
 										}
@@ -224,7 +244,6 @@ class Welcome extends CI_Controller
 													if(trim($valor) != '')
 													{
 															fwrite($file_o,$valor);
-															//fwrite($file_o,PHP_EOL);
 												  }
 											}
 											else
@@ -299,7 +318,8 @@ class Welcome extends CI_Controller
 						 														$this->load->library('bilog');
 						 														$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
 																				$no = true;
-						 														return false;
+																				$this->do_error();
+																				return false;
 					 														}
 					 													}
 																}
@@ -327,6 +347,7 @@ class Welcome extends CI_Controller
 																			$this->load->library('bilog');
 																			$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
 																			$no = true;
+																			$this->do_error();
 																			return false;
 																	}
 																}
@@ -360,7 +381,8 @@ class Welcome extends CI_Controller
 																		$this->load->library('bilog');
 																		$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
 																		$no = true;
-																		return false;
+																		$this->do_error();
+																		//return false;
 																	}
 
 																	if(count($componentes) > 1)
@@ -382,6 +404,7 @@ class Welcome extends CI_Controller
 																				$this->load->library('bilog');
 																				$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
 																				$no = true;
+																				$this->do_error();
 																				return false;
 																			}
 																  }
@@ -395,6 +418,7 @@ class Welcome extends CI_Controller
 																		$this->load->library('bilog');
 																		$this->bilog->escribeLog($this->BIerror,$soloNombre[0]);
 																		$no = true;
+																		$this->do_error();
 																		return false;
 																	}
 																}
@@ -496,8 +520,12 @@ class Welcome extends CI_Controller
 						$mensaje['descargar'] = true;
 						$mensaje['titulo']= 'Principal';
 						$mensaje['mens']= 'Proceso finalizado correctamente';
+						$mensaje['usuario'] = $this->session->userdata('usuario');
+						$mensaje['nombre'] = $this->session->userdata('nombre');
+						$mensaje['perfil'] = $this->session->userdata('perfil');
+						$mensaje['cuenta'] = $this->session->userdata('cuenta');
 						$this->load->view('Plantillas/Header',$mensaje);
-						$this->load->view('Pruebas/Success');
+						$this->load->view('Procesos/Success');
 						$this->load->view('Plantillas/Footer');
 
 	}
@@ -527,7 +555,7 @@ class Welcome extends CI_Controller
 										  'IDCuenta' => $cuenta,
 										  'Ubicacion' => $ruta);
 
-				$this->log_model->insert_log($data);
+				$this->Log_model->insert_log($data);
 				return true;
 		}
 		catch(Exception $e)
@@ -611,6 +639,19 @@ class Welcome extends CI_Controller
 		}
 
 		echo $mensaje;
+	}
+
+	function do_error()
+	{
+		$mensaje['error'] = $this->BIerror.' - Consultar el Log';;
+		$mensaje['titulo']= 'Error';
+		$mensaje['usuario'] = $this->session->userdata('usuario');
+		$mensaje['nombre'] = $this->session->userdata('nombre');
+		$mensaje['perfil'] = $this->session->userdata('perfil');
+		$mensaje['cuenta'] = $this->session->userdata('cuenta');
+		$this->load->view('Plantillas/Header',$mensaje);
+		$this->load->view('errors/errores');
+		$this->load->view('Plantillas/Footer');
 	}
 
 	function very_sesion()

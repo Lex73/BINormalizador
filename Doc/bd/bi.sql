@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-09-2015 a las 22:25:12
+-- Tiempo de generación: 16-09-2015 a las 05:59:33
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -54,14 +54,15 @@ INSERT INTO `bicampos` (`IDCampo`, `IDTabla`, `NOMCampo`, `TYPCampo`, `LONGCampo
 CREATE TABLE IF NOT EXISTS `biclientes` (
   `IDCliente` int(11) NOT NULL,
   `DESCCliente` varchar(20) COLLATE latin1_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `biclientes`
 --
 
 INSERT INTO `biclientes` (`IDCliente`, `DESCCliente`) VALUES
-(1, 'NSBS');
+(1, 'NSBS'),
+(2, 'Filaxis');
 
 -- --------------------------------------------------------
 
@@ -100,14 +101,15 @@ CREATE TABLE IF NOT EXISTS `bicuentas` (
   `IDCuenta` int(11) NOT NULL,
   `DESCCuenta` varchar(20) COLLATE latin1_spanish_ci NOT NULL,
   `IDCliente` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `bicuentas`
 --
 
 INSERT INTO `bicuentas` (`IDCuenta`, `DESCCuenta`, `IDCliente`) VALUES
-(1, 'Adm sitio', 1);
+(1, 'Adm sitio', 1),
+(2, 'Cuenta de Filaxis', 2);
 
 -- --------------------------------------------------------
 
@@ -131,6 +133,50 @@ INSERT INTO `biperfil` (`IDPerfil`, `NOMBPerfil`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `bipermisos`
+--
+
+CREATE TABLE IF NOT EXISTS `bipermisos` (
+  `pantalla` varchar(10) COLLATE latin1_spanish_ci NOT NULL,
+  `accion` varchar(10) COLLATE latin1_spanish_ci NOT NULL,
+  `allow` varchar(20) COLLATE latin1_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `bipermisos`
+--
+
+INSERT INTO `bipermisos` (`pantalla`, `accion`, `allow`) VALUES
+('ADM', 'VER', 'ADM'),
+('Clave', 'VER', 'ADM'),
+('Clave', 'VER', 'USU'),
+('Clientes', 'ADD', 'ADM'),
+('Clientes', 'MOD', 'ADM'),
+('Clientes', 'VER', 'ADM'),
+('Clientes', 'VER', 'USU'),
+('Cuentas', 'ADD', 'ADM'),
+('Cuentas', 'MOD', 'ADM'),
+('Cuentas', 'VER', 'ADM'),
+('Estados', 'VER', 'ADM'),
+('Estados', 'VER', 'USU'),
+('Etapas', 'VER', 'ADM'),
+('Etapas', 'VER', 'USU'),
+('Perfiles', 'VER', 'ADM'),
+('Perfiles', 'VER', 'USU'),
+('Proyectos', 'VER', 'ADM'),
+('Proyectos', 'VER', 'USU'),
+('Registros', 'VER', 'ADM'),
+('Registros', 'VER', 'USU'),
+('Sistemas', 'VER', 'ADM'),
+('Sistemas', 'VER', 'USU'),
+('Usuarios', 'ADD', 'ADM'),
+('Usuarios', 'MOD', 'ADM'),
+('Usuarios', 'VER', 'ADM'),
+('Usuarios', 'VER', 'USU');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `biprocesos`
 --
 
@@ -142,7 +188,21 @@ CREATE TABLE IF NOT EXISTS `biprocesos` (
   `IDCuenta` int(11) NOT NULL,
   `FECCreacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Ubicacion` varchar(255) COLLATE latin1_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `biprocesos`
+--
+
+INSERT INTO `biprocesos` (`IDPro`, `Archivo`, `NOMOriginal`, `IDUsuario`, `IDCuenta`, `FECCreacion`, `Ubicacion`) VALUES
+(16, 'archivo_429680618.txt', 'archivo_OK.txt', 'Prueba', 1, '2015-09-08 13:55:55', './assets/documents/process/'),
+(17, 'archivo_1195631298.txt', 'archivo_OK.txt', 'Prueba', 1, '2015-09-15 23:39:39', './assets/documents/process/'),
+(18, 'archivo_1421508271.txt', 'archivo_OK.txt', 'Prueba', 1, '2015-09-15 23:41:09', './assets/documents/process/'),
+(19, 'archivo_417248137.txt', 'archivo_OK.txt', 'Prueba', 1, '2015-09-15 23:42:00', './assets/documents/process/'),
+(20, 'archivo_1716837167.txt', 'archivo_OK.txt', 'Prueba', 1, '2015-09-15 23:42:56', './assets/documents/process/'),
+(21, 'archivo_891688775.txt', 'archivo_ko3.txt', 'Prueba', 1, '2015-09-15 23:50:22', './assets/documents/process/'),
+(22, 'archivo_527700776.txt', 'calculo.xlsx', 'Prueba', 1, '2015-09-15 23:55:07', './assets/documents/process/'),
+(23, 'archivo_360856198.xlsx', 'archivo_OK.txt', 'Prueba', 1, '2015-09-15 23:55:35', './assets/documents/process/');
 
 -- --------------------------------------------------------
 
@@ -182,7 +242,8 @@ CREATE TABLE IF NOT EXISTS `biusuarios` (
 --
 
 INSERT INTO `biusuarios` (`IDUsuarios`, `NOMBUsuario`, `CLAVUsuario`, `PERFUsuario`, `IDCuenta`) VALUES
-('alopez', 'Alejandro Lopez Stanley', '1', 'ADM', 0);
+('alopez', 'Alejandro Lopez Stanley', '1', 'ADM', 1),
+('cgerardi', 'Celina Gerardi', '1', 'USU', 2);
 
 --
 -- Índices para tablas volcadas
@@ -219,6 +280,12 @@ ALTER TABLE `biperfil`
   ADD PRIMARY KEY (`IDPerfil`);
 
 --
+-- Indices de la tabla `bipermisos`
+--
+ALTER TABLE `bipermisos`
+  ADD PRIMARY KEY (`pantalla`,`accion`,`allow`);
+
+--
 -- Indices de la tabla `biprocesos`
 --
 ALTER TABLE `biprocesos`
@@ -229,6 +296,12 @@ ALTER TABLE `biprocesos`
 --
 ALTER TABLE `bitablas`
   ADD PRIMARY KEY (`IDTabla`,`NOMTabla`);
+
+--
+-- Indices de la tabla `biusuarios`
+--
+ALTER TABLE `biusuarios`
+  ADD PRIMARY KEY (`IDUsuarios`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -243,17 +316,17 @@ ALTER TABLE `bicampos`
 -- AUTO_INCREMENT de la tabla `biclientes`
 --
 ALTER TABLE `biclientes`
-  MODIFY `IDCliente` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `IDCliente` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `bicuentas`
 --
 ALTER TABLE `bicuentas`
-  MODIFY `IDCuenta` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `IDCuenta` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `biprocesos`
 --
 ALTER TABLE `biprocesos`
-  MODIFY `IDPro` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `IDPro` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT de la tabla `bitablas`
 --
