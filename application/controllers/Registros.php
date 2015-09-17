@@ -33,10 +33,8 @@ class Registros extends CI_Controller
 
 		if($permiso == true)
     {
-        $data['accion'] = 'ADD';
-        $data['agregar'] = $this->Permisos_model->get_permiso($data);
-        $data['accion'] = 'MOD';
-        $data['modificar'] =$this->Permisos_model->get_permiso($data);
+        $data['accion'] = 'VIS';
+        $data['visualizar'] =$this->Permisos_model->get_permiso($data);
         $mensaje['titulo'] = 'Registros';
     		$this->load->view('Plantillas/Header',$mensaje);
     		$this->load->view('Registros/Index',$data);
@@ -50,6 +48,19 @@ class Registros extends CI_Controller
 		}
 	}
 
+	public function ver($id)
+	{
+		$data['titulo'] = 'VER Registro';
+		$val['registro'] = $this->Registros_model->get_registro($id);
+		$data['usuario'] = $this->session->userdata('usuario');
+		$data['nombre'] = $this->session->userdata('nombre');
+		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
+
+		$this->load->view('Plantillas/Header',$data);
+		$this->load->view('Registros/VERRegistro',$val);
+		$this->load->view('Plantillas/Footer');
+	}
 
   function very_sesion()
   {

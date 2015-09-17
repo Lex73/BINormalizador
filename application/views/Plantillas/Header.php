@@ -96,10 +96,10 @@
             <li><a href="<?php echo base_url(); ?>Procesos/"><i class="fa fa-level-up fa-fw"></i> Procesar</a></li>
             <li><a href="<?php echo base_url(); ?>Registros/"><i class="fa fa-sort-amount-asc fa-fw"></i> Registros</a></li>
 						<li class="divider"></li>
-						<li><a href="<?php echo base_url(); ?>usuarios/CambiaClave"><i class="fa fa-asterisk fa-fw"></i> Clave</a></li>
-            <li><a href="<?php echo base_url(); ?>login/"><i class="fa fa-user-times fa-fw"></i> Logout</a></li>
+						<li><a href="<?php echo base_url(); ?>Usuarios/CambiaClave"><i class="fa fa-asterisk fa-fw"></i> Clave</a></li>
+            <li><a href="<?php echo base_url(); ?>Login/"><i class="fa fa-user-times fa-fw"></i> Logout</a></li>
 						<li class="divider"></li>
-						<li><a href="<?php echo base_url(); ?>about/"><i class="fa fa-thumbs-up fa-fw"></i> About</a></li>
+						<li><a href="<?php echo base_url(); ?>About/"><i class="fa fa-thumbs-up fa-fw"></i> About</a></li>
           </ul>
         </div>
       </div>

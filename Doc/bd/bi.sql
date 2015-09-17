@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-09-2015 a las 05:59:33
+-- Tiempo de generación: 17-09-2015 a las 04:12:36
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -167,6 +167,8 @@ INSERT INTO `bipermisos` (`pantalla`, `accion`, `allow`) VALUES
 ('Proyectos', 'VER', 'USU'),
 ('Registros', 'VER', 'ADM'),
 ('Registros', 'VER', 'USU'),
+('Registros', 'VIS', 'ADM'),
+('Registros', 'VIS', 'USU'),
 ('Sistemas', 'VER', 'ADM'),
 ('Sistemas', 'VER', 'USU'),
 ('Usuarios', 'ADD', 'ADM'),

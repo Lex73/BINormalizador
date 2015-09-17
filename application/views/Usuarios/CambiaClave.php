@@ -3,7 +3,7 @@
   <br>
 <div class="row">
   <div class="col-xs-12">
-    <form class="form-horizontal" role="form" name="Form_Cambiar_Clave" action="<?php echo base_url(); ?>usuarios/operaciones_usuario" method="POST">
+    <form class="form-horizontal" role="form" name="Form_Cambiar_Clave" action="<?php echo base_url(); ?>Usuarios/operaciones_usuario" method="POST">
   	 <div class="form-group">
           <label for="ClaveUsuario" class="col-lg-2 control-label">Password Anterior</label>
               <div class="col-lg-4">
@@ -25,7 +25,7 @@
       <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
           <input class="btn btn-lg btn-primary" type="submit" name="submit_Cambiar_Clave" value="Aceptar" id="submit"/>
-          <a class="btn btn-lg btn-primary mitooltip" title="Salir sin salvar" href="<?php echo base_url(); ?>home/">Volver</a>
+          <a class="btn btn-lg btn-primary mitooltip" title="Salir sin salvar" href="<?php echo base_url(); ?>Home/">Volver</a>
         </div>
       </div>
   </form>

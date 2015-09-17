@@ -55,24 +55,25 @@ class Usuarios extends CI_Controller {
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
 
 		$data['accion'] = 'VER';
 
-		$permiso = $this->permisos_model->get_permiso($data);
+		$permiso = $this->Permisos_model->get_permiso($data);
 
 		if($permiso == true)
         {
         	$data['titulo'] = 'Clave';
 
-			$this->load->view('Plantilla/Header',$data);
+			$this->load->view('Plantillas/Header',$data);
 			$this->load->view('Usuarios/CambiaClave');
-			$this->load->view('Plantilla/Footer');
+			$this->load->view('Plantillas/Footer');
 		}
 		else
 		{
-			$this->load->view('Plantilla/Header',$data);
+			$this->load->view('Plantillas/Header',$data);
 			$this->load->view('Errores/Index');
-			$this->load->view('Plantilla/Footer');
+			$this->load->view('Plantillas/Footer');
 		}
 	}
 

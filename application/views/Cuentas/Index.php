@@ -27,25 +27,22 @@
           <table class="table">
             <thead>
               <tr>
-                <th>#</th>
                 <th>ID Cuenta</os-p></th>
                 <th><os-p>Nombre de Cuenta</os-p></th>
                 <th><os-p>Cliente</os-p></th>
                 <?php
                 if($modificar == true)
                 {
-                    echo '<th"><os-p>Acción</os-p></th>';
+                    echo '<th><os-p>Acción</os-p></th>';
                 }
                 ?>
               </tr>
             </thead>
             <tbody>
             	<?php
-            		$i = 1;
 					foreach ($query as $row)
 					{
 		              echo '<tr>';
-		              echo '<td>'.$i++.'</td>';
 		              echo '<td><os-p>'.$row->IDCuenta.'</os-p></td>';
 		              echo '<td><os-p>'.$row->DESCCuenta.'</os-p></td>';
 		              echo '<td><os-p>'.$row->DESCCliente.'</os-p></td>';
