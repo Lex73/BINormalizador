@@ -3,7 +3,10 @@
 	<div class="row">
         <div class="col-xs-8">
             <div class="alert alert-success">
-							<i class="fa fa-btc fa-fw fa-2x"></i> Registros
+							<i class="fa fa-sort-amount-asc fa-fw fa-2x"></i> Registros Cuenta:
+							<?php
+											echo $cuenta;
+							?>
             </div>
         </div>
         <div class="col-xs-2">
@@ -33,7 +36,7 @@
                 <th><os-p>Archivo Procesado</os-p></th>
                 <th><os-p>Archivo Original</os-p></th>
                 <th><os-p>Usuario</os-p></th>
-                <th><os-p>Cuenta</os-p></th>
+                <!-- <th><os-p>Cuenta</os-p></th> -->
                 <th><os-p>Fecha</os-p></th>
                 <th><os-p>Ubicacion</os-p></th>
                 <?php
@@ -53,7 +56,7 @@
 		              echo '<td><os-p>'.$row->Archivo.'</os-p></td>';
                   echo '<td><os-p>'.$row->NOMOriginal.'</os-p></td>';
                   echo '<td><os-p>'.$row->IDUsuario.'</os-p></td>';
-                  echo '<td><os-p>'.$row->IDCuenta.'</os-p></td>';
+                  // echo '<td><os-p>'.$row->IDCuenta.'</os-p></td>';
                   echo '<td><os-p>'.$row->FECCreacion.'</os-p></td>';
                   echo '<td><os-p>'.$row->Ubicacion.'</os-p></td>';
                       if($visualizar== true)

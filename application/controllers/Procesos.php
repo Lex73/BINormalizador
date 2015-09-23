@@ -497,7 +497,7 @@ class Procesos extends CI_Controller
 								}
 				}
 
-				$ok = $this->do_dataBase_log('archivo_'.$archivo.'.'.$salida,$arch,'Prueba',1,$this->config->item('FOLPR'));
+				$ok = $this->do_dataBase_log('archivo_'.$archivo.'.'.$salida,$arch,$this->session->userdata('usuario'),$this->session->userdata('IDcuenta'),$this->config->item('FOLPR'));
 				$this->m_Archivo = 'archivo_'.$archivo.'.'.$salida;
 				$this->m_Salida = $salida;
 

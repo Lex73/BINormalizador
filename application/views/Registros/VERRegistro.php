@@ -2,13 +2,13 @@
 <div class="row">
   <div class="col-xs-8">
             <div class="alert alert-success">
-                <i class="fa fa-btc fa-fw fa-2x"></i>
+                <i class="fa fa-file fa-fw fa-2x"></i>
                 <?php
                   //if(isset($registro))
                   //{
                       foreach ($registro as $row)
                       {
-                          echo 'Viendo: '.$row->IDPro.'-'.$row->NOMOriginal;
+                          echo 'Viendo: '.$row->IDPro.'-'.$row->NOMOriginal.' Tipo MIME: '.$row->Tipo;
                       }
                   //}
                   //else
@@ -20,7 +20,9 @@
         </div>
 </div>
 <div class="row">
-  <form class="form-horizontal" role="form" name="Form_Agregar_Clientes" action="<?php echo base_url(); ?>clientes/operaciones_clientes" method="POST">
+  <form class="form-horizontal" role="form" name="Download" id="Download"
+        action='<?php echo base_url().'Procesos/do_download/'.$row->Archivo.'/'.$row->Tipo ?>'
+        method="POST" enctype="multipart/form-data">
     <?php
         if(isset($registro))
         {
@@ -39,14 +41,14 @@
     ?>
       <div class="form-group">
       <label for="NombreUsuario" class="col-lg-2 control-label">Archivo</label>
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <input type="text" class="form-control" name ="Archivo" id="Archivo"
         <?php
             //if(isset($registro))
             //{
                 foreach ($registro as $row)
                 {
-                  echo ' value="'.$row->Archivo.'"';
+                  echo ' value="'.$row->Archivo.'" readonly';
                 }
             //}
             //else
@@ -55,18 +57,18 @@
             //}
         ?>
         >
-      </div>
+        </div><!-- col-lg-4 -->
     </div>
     <div class="form-group">
     <label for="NombreUsuario" class="col-lg-2 control-label">Nombre Original</label>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
       <input type="text" class="form-control" name ="NOMOriginal" id="NOMOriginal"
       <?php
           //if(isset($registro))
           //{
               foreach ($registro as $row)
               {
-                echo ' value="'.$row->NOMOriginal.'"';
+                echo ' value="'.$row->NOMOriginal.'" readonly';
               }
           //}
           //else
@@ -79,14 +81,14 @@
   </div>
   <div class="form-group">
   <label for="NombreUsuario" class="col-lg-2 control-label">Fecha de Creacion</label>
-  <div class="col-lg-6">
+  <div class="col-lg-4">
     <input type="text" class="form-control" name ="FECCreacion" id="FECCreacion"
     <?php
         //if(isset($registro))
         //{
             foreach ($registro as $row)
             {
-              echo ' value="'.$row->FECCreacion.'"';
+              echo ' value="'.$row->FECCreacion.'" readonly';
             }
         //}
         //else
@@ -99,14 +101,14 @@
 </div>
 <div class="form-group">
 <label for="NombreUsuario" class="col-lg-2 control-label">Ubicacion</label>
-<div class="col-lg-6">
+<div class="col-lg-4">
   <input type="text" class="form-control" name ="Ubicacion" id="Ubicacion"
   <?php
       //if(isset($registro))
       //{
           foreach ($registro as $row)
           {
-            echo ' value="'.$row->Ubicacion.'"';
+            echo ' value="'.$row->Ubicacion.'" readonly';
           }
       //}
       //else
@@ -119,6 +121,7 @@
 </div>
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-10">
+        <input class="btn btn-sm btn-primary mitooltip" title="Descargar el archivo" name="downloadDoc" id="downloadDoc" type="submit" value="Download"/>
        <!-- <input class="btn btn-lg btn-primary" type="submit" id="submit"
          <?php
             // if(!isset($clientes))
@@ -131,7 +134,7 @@
             // }
           ?>
         value="Aceptar"/>-->
-        <a class="btn btn-lg btn-primary" href="<?php echo base_url(); ?>Registros/">Volver</a>
+        <a class="btn btn-sm btn-primary" href="<?php echo base_url(); ?>Registros/">Volver</a>
       </div>
     </div>
   </form>

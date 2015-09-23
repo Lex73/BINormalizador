@@ -16,6 +16,7 @@
           <div class="form-group">
               <div class="col-sm-4">
                 <input class="btn btn-sm btn-primary mitooltip" title="Descargar el archivo"  name="downloadDoc" id="downloadDoc" type="submit" value="Download" />
+                <a class="btn btn-sm btn-primary" href="<?php echo base_url(); ?>Procesos/">Volver</a>
               </div>
           </div>
         </form>
