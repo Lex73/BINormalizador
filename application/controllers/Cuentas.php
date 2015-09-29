@@ -10,7 +10,7 @@ class Cuentas extends CI_Controller {
 		parent:: __construct();
 		$this->very_sesion();
 		$this->load->model('Usuarios_model');
-		$this->load->model('Perfiles_model');
+		$this->load->model('Clientes_model');
 		$this->load->model('Permisos_model');
 		$this->mensaje = '';
 		$this->m_id = '';
@@ -49,62 +49,38 @@ class Cuentas extends CI_Controller {
 		}
 	}
 
-	public function CambiaClave()
-	{
-		$data['titulo'] = 'Clave';
-		$data['usuario'] = $this->session->userdata('usuario');
-		$data['nombre'] = $this->session->userdata('nombre');
-		$data['perfil'] = $this->session->userdata('perfil');
-
-		$data['accion'] = 'VER';
-
-		$permiso = $this->permisos_model->get_permiso($data);
-
-		if($permiso == true)
-        {
-        	$data['titulo'] = 'Clave';
-
-			$this->load->view('Plantilla/Header',$data);
-			$this->load->view('Usuarios/CambiaClave');
-			$this->load->view('Plantilla/Footer');
-		}
-		else
-		{
-			$this->load->view('Plantilla/Header',$data);
-			$this->load->view('Errores/Index');
-			$this->load->view('Plantilla/Footer');
-		}
-	}
-
 	public function agregar()
 	{
-		$data['titulo'] = 'ABM Usuarios';
+		$data['titulo'] = 'ABM Cuentas';
 
-		$data['query'] = $this->perfiles_model->getall_perfiles();
+		$data['query'] = $this->Clientes_model->getall_clientes();
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
-		$this->load->view('Plantilla/Header',$data);
-		$this->load->view('Usuarios/ABMUsuarios');
-		$this->load->view('Plantilla/Footer');
+		$data['cuenta'] = $this->session->userdata('cuenta');
+
+		$this->load->view('Plantillas/Header',$data);
+		$this->load->view('Cuentas/ABMCuentas');
+		$this->load->view('Plantillas/Footer');
 	}
 
 	public function modificar($id)
 	{
-		$data['titulo'] = 'ABM Usuarios';
-		$val['user'] = $this->usuarios_model->get_usuario($id);
-		$val['query'] = $this->perfiles_model->getall_perfiles();
+		$data['titulo'] = 'ABM Cuentas';
+		$val['user'] = $this->Usuarios_model->get_cuenta_1($id);
+		$val['query'] = $this->Clientes_model->getall_clientes();
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
 
-		$this->load->view('Plantilla/Header',$data);
-		$this->load->view('Usuarios/ABMUsuarios',$val);
-		$this->load->view('Plantilla/Footer');
+		$this->load->view('Plantillas/Header',$data);
+		$this->load->view('Cuentas/ABMCuentas',$val);
+		$this->load->view('Plantillas/Footer');
 	}
 
-	function cargar_archivo() {
-
+	function cargar_archivo()
+	{
         $mi_archivo = $this->input->post('Imagen');
         $config['upload_path'] = "C:/xampp/htdocs/MagicWeb/assets/Imagenes/Usuarios/";
         $config['file_name'] =  $this->input->post('IDUsuario',TRUE).".gif";
@@ -130,12 +106,11 @@ class Cuentas extends CI_Controller {
 
 	public function operaciones_usuario()
 	{
-		if($this->input->post('submit_Agregar_Usuarios'))
+		if($this->input->post('submit_Agregar_Cuentas'))
 		{
-			$this->form_validation->set_rules("IDUsuario","Usuario","required|trim|xss_clean|callback_username_check");
-			$this->form_validation->set_rules("NombreUsuario","Nombre","required|trim|xss_clean");
-			$this->form_validation->set_rules("ClaveUsuario","Clave","required|trim|xss_clean");
-			$this->form_validation->set_rules("IDProfile","Perfil","required");
+			$this->form_validation->set_rules("IDCuenta","Cuenta","required|trim|xss_clean");
+			$this->form_validation->set_rules("DESCCuenta","Descripción Cuenta","required|trim|xss_clean");
+			$this->form_validation->set_rules("IDCliente","Client","required|trim|xss_clean");
 
 			$this->form_validation->set_message('required','El campo %s es obligatorio.');
 			$this->form_validation->set_message('username_check','El %s ya existe.');
@@ -147,36 +122,33 @@ class Cuentas extends CI_Controller {
 			else
 			{
 				$data = array(
-						'IDUsuario' => $this->input->post('IDUsuario',TRUE),
-						'NombreUsuario' => $this->input->post('NombreUsuario',TRUE),
-						'ClaveUsuario' => $this->input->post('ClaveUsuario',TRUE),
-						'IDProfile' => $this->input->post('IDProfile',TRUE));
+						'IDCuenta' => $this->input->post('IDCuenta',TRUE),
+						'DESCCuenta' => $this->input->post('DESCCuenta',TRUE),
+						'IDCliente' => $this->input->post('IDCliente',TRUE));
 
-				$this->usuarios_model->insert_usuario($data);
+				$this->Usuarios_model->Insert_cuenta($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
-				$this->cargar_archivo();
 				$this->index();
 			}
 		}
-		else if($this->input->post('submit_Modificar_Usuarios'))
+		else if($this->input->post('submit_Modificar_Cuentas'))
 		{
-			$this->form_validation->set_rules("IDUsuario","Usuario","required|trim|xss_clean");
-			$this->form_validation->set_rules("NombreUsuario","Nombre","required|trim|xss_clean");
-			$this->form_validation->set_rules("IDProfile","Perfil","required");
+			$this->form_validation->set_rules("DESCCuenta","Descripción Cuenta","required|trim|xss_clean");
+			$this->form_validation->set_rules("IDCliente","Client","required|trim|xss_clean");
 
 			$this->form_validation->set_message('required','El campo %s es obligatorio.');
 
 			if($this->form_validation->run() == FALSE)
 			{
-				$this->modificar($this->input->post('IDUsuario',TRUE));
+				$this->modificar($this->input->post('IDCuenta',TRUE));
 			}
 			else
 			{
 				$data = array(
-						'IDUsuario' => $this->input->post('IDUsuario',TRUE),
-						'NombreUsuario' => $this->input->post('NombreUsuario',TRUE),
-						'IDProfile' => $this->input->post('IDProfile',TRUE));
+						'IDCuenta' => $this->input->post('IDCuenta',TRUE),
+						'DESCCuenta' => $this->input->post('DESCCuenta',TRUE),
+						'IDCliente' => $this->input->post('IDCliente',TRUE));
 
 				$this->usuarios_model->update_usuario($data);
 
@@ -184,97 +156,12 @@ class Cuentas extends CI_Controller {
 				$this->index();
 			}
 		}
-		else if($this->input->post('submit_Blanquear_Clave'))
-		{
-			$data = $this->input->post('IDUsuario',TRUE);
-
-			$this->usuarios_model->blanquea_clave($data);
-
-			$this->mensaje  = 'Acción completada exitosamente.';
-			$this->index();
-		}
-		else if($this->input->post('submit_Cambiar_Clave'))
-		{
-			$this->form_validation->set_rules("ClaveUsuario","Clave Anterior","required|trim|xss_clean|callback_clave_check");
-			$this->form_validation->set_rules("NuevaClaveUsuario","Nueva Clave","required|trim|xss_clean|matches[RepetirClaveUsuario]|callback_clave_anterior");
-			$this->form_validation->set_rules("RepetirClaveUsuario","Repetición de Clave","required|trim|xss_clean");
-
-			$this->form_validation->set_message('required','El campo %s es obligatorio.');
-			$this->form_validation->set_message('clave_check','La clave anterior es incorrecta.');
-			$this->form_validation->set_message('clave_anterior','La clave nueva no puede ser igual a la anterior.');
-			$this->form_validation->set_message('matches','La clave nueva y la repeticón deben coincidir.');
-
-			if($this->form_validation->run() == FALSE)
-			{
-				$data['titulo'] = 'Cambiar Clave';
-				$data['usuario'] = $this->session->userdata('usuario');
-				$data['nombre'] = $this->session->userdata('nombre');
-				$data['perfil'] = $this->session->userdata('perfil');
-				$this->load->view('Plantilla/Header',$data);
-				$this->load->view('Usuarios/CambiaClave');
-				$this->load->view('Plantilla/Footer');
-			}
-			else
-			{
-				$data = array(
-						'IDUsuario' => $this->session->userdata('usuario'),
-						'ClaveUsuario' => $this->input->post('NuevaClaveUsuario'));
-
-				$this->usuarios_model->cambia_clave($data);
-
-				$this->mensaje  = 'Acción completada exitosamente.';
-				$this->index();
-			}
-		}
 		else
 		{
 
 		}
 	}
-
-	function clave_anterior()
-	{
-		if($this->input->post('NuevaClaveUsuario') == $this->input->post('ClaveUsuario'))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	function clave_check()
-	{
-		$data = array('IDUsuario'=>$this->session->userdata('usuario'),
-					        //'ClaveUsuario'=>$this->input->post('inputPassword',TRUE)
-					        'ClaveUsuario'=>do_hash($this->input->post('ClaveUsuario',TRUE),'md5'));
-
-		$resultado  = $this->usuarios_model->very_user($data);
-
-		foreach ($resultado as $row)
-		{
-			return true;
-		}
-
-		return false;
-
-	}
-
-	function username_check($id)
-    {
-    	$val = $this->usuarios_model->verif_usuario($id);
-
-    	if($val == true)
-    	{
-    		return false;
-    	}
-    	else
-    	{
-    		return true;
-    	}
-    }
-
+	
 	function very_sesion()
 	{
 		if(!$this->session->userdata('usuario'))

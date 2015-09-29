@@ -28,8 +28,8 @@ class Perfiles extends CI_Controller
 		$permiso = $this->Permisos_model->get_permiso($data);
 
 		if($permiso == true)
-        {
-        	$data['accion'] = 'ADD';
+    {
+      $data['accion'] = 'ADD';
 			$data['agregar'] = $this->Permisos_model->get_permiso($data);
 			$data['accion'] = 'MOD';
 			$data['modificar'] =$this->Permisos_model->get_permiso($data);
@@ -53,15 +53,15 @@ class Perfiles extends CI_Controller
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
 		$data['cuenta'] = $this->session->userdata('cuenta');
-		$this->load->view('Plantilla/Header',$data);
+		$this->load->view('Plantillas/Header',$data);
 		$this->load->view('Perfiles/ABMPerfiles');
-		$this->load->view('Plantilla/Footer');
+		$this->load->view('Plantillas/Footer');
 	}
 
 	public function modificar($id)
 	{
 		$data['titulo'] = 'ABM Perfiles';
-		$val['perfiles'] = $this->perfiles_model->get_perfil($id);
+		$val['perfiles'] = $this->Perfiles_model->get_perfil($id);
 
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
@@ -90,9 +90,9 @@ class Perfiles extends CI_Controller
 			else
 			{
 				$data = array('IDPerfiles' => $this->input->post('IDPerfiles',TRUE),
-						      'NombrePerfil' => $this->input->post('NombrePerfil',TRUE));
+						      	  'NombrePerfil' => $this->input->post('NombrePerfil',TRUE));
 
-				$this->perfiles_model->insert_perfiles($data);
+				$this->Perfiles_model->insert_perfiles($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
 				$this->index();
@@ -111,9 +111,9 @@ class Perfiles extends CI_Controller
 			else
 			{
 				$data = array('IDPerfiles' => $this->input->post('IDPerfiles',TRUE),
-						      'NombrePerfil' => $this->input->post('NombrePerfil',TRUE));
+						      		'NombrePerfil' => $this->input->post('NombrePerfil',TRUE));
 
-				$this->perfiles_model->update_perfiles($data);
+				$this->Perfiles_model->update_perfiles($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
 				$this->index();

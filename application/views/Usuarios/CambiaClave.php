@@ -24,8 +24,8 @@
       </div>
       <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
-          <input class="btn btn-lg btn-primary" type="submit" name="submit_Cambiar_Clave" value="Aceptar" id="submit"/>
-          <a class="btn btn-lg btn-primary mitooltip" title="Salir sin salvar" href="<?php echo base_url(); ?>Home/">Volver</a>
+          <input class="btn btn-sm btn-primary" type="submit" name="submit_Cambiar_Clave" value="Aceptar" id="submit"/>
+          <a class="btn btn-sm btn-primary mitooltip" title="Salir sin salvar" href="<?php echo base_url(); ?>Home/">Volver</a>
         </div>
       </div>
   </form>

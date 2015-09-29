@@ -5,15 +5,15 @@
             <div class="alert alert-success">
 							<i class="fa fa-sort-amount-asc fa-fw fa-2x"></i> Registros Cuenta:
 							<?php
-											echo $cuenta;
+									echo $cuenta;
 							?>
             </div>
         </div>
         <div class="col-xs-2">
             <p class="text-success">
-                <?php
-                        echo $mensaje;
-                ?>
+              <?php
+                  echo $mensaje;
+              ?>
             </p>
         </div>
         <div class="col-xs-1"></div>

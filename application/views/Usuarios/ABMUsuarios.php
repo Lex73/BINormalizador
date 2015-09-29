@@ -8,7 +8,7 @@
           {
             foreach ($user as $row)
             {
-              echo 'Modificar: '.$row->IDUsuario.'-'.$row->NombreUsuario;
+              echo 'Modificar: '.$row->IDUsuarios.'-'.$row->NOMBUsuario;
             }
           }
           else
@@ -20,17 +20,17 @@
     </div>
   </div>
 <div class="row">
-  <form class="form-horizontal" role="form" name="Form_Agregar_Usuarios" action="<?php echo base_url(); ?>usuarios/operaciones_usuario" method="POST" enctype="multipart/form-data">
+  <form class="form-horizontal" role="form" name="Form_Agregar_Usuarios" action="<?php echo base_url(); ?>Usuarios/operaciones_usuario" method="POST" enctype="multipart/form-data">
     <div class="form-group">
-      <label for="IDUsuario" class="col-lg-2 control-label">ID de Usuario</label>
+      <label for="IDUsuarios" class="col-lg-2 control-label">ID de Usuario</label>
       <div class="col-lg-4">
-        <input type="text" class="form-control" name ="IDUsuario" id="IDUsuario"
+        <input type="text" class="form-control" name ="IDUsuarios" id="IDUsuarios"
         <?php
             if(isset($user))
             {
                 foreach ($user as $row)
                 {
-                  echo ' value="'.$row->IDUsuario.'" readonly';
+                  echo ' value="'.$row->IDUsuarios.'" readonly';
                 }
             }
             else
@@ -50,7 +50,7 @@
             {
                 foreach ($user as $row)
                 {
-                  echo ' value="'.$row->NombreUsuario.'"';
+                  echo ' value="'.$row->NOMBUsuario.'"';
                 }
             }
             else
@@ -67,7 +67,7 @@
         echo '<div class="form-group">
               <label for="ClaveUsuario" class="col-lg-2 control-label">Password</label>
                 <div class="col-lg-6">
-                  <input type="password" class="form-control" name ="ClaveUsuario" id="ClaveUsuario" placeholder="Contraseña">
+                  <input type="password" class="form-control" name ="ClaveUsuario" id="ClaveUsuario" placeholder="Contraseña" autocomplete="off">
                 </div>
               </div>';
       }
@@ -82,7 +82,7 @@
                     echo '<option value="">Seleccione un Perfil</option>';
                     foreach ($query as $row)
                     {
-                      echo '<option value="'.$row->IDPerfiles.'">'.$row->NombrePerfil.'</option>';
+                      echo '<option value="'.$row->PERFUsuario.'">'.$row->NOMBPerfil.'</option>';
                     }
                   }
                   else
@@ -93,11 +93,11 @@
                       {
                         if($rowAux->IDProfile == $row->IDPerfiles)
                         {
-                          echo '<option selected value="'.$row->IDPerfiles.'">'.$row->NombrePerfil.'</option>';
+                          echo '<option selected value="'.$row->PERFUsuario.'">'.$row->NOMBPerfil.'</option>';
                         }
                         else
                         {
-                          echo '<option value="'.$row->IDPerfiles.'">'.$row->NombrePerfil.'</option>';
+                          echo '<option value="'.$row->PERFUsuario.'">'.$row->NOMBPerfil.'</option>';
                         }
                       }
                     }
@@ -108,7 +108,7 @@
     </div>
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-10">
-       <input class="btn btn-lg btn-primary" type="submit" id="submit"
+       <input class="btn btn-sm btn-primary" type="submit" id="submit"
          <?php
             if(!isset($user))
             {
@@ -123,10 +123,10 @@
           <?php
             if(isset($user))
             {
-              echo '<input class="btn btn-lg btn-primary" type="submit" name="submit_Blanquear_Clave" value="Blanquear"/>';
+              echo '<input class="btn btn-sm btn-primary" type="submit" name="submit_Blanquear_Clave" value="Blanquear"/>';
             }
           ?>
-         <a class="btn btn-lg btn-primary mitooltip" title="Salir sin salvar" href="<?php echo base_url(); ?>usuarios/">Volver</a>
+         <a class="btn btn-sm btn-primary mitooltip" title="Salir sin salvar" href="<?php echo base_url(); ?>usuarios/">Volver</a>
       </div>
     </div>
   </form>

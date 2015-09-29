@@ -8,7 +8,7 @@
                   {
                       foreach ($clientes as $row)
                       {
-                          echo 'Modificar: '.$row->IDCliente.'-'.$row->NombreCliente;
+                          echo 'Modificar: '.$row->IDCliente.'-'.$row->DESCCliente;
                       }
                   }
                   else
@@ -46,7 +46,7 @@
             {
                 foreach ($clientes as $row)
                 {
-                  echo ' value="'.$row->NombreCliente.'"';
+                  echo ' value="'.$row->DESCCliente.'"';
                 }
             }
             else
@@ -59,7 +59,7 @@
     </div>
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-10">
-       <input class="btn btn-lg btn-primary" type="submit" id="submit"
+       <input class="btn btn-sm btn-primary" type="submit" id="submit"
          <?php
             if(!isset($clientes))
             {
@@ -71,7 +71,7 @@
             }
           ?>
         value="Aceptar"/>
-        <a class="btn btn-lg btn-primary" href="<?php echo base_url(); ?>clientes/">Volver</a>
+        <a class="btn btn-sm btn-primary" href="<?php echo base_url(); ?>clientes/">Volver</a>
       </div>
     </div>
   </form>

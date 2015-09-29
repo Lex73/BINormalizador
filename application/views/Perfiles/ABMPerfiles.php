@@ -8,7 +8,7 @@
           {
             foreach ($perfiles as $row)
             {
-              echo 'Modificar: '.$row->IDPerfiles.'-'.$row->NombrePerfil;
+              echo 'Modificar: '.$row->IDPerfil.'-'.$row->NOMBPerfil;
             }
           }
           else
@@ -30,7 +30,7 @@
             {
                 foreach ($perfiles as $row)
                 {
-                  echo ' value="'.$row->IDPerfiles.'" readonly';
+                  echo ' value="'.$row->IDPerfil.'" readonly';
                 }
             }
             else
@@ -50,7 +50,7 @@
             {
                 foreach ($perfiles as $row)
                 {
-                  echo ' value="'.$row->NombrePerfil.'"';
+                  echo ' value="'.$row->NOMBPerfil.'"';
                 }
             }
             else
@@ -63,7 +63,7 @@
     </div>
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-10">
-       <input class="btn btn-lg btn-primary" type="submit" id="submit"
+       <input class="btn btn-sm btn-primary" type="submit" id="submit"
          <?php
             if(!isset($perfiles))
             {
@@ -75,7 +75,7 @@
             }
           ?>
         value="Aceptar"/>
-        <a class="btn btn-lg btn-primary" href="<?php echo base_url(); ?>perfiles/">Volver</a>
+        <a class="btn btn-sm btn-primary" href="<?php echo base_url(); ?>perfiles/">Volver</a>
       </div>
     </div>
   </form>

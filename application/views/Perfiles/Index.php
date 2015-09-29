@@ -9,7 +9,7 @@
         <div class="col-xs-2">
             <p class="text-success">
                 <?php
-                        echo $mensaje;
+                    echo $mensaje;
                 ?>
             </p>
         </div>

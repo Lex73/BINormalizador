@@ -81,27 +81,29 @@ class Usuarios extends CI_Controller {
 	{
 		$data['titulo'] = 'ABM Usuarios';
 
-		$data['query'] = $this->perfiles_model->getall_perfiles();
+		$data['query'] = $this->Perfiles_model->getall_perfiles();
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
-		$this->load->view('Plantilla/Header',$data);
+		$data['cuenta'] = $this->session->userdata('cuenta');
+		$this->load->view('Plantillas/Header',$data);
 		$this->load->view('Usuarios/ABMUsuarios');
-		$this->load->view('Plantilla/Footer');
+		$this->load->view('Plantillas/Footer');
 	}
 
 	public function modificar($id)
 	{
 		$data['titulo'] = 'ABM Usuarios';
-		$val['user'] = $this->usuarios_model->get_usuario($id);
-		$val['query'] = $this->perfiles_model->getall_perfiles();
+		$val['user'] = $this->Usuarios_model->get_usuario($id);
+		$val['query'] = $this->Perfiles_model->getall_perfiles();
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
 
-		$this->load->view('Plantilla/Header',$data);
+		$this->load->view('Plantillas/Header',$data);
 		$this->load->view('Usuarios/ABMUsuarios',$val);
-		$this->load->view('Plantilla/Footer');
+		$this->load->view('Plantillas/Footer');
 	}
 
 	function cargar_archivo() {

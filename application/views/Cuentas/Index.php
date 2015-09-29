@@ -2,7 +2,7 @@
 	<div class="row">
         <div class="col-xs-8">
             <div class="alert alert-success">
-							  <i class="fa fa-users fa-fw fa-2x"></i> Cuentas del sistema
+							  <i class="fa fa-credit-card fa-fw fa-2x"></i> Cuentas del sistema
             </div>
         </div>
         <div class="col-xs-2">

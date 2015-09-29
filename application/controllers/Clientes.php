@@ -53,25 +53,27 @@ class Clientes extends CI_Controller {
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
 		$data['mensaje'] = $this->mensaje;
-		$this->load->view('Plantilla/Header',$data);
+		$this->load->view('Plantillas/Header',$data);
 		$this->load->view('Clientes/ABMClientes');
-		$this->load->view('Plantilla/Footer');
+		$this->load->view('Plantillas/Footer');
 	}
 
 	public function modificar($id)
 	{
 		$data['titulo'] = 'ABM Cliente';
-		$val['clientes'] = $this->clientes_model->get_cliente($id);
+		$val['clientes'] = $this->Clientes_model->get_cliente($id);
 
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
 		$data['mensaje'] = $this->mensaje;
 
-		$this->load->view('Plantilla/Header',$data);
+		$this->load->view('Plantillas/Header',$data);
 		$this->load->view('Clientes/ABMClientes',$val);
-		$this->load->view('Plantilla/Footer');
+		$this->load->view('Plantillas/Footer');
 	}
 
 	public function operaciones_clientes()
@@ -90,7 +92,7 @@ class Clientes extends CI_Controller {
 			{
 				$data = array('NombreCliente' => $this->input->post('NombreCliente',TRUE));
 
-				$this->clientes_model->insert_cliente($data);
+				$this->Clientes_model->insert_cliente($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
 				$this->index();
@@ -109,7 +111,7 @@ class Clientes extends CI_Controller {
 			else
 			{
 				$data = array('IDCliente' => $this->input->post('IDCliente',TRUE),
-						      'NombreCliente' => $this->input->post('NombreCliente',TRUE));
+						      		'NombreCliente' => $this->input->post('NombreCliente',TRUE));
 
 				$this->clientes_model->update_cliente($data);
 

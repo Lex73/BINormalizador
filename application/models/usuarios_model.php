@@ -40,7 +40,16 @@ class Usuarios_model extends CI_Model
 		{
 			return $value->DESCCuenta;
 		}
+	}
 
+	public function get_cuenta_1($id)
+	{
+		$this->db->select('*');
+		$this->db->from('bicuentas');
+		$this->db->where('IDCuenta',$id);
+		$query = $this->db->get();
+
+		return $query->result();
 	}
 
 	public function get_usuario($id)
@@ -71,8 +80,7 @@ class Usuarios_model extends CI_Model
 
 	public function insert_cuenta($data)
 	{
-		$data['CLAVUsuario'] = do_hash($data['ClaveUsuario'], 'md5');
-		$this->db->insert('biusuarios',$data);
+		$this->db->insert('bicuentas',$data);
 	}
 
 	public function update_cuenta($data)
