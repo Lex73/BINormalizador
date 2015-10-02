@@ -20,7 +20,7 @@
     </div>
   </div>
 <div class="row">
-  <form class="form-horizontal" role="form" name="Form_Agregar_Cuenta" action="<?php echo base_url(); ?>Usuarios/operaciones_cuenta" method="POST" enctype="multipart/form-data">
+  <form class="form-horizontal" role="form" name="Form_Agregar_Cuenta" action="<?php echo base_url(); ?>Cuentas/operaciones_cuentas" method="POST" enctype="multipart/form-data">
         <?php
             if(isset($user))
             {

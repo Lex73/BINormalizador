@@ -32,15 +32,15 @@
                 <th><os-p>Nombre de usuario</os-p></th>
                 <th><os-p>Perfil</os-p></th>
                 <?php
-                if($modificar == true)
-                {
-                    echo '<th"><os-p>Acción</os-p></th>';
-                }
+	                if($modificar == true)
+	                {
+	                    echo '<th><os-p>Acción</os-p></th>';
+	                }
                 ?>
               </tr>
             </thead>
             <tbody>
-            	<?php
+        <?php
             		$i = 1;
 					foreach ($query as $row)
 					{

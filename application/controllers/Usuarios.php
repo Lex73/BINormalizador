@@ -82,6 +82,7 @@ class Usuarios extends CI_Controller {
 		$data['titulo'] = 'ABM Usuarios';
 
 		$data['query'] = $this->Perfiles_model->getall_perfiles();
+		$data['cuentas'] = $this->Usuarios_model->getall_cuentas();
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
@@ -96,6 +97,7 @@ class Usuarios extends CI_Controller {
 		$data['titulo'] = 'ABM Usuarios';
 		$val['user'] = $this->Usuarios_model->get_usuario($id);
 		$val['query'] = $this->Perfiles_model->getall_perfiles();
+		$data['cuentas'] = $this->Usuarios_model->getall_cuentas();
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
 		$data['perfil'] = $this->session->userdata('perfil');
@@ -135,10 +137,11 @@ class Usuarios extends CI_Controller {
 	{
 		if($this->input->post('submit_Agregar_Usuarios'))
 		{
-			$this->form_validation->set_rules("IDUsuario","Usuario","required|trim|xss_clean|callback_username_check");
+			$this->form_validation->set_rules("IDUsuarios","Usuario","required|trim|xss_clean|callback_username_check");
 			$this->form_validation->set_rules("NombreUsuario","Nombre","required|trim|xss_clean");
 			$this->form_validation->set_rules("ClaveUsuario","Clave","required|trim|xss_clean");
 			$this->form_validation->set_rules("IDProfile","Perfil","required");
+			$this->form_validation->set_rules("IDCuenta","Cuenta","required");
 
 			$this->form_validation->set_message('required','El campo %s es obligatorio.');
 			$this->form_validation->set_message('username_check','El %s ya existe.');
@@ -150,38 +153,41 @@ class Usuarios extends CI_Controller {
 			else
 			{
 				$data = array(
-						'IDUsuario' => $this->input->post('IDUsuario',TRUE),
-						'NombreUsuario' => $this->input->post('NombreUsuario',TRUE),
-						'ClaveUsuario' => $this->input->post('ClaveUsuario',TRUE),
-						'IDProfile' => $this->input->post('IDProfile',TRUE));
+						'IDUsuarios' => $this->input->post('IDUsuarios',TRUE),
+						'NOMBUsuario' => $this->input->post('NombreUsuario',TRUE),
+						'CLAVUsuario' => $this->input->post('ClaveUsuario',TRUE),
+						'PERFUsuario' => $this->input->post('IDProfile',TRUE),
+					  'IDCuenta' => $this->input->post('IDCuenta',TRUE));
 
-				$this->usuarios_model->insert_usuario($data);
+				$this->Usuarios_model->insert_usuario($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
-				$this->cargar_archivo();
+				//$this->cargar_archivo();
 				$this->index();
 			}
 		}
 		else if($this->input->post('submit_Modificar_Usuarios'))
 		{
-			$this->form_validation->set_rules("IDUsuario","Usuario","required|trim|xss_clean");
+			$this->form_validation->set_rules("IDUsuarios","Usuario","required|trim|xss_clean");
 			$this->form_validation->set_rules("NombreUsuario","Nombre","required|trim|xss_clean");
 			$this->form_validation->set_rules("IDProfile","Perfil","required");
+			$this->form_validation->set_rules("IDCuenta","Cuenta","required");
 
 			$this->form_validation->set_message('required','El campo %s es obligatorio.');
 
 			if($this->form_validation->run() == FALSE)
 			{
-				$this->modificar($this->input->post('IDUsuario',TRUE));
+				$this->modificar($this->input->post('IDUsuarios',TRUE));
 			}
 			else
 			{
 				$data = array(
-						'IDUsuario' => $this->input->post('IDUsuario',TRUE),
-						'NombreUsuario' => $this->input->post('NombreUsuario',TRUE),
-						'IDProfile' => $this->input->post('IDProfile',TRUE));
+						'IDUsuarios' => $this->input->post('IDUsuarios',TRUE),
+						'NOMBUsuario' => $this->input->post('NombreUsuario',TRUE),
+						'PERFUsuario' => $this->input->post('IDProfile',TRUE),
+					  'IDCuenta' => $this->input->post('IDCuenta',TRUE));
 
-				$this->usuarios_model->update_usuario($data);
+				$this->Usuarios_model->update_usuario($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
 				$this->index();
@@ -191,7 +197,7 @@ class Usuarios extends CI_Controller {
 		{
 			$data = $this->input->post('IDUsuario',TRUE);
 
-			$this->usuarios_model->blanquea_clave($data);
+			$this->Usuarios_model->blanquea_clave($data);
 
 			$this->mensaje  = 'Acción completada exitosamente.';
 			$this->index();
@@ -223,7 +229,7 @@ class Usuarios extends CI_Controller {
 						'IDUsuario' => $this->session->userdata('usuario'),
 						'ClaveUsuario' => $this->input->post('NuevaClaveUsuario'));
 
-				$this->usuarios_model->cambia_clave($data);
+				$this->Usuarios_model->cambia_clave($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
 				$this->index();
@@ -253,7 +259,7 @@ class Usuarios extends CI_Controller {
 					        //'ClaveUsuario'=>$this->input->post('inputPassword',TRUE)
 					        'ClaveUsuario'=>do_hash($this->input->post('ClaveUsuario',TRUE),'md5'));
 
-		$resultado  = $this->usuarios_model->very_user($data);
+		$resultado  = $this->very_user($data);
 
 		foreach ($resultado as $row)
 		{
@@ -265,8 +271,8 @@ class Usuarios extends CI_Controller {
 	}
 
 	function username_check($id)
-    {
-    	$val = $this->usuarios_model->verif_usuario($id);
+  {
+    	$val = $this->Usuarios_model->verif_usuario($id);
 
     	if($val == true)
     	{

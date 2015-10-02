@@ -85,18 +85,18 @@ class Usuarios_model extends CI_Model
 
 	public function update_cuenta($data)
 	{
-		$this->db->update('biusuarios', $data, "IDUsuarios ='".$data['IDUsuario']."'");
+		$this->db->update('bicuentas', $data, "IDCuenta ='".$data['IDCuenta']."'");
 	}
 
 	public function insert_usuario($data)
 	{
-		$data['CLAVUsuario'] = do_hash($data['ClaveUsuario'], 'md5');
+		$data['CLAVUsuario'] = do_hash($data['CLAVUsuario'], 'md5');
 		$this->db->insert('biusuarios',$data);
 	}
 
 	public function update_usuario($data)
 	{
-		$this->db->update('biusuarios', $data, "IDUsuarios ='".$data['IDUsuario']."'");
+		$this->db->update('biusuarios', $data, "IDUsuarios ='".$data['IDUsuarios']."'");
 	}
 
 	public function very_user($data)

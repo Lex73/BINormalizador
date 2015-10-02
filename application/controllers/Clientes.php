@@ -90,7 +90,7 @@ class Clientes extends CI_Controller {
 			}
 			else
 			{
-				$data = array('NombreCliente' => $this->input->post('NombreCliente',TRUE));
+				$data = array('DESCCliente' => $this->input->post('NombreCliente',TRUE));
 
 				$this->Clientes_model->insert_cliente($data);
 
@@ -111,9 +111,9 @@ class Clientes extends CI_Controller {
 			else
 			{
 				$data = array('IDCliente' => $this->input->post('IDCliente',TRUE),
-						      		'NombreCliente' => $this->input->post('NombreCliente',TRUE));
+						      		'DESCCliente' => $this->input->post('NombreCliente',TRUE));
 
-				$this->clientes_model->update_cliente($data);
+				$this->Clientes_model->update_cliente($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
 				$this->index();

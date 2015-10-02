@@ -104,16 +104,14 @@ class Cuentas extends CI_Controller {
 
     }
 
-	public function operaciones_usuario()
+	public function operaciones_cuentas()
 	{
 		if($this->input->post('submit_Agregar_Cuentas'))
 		{
-			$this->form_validation->set_rules("IDCuenta","Cuenta","required|trim|xss_clean");
 			$this->form_validation->set_rules("DESCCuenta","Descripción Cuenta","required|trim|xss_clean");
 			$this->form_validation->set_rules("IDCliente","Client","required|trim|xss_clean");
 
 			$this->form_validation->set_message('required','El campo %s es obligatorio.');
-			$this->form_validation->set_message('username_check','El %s ya existe.');
 
 			if($this->form_validation->run() == FALSE)
 			{
@@ -121,10 +119,8 @@ class Cuentas extends CI_Controller {
 			}
 			else
 			{
-				$data = array(
-						'IDCuenta' => $this->input->post('IDCuenta',TRUE),
-						'DESCCuenta' => $this->input->post('DESCCuenta',TRUE),
-						'IDCliente' => $this->input->post('IDCliente',TRUE));
+				$data = array('DESCCuenta' => $this->input->post('DESCCuenta',TRUE),
+											'IDCliente' => $this->input->post('IDCliente',TRUE));
 
 				$this->Usuarios_model->Insert_cuenta($data);
 
@@ -150,7 +146,7 @@ class Cuentas extends CI_Controller {
 						'DESCCuenta' => $this->input->post('DESCCuenta',TRUE),
 						'IDCliente' => $this->input->post('IDCliente',TRUE));
 
-				$this->usuarios_model->update_usuario($data);
+				$this->Usuarios_model->update_cuenta($data);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
 				$this->index();
@@ -161,7 +157,7 @@ class Cuentas extends CI_Controller {
 
 		}
 	}
-	
+
 	function very_sesion()
 	{
 		if(!$this->session->userdata('usuario'))

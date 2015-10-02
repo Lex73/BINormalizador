@@ -75,14 +75,14 @@
     <div class="form-group">
       <label for="PerfilUsuario" class="col-lg-2 control-label">Perfil</label>
       <div class="col-lg-4">
-              <select class="input-large form-control" name="IDProfile">
+              <select class="input-large form-control" name="IDProfile" id="IDProfile">
                 <?php
                   if(!isset($user))
                   {
                     echo '<option value="">Seleccione un Perfil</option>';
                     foreach ($query as $row)
                     {
-                      echo '<option value="'.$row->PERFUsuario.'">'.$row->NOMBPerfil.'</option>';
+                      echo '<option value="'.$row->IDPerfil.'">'.$row->NOMBPerfil.'</option>';
                     }
                   }
                   else
@@ -91,19 +91,65 @@
                     {
                       foreach ($user as $rowAux)
                       {
-                        if($rowAux->IDProfile == $row->IDPerfiles)
+                        if($rowAux->PERFUsuario == $row->IDPerfil)
                         {
-                          echo '<option selected value="'.$row->PERFUsuario.'">'.$row->NOMBPerfil.'</option>';
+                          echo '<option selected value="'.$row->IDPerfil.'">'.$row->NOMBPerfil.'</option>';
                         }
                         else
                         {
-                          echo '<option value="'.$row->PERFUsuario.'">'.$row->NOMBPerfil.'</option>';
+                          echo '<option value="'.$row->IDPerfil.'">'.$row->NOMBPerfil.'</option>';
                         }
                       }
                     }
                   }
                 ?>
               </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="Cuentas" class="col-lg-2 control-label">Cuenta</label>
+      <div class="col-lg-4">
+              <select class="input-large form-control" name="IDCuenta" id="IDCuenta">
+                <?php
+                  if(!isset($user))
+                  {
+                    echo '<option value="">Seleccione una Cuenta</option>';
+                    foreach ($cuentas as $row)
+                    {
+                      echo '<option value="'.$row->IDCuenta.'">'.$row->DESCCuenta.'|'.$row->DESCCliente.'</option>';
+                    }
+                  }
+                  else
+                  {
+                    foreach ($cuentas as $row)
+                    {
+                      foreach ($user as $rowAux)
+                      {
+                        if($rowAux->IDCuenta == $row->IDCuenta)
+                        {
+                          echo '<option selected value="'.$row->IDCuenta.'">'.$row->DESCCuenta.'|'.$row->DESCCliente.'</option>';
+                        }
+                        else
+                        {
+                          echo '<option value="'.$row->IDCuenta.'">'.$row->DESCCuenta.'|'.$row->DESCCliente.'</option>';
+                        }
+                      }
+                    }
+                  }
+                ?>
+              </select>
+              <?php
+              // foreach ($cuentas as $row)
+              // {
+              //   echo $row->IDCuenta.'|'.$row->DESCCuenta.'|'.$row->DESCCliente;
+              // }
+              // foreach ($user as $rowAux)
+              // {
+              //   echo $rowAux->IDCuenta;
+              // }
+
+              ?>
+
       </div>
     </div>
     <div class="form-group">
