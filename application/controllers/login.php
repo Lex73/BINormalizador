@@ -6,7 +6,7 @@ class Login extends CI_Controller {
 	{
 		parent:: __construct();
 		$this->session->unset_userdata('usuario');
-		$this->load->model('usuarios_model');
+		$this->load->model('Usuarios_model');
 	}
 
 	public function index()
@@ -23,11 +23,11 @@ class Login extends CI_Controller {
 										'CLAVUsuario'=>$this->input->post('inputPassword',TRUE));
 						  		  //'CLAVUsuario'=>do_hash($this->input->post('inputPassword',TRUE),'md5'));
 
-			$resultado  = $this->usuarios_model->very_user($data);
+			$resultado  = $this->Usuarios_model->very_user($data);
 
 			foreach ($resultado as $row)
 			{
-				$cuenta = $this->usuarios_model->get_cuenta($row->IDCuenta);
+				$cuenta = $this->Usuarios_model->get_cuenta($row->IDCuenta);
 
 				$datos = array('usuario'=> $row->IDUsuarios,
 										   'nombre'=> $row->NOMBUsuario,

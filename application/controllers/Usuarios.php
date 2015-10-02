@@ -195,11 +195,11 @@ class Usuarios extends CI_Controller {
 		}
 		else if($this->input->post('submit_Blanquear_Clave'))
 		{
-			$data = $this->input->post('IDUsuario',TRUE);
+			$data = $this->input->post('IDUsuarios',TRUE);
 
 			$this->Usuarios_model->blanquea_clave($data);
 
-			$this->mensaje  = 'Acción completada exitosamente.';
+			$this->mensaje  = 'Blanqueo de clave para el usuario:'.$this->input->post('NombreUsuario',TRUE).' exitosamente.';
 			$this->index();
 		}
 		else if($this->input->post('submit_Cambiar_Clave'))
@@ -217,17 +217,18 @@ class Usuarios extends CI_Controller {
 			{
 				$data['titulo'] = 'Cambiar Clave';
 				$data['usuario'] = $this->session->userdata('usuario');
-				$data['nombre'] = $this->session->userdata('nombre');
-				$data['perfil'] = $this->session->userdata('perfil');
-				$this->load->view('Plantilla/Header',$data);
+		    $data['nombre'] = $this->session->userdata('nombre');
+		    $data['perfil'] = $this->session->userdata('perfil');
+		    $data['cuenta'] = $this->session->userdata('cuenta');
+				$this->load->view('Plantillas/Header',$data);
 				$this->load->view('Usuarios/CambiaClave');
-				$this->load->view('Plantilla/Footer');
+				$this->load->view('Plantillas/Footer');
 			}
 			else
 			{
 				$data = array(
-						'IDUsuario' => $this->session->userdata('usuario'),
-						'ClaveUsuario' => $this->input->post('NuevaClaveUsuario'));
+						'IDUsuarios' => $this->session->userdata('usuario'),
+						'CLAVUsuario' => $this->input->post('NuevaClaveUsuario'));
 
 				$this->Usuarios_model->cambia_clave($data);
 
@@ -255,11 +256,11 @@ class Usuarios extends CI_Controller {
 
 	function clave_check()
 	{
-		$data = array('IDUsuario'=>$this->session->userdata('usuario'),
-					        //'ClaveUsuario'=>$this->input->post('inputPassword',TRUE)
-					        'ClaveUsuario'=>do_hash($this->input->post('ClaveUsuario',TRUE),'md5'));
+		$data = array('IDUsuarios'=>$this->session->userdata('usuario'),
+					        'CLAVUsuario'=>$this->input->post('inputPassword',TRUE));
+					        //'CLAVUsuario'=>do_hash($this->input->post('ClaveUsuario',TRUE),'md5'));
 
-		$resultado  = $this->very_user($data);
+		$resultado  = $this->Usuarios_model->very_user($data);
 
 		foreach ($resultado as $row)
 		{

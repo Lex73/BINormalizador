@@ -138,18 +138,6 @@
                   }
                 ?>
               </select>
-              <?php
-              // foreach ($cuentas as $row)
-              // {
-              //   echo $row->IDCuenta.'|'.$row->DESCCuenta.'|'.$row->DESCCliente;
-              // }
-              // foreach ($user as $rowAux)
-              // {
-              //   echo $rowAux->IDCuenta;
-              // }
-
-              ?>
-
       </div>
     </div>
     <div class="form-group">
