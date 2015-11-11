@@ -62,12 +62,19 @@ class Usuarios extends CI_Controller {
 		$permiso = $this->Permisos_model->get_permiso($data);
 
 		if($permiso == true)
-        {
+    {
+			if ($this->session->userdata('cambia') == 1)
+			{
+					$this->load->view('Usuarios/CambiaClave');
+			}
+			else
+			{
         	$data['titulo'] = 'Clave';
-
-			$this->load->view('Plantillas/Header',$data);
-			$this->load->view('Usuarios/CambiaClave');
-			$this->load->view('Plantillas/Footer');
+					$data['cambia'] = 0;
+					$this->load->view('Plantillas/Header',$data);
+					$this->load->view('Usuarios/CambiaClave');
+					$this->load->view('Plantillas/Footer');
+			}
 		}
 		else
 		{
@@ -108,7 +115,8 @@ class Usuarios extends CI_Controller {
 		$this->load->view('Plantillas/Footer');
 	}
 
-	function cargar_archivo() {
+	function cargar_archivo()
+	{
 
         $mi_archivo = $this->input->post('Imagen');
         $config['upload_path'] = "C:/xampp/htdocs/MagicWeb/assets/Imagenes/Usuarios/";
@@ -231,6 +239,8 @@ class Usuarios extends CI_Controller {
 						'CLAVUsuario' => $this->input->post('NuevaClaveUsuario'));
 
 				$this->Usuarios_model->cambia_clave($data);
+				unset($_SESSION['cambia']);
+				$this->session->set_userdata('cambia', 0);
 
 				$this->mensaje  = 'Acción completada exitosamente.';
 				$this->index();
@@ -256,19 +266,22 @@ class Usuarios extends CI_Controller {
 
 	function clave_check()
 	{
-		$data = array('IDUsuarios'=>$this->session->userdata('usuario'),
-					        'CLAVUsuario'=>$this->input->post('inputPassword',TRUE));
-					        //'CLAVUsuario'=>do_hash($this->input->post('ClaveUsuario',TRUE),'md5'));
+		$data = array('IDUsuarios'=>$this->session->userdata('usuario'));
+		$clave = do_hash($this->input->post('ClaveUsuario',TRUE),'md5');
 
 		$resultado  = $this->Usuarios_model->very_user($data);
 
 		foreach ($resultado as $row)
 		{
-			return true;
+			if ($clave == $row->CLAVUsuario)
+			{
+					return true;
+			}
+			else
+			{
+					return false;
+			}
 		}
-
-		return false;
-
 	}
 
 	function username_check($id)
@@ -283,7 +296,7 @@ class Usuarios extends CI_Controller {
     	{
     		return true;
     	}
-    }
+  }
 
 	function very_sesion()
 	{

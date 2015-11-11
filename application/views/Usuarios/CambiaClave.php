@@ -1,6 +1,28 @@
 <div class="container">
-  <br>
-  <br>
+  <?php     if(isset($cambia))
+            {
+                if ($cambia == 1)
+                {
+                    echo '<div class="row">';
+                    echo '<div class="col-lg-12">';
+                    echo '<div class="alert alert-success">';
+                    echo 'Es obligatorio reestablecer la contraseña';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                else
+                {
+                    echo '<br>';
+                    echo '<br>';
+                }
+            }
+            else
+            {
+              echo '<br>';
+              echo '<br>';
+            }
+  ?>
 <div class="row">
   <div class="col-xs-12">
     <form class="form-horizontal" role="form" name="Form_Cambiar_Clave" action="<?php echo base_url(); ?>Usuarios/operaciones_usuario" method="POST">
@@ -25,7 +47,18 @@
       <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
           <input class="btn btn-sm btn-primary" type="submit" name="submit_Cambiar_Clave" value="Aceptar" id="submit"/>
-          <a class="btn btn-sm btn-primary mitooltip" title="Salir sin salvar" href="<?php echo base_url(); ?>Home/">Volver</a>
+            <?php   if(isset($cambia))
+                    {
+                        if ($cambia == 0)
+                        {
+                            echo '<a class="btn btn-sm btn-primary mitooltip" title="Salir sin salvar" href="'.base_url().'Home/">Volver</a>';
+                        }
+                    }
+                    else
+                    {
+                          echo '<a class="btn btn-sm btn-primary mitooltip" title="Salir sin salvar" href="'.base_url().'Home/">Volver</a>';
+                    }
+            ?>
         </div>
       </div>
   </form>

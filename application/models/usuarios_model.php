@@ -27,6 +27,12 @@ class Usuarios_model extends CI_Model
 		return $query->result();
 	}
 
+	public function gettodas_cuentas()
+	{
+		$query = $this->db->get('bicuentas');
+		return $query->result();
+	}
+
 	public function get_cuenta($id)
 	{
 		$this->db->select('*');
@@ -108,20 +114,24 @@ class Usuarios_model extends CI_Model
 
 	public function blanquea_clave($id)
 	{
-		$data = array('CLAVUsuario' => do_hash('654321','md5'));
+		$data = array('CLAVUsuario' => do_hash('654321','md5'),
+								  'Cambia' =>1);
 
 		$condicion = "IDUsuarios = '".$id."'";
 
 		$str = $this->db->update_string('biusuarios', $data, $condicion);
+
+		//echo $str;
 
 		$this->db->query($str);
 	}
 
 	public function cambia_clave($data)
 	{
-		$sql = array('CLAVUsuario' => do_hash($data['ClaveUsuario'],'md5'));
+		$sql = array('CLAVUsuario' => do_hash($data['CLAVUsuario'],'md5'),
+								 'Cambia' => 0);
 
-		$condicion = "IDUsuarios = '".$data['IDUsuario']."'";
+		$condicion = "IDUsuarios = '".$data['IDUsuarios']."'";
 
 		$str = $this->db->update_string('biusuarios', $sql, $condicion);
 

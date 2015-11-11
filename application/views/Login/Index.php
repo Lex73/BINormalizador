@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo $titulo ?> : BINormalizador</title>
 	<link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?php echo base_url(); ?>assets/css/justified-nav.css" rel="stylesheet">
@@ -40,7 +40,7 @@
         <label for="inputPassword" class="sr-only">
           <os-p>Contraseña</os-p></label>
         <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Contraseña">
-        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Iniciar sesión" name="submit_login"/>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Iniciar sesión" name="submit_login">
       </form>
 
      <?php if(isset($mensaje)) :?>
@@ -49,7 +49,7 @@
     </div>
   </div>
 
-</div> <!-- /container -->
+	</div> <!-- /container -->
 
 	<script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>

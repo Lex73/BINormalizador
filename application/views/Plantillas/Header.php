@@ -63,47 +63,63 @@
     <div class="row">
 			<br>
       <div class="col-lg-12">
-        <div class="btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-safari fa-fw"></i>Navegación
-					</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="<?php echo base_url(); ?>home/"><i class="fa fa-home fa-fw"></i> Home</a></a></li>
-						</ul>
-					</div>
-
+				<?php
+						if ($this->session->userdata('cambia') == 0)
+						{
+			         echo '<div class="btn-group">';
+							 echo '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">';
+							 echo '<i class="fa fa-safari fa-fw"></i>Navegación';
+							 echo '</button>';
+							 echo '<ul class="dropdown-menu" role="menu">';
+							 echo '<li><a href="'.base_url().'home/"><i class="fa fa-home fa-fw"></i> Home</a></a></li>';
+							 echo '</ul>';
+							 echo '</div>';
+						}
+				?>
 				<?php
 						if($cuenta == 'Adm sitio')
 						{
-								echo '<div class="btn-group">';
+							if ($this->session->userdata('cambia') == 0)
+							{
+								  echo '<div class="btn-group">';
 				          echo '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">';
-				            echo '<i class="fa fa-university fa-lg fa-fw"></i>Administración';
+				          echo '<i class="fa fa-university fa-lg fa-fw"></i>Administración';
 				          echo '</button>';
 				          echo '<ul class="dropdown-menu" role="menu">';
-										echo '<li><a href="'.base_url().'Usuarios/"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>';
-										echo '<li><a href="'.base_url().'Perfiles/"><i class="fa fa-graduation-cap fa-fw"></i> Perfiles</a></li>';
-										echo '<li><a href="'.base_url().'Clientes/"><i class="fa fa-btc fa-fw"></i> Clientes</a></li>';
-										echo '<li><a href="'.base_url().'Cuentas/"><i class="fa fa-credit-card fa-fw"></i> Cuentas</a>';
+									echo '<li><a href="'.base_url().'Usuarios/"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>';
+									echo '<li><a href="'.base_url().'Perfiles/"><i class="fa fa-graduation-cap fa-fw"></i> Perfiles</a></li>';
+									echo '<li><a href="'.base_url().'Clientes/"><i class="fa fa-btc fa-fw"></i> Clientes</a></li>';
+									echo '<li><a href="'.base_url().'Cuentas/"><i class="fa fa-credit-card fa-fw"></i> Cuentas</a>';
+									echo '<li><a href="'.base_url().'Tablas/"><i class="fa fa-bookmark-o fa-fw"></i> Tablas</a>';
 				          echo '</ul>';
-				        echo '</div>';
+				          echo '</div>';
+							}
 						}
 				?>
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <i class="fa fa-list-ol fa-lg fa-fw"></i>Operaciones
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="<?php echo base_url(); ?>Procesos/"><i class="fa fa-level-up fa-fw"></i> Procesar</a></li>
-            <li><a href="<?php echo base_url(); ?>Registros/"><i class="fa fa-sort-amount-asc fa-fw"></i> Registros</a></li>
-						<li class="divider"></li>
-						<li><a href="<?php echo base_url(); ?>Usuarios/CambiaClave"><i class="fa fa-asterisk fa-fw"></i> Clave</a></li>
-            <li><a href="<?php echo base_url(); ?>Login/"><i class="fa fa-user-times fa-fw"></i> Logout</a></li>
-						<li class="divider"></li>
-						<li><a href="<?php echo base_url(); ?>About/"><i class="fa fa-thumbs-up fa-fw"></i> About</a></li>
-          </ul>
-        </div>
+				<?php
+						if ($this->session->userdata('cambia') == 0)
+						{
+				        echo '<div class="btn-group">';
+				        echo '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">';
+				        echo '<i class="fa fa-list-ol fa-lg fa-fw"></i>Operaciones';
+				        echo '</button>';
+				        echo '<ul class="dropdown-menu" role="menu">';
+				        echo '<li><a href="'.base_url().'Procesos/"><i class="fa fa-level-up fa-fw"></i> Procesar</a></li>';
+				        echo '<li><a href="'.base_url().'Registros/"><i class="fa fa-sort-amount-asc fa-fw"></i> Registros</a></li>';
+								echo '<li class="divider"></li>';
+								echo '<li><a href="'.base_url().'Usuarios/CambiaClave"><i class="fa fa-asterisk fa-fw"></i> Clave</a></li>';
+				        echo '<li><a href="'.base_url().'Login/"><i class="fa fa-user-times fa-fw"></i> Logout</a></li>';
+								echo '<li class="divider"></li>';
+								echo '<li><a href="'.base_url().'About/"><i class="fa fa-thumbs-up fa-fw"></i> About</a></li>';
+				        echo '</ul>';
+				        echo '</div>';
+						}
+						else
+						{
+								echo '<li><a href="'.base_url().'Login/"><i class="fa fa-user-times fa-fw"></i> Logout</a></li>';
+						}
+					?>
       </div>
-
     </div><!--row-->
 
     <br>
