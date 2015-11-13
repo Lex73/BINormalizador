@@ -40,9 +40,7 @@ class Clientes extends CI_Controller {
 		}
 		else
 		{
-			$this->load->view('Plantillas/Header',$data);
-			$this->load->view('errors/errores');
-			$this->load->view('Plantillas/Footer');
+			show_error('No tiene permisos para ver esta página.', 1, $heading = 'Permisos');
 		}
 	}
 

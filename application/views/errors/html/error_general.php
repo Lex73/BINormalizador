@@ -56,6 +56,13 @@ p {
 </style>
 </head>
 <body>
+	<div class="row">
+		<div class="col-lg-12">
+					<ul class="dropdown-menu" role="menu">
+						<li><a href=" <?php echo base_url(); ?>home/"><i class="fa fa-home fa-fw"></i> Home</a></a></li>
+					</ul>
+		</div>
+	</div>
 	<div id="container">
 		<h1><?php echo $heading; ?></h1>
 		<?php echo $message; ?>

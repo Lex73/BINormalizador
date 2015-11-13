@@ -43,9 +43,7 @@ class Usuarios extends CI_Controller {
 		}
 		else
 		{
-			$this->load->view('Plantillas/Header',$data);
-			$this->load->view('errors/Index');
-			$this->load->view('Plantillas/Footer');
+			show_error('No tiene permisos para ver esta página.', 1, $heading = 'Permisos');
 		}
 	}
 
@@ -78,9 +76,7 @@ class Usuarios extends CI_Controller {
 		}
 		else
 		{
-			$this->load->view('Plantillas/Header',$data);
-			$this->load->view('Errores/Index');
-			$this->load->view('Plantillas/Footer');
+			show_error('No tiene permisos para ver esta página.', 1, $heading = 'Permisos');
 		}
 	}
 
@@ -117,7 +113,6 @@ class Usuarios extends CI_Controller {
 
 	function cargar_archivo()
 	{
-
         $mi_archivo = $this->input->post('Imagen');
         $config['upload_path'] = "C:/xampp/htdocs/MagicWeb/assets/Imagenes/Usuarios/";
         $config['file_name'] =  $this->input->post('IDUsuario',TRUE).".gif";

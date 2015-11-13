@@ -79,14 +79,9 @@ class Tablas_model extends CI_Model
     $this->db->where('IDTabla', $tabla);
     $this->db->order_by('ORDER', 'ASC');
 		$query = $this->db->get('bicampos');
-    if($query->num_rows() > 0)
-    {
-		    return $query->result();
-    }
-    else
-    {
-        return false;
-    }
+
+		return $query->result();
+
 	}
 
 	public function insert_tabla($data)

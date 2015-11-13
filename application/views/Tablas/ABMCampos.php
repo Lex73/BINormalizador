@@ -4,23 +4,23 @@
             <div class="alert alert-success">
                 <i class="fa fa-bookmark-o fa-fw fa-2x"></i>
                 <?php
-                  if(isset($tablas))
+                  if(isset($campos))
                   {
-                      foreach ($tablas as $row)
+                      foreach ($campos as $row)
                       {
-                          echo 'Modificar: '.$row->IDTabla.'-'.$row->NOMTabla;
+                          echo 'Campos de la tabla: '.$row->IDTabla;
                       }
                   }
                   else
                   {
-                    echo 'Agregar nueva tabla';
+                    echo 'Tabla sin campos';
                   }
                 ?>
             </div>
         </div>
 </div>
 <div class="row">
-  <form class="form-horizontal" role="form" name="Form_Agregar_Tablas" action="<?php echo base_url(); ?>tablas/operaciones_tablas" method="POST">
+  <!-- <form class="form-horizontal" role="form" name="Form_Agregar_Tablas" action="<?php echo base_url(); ?>tablas/operaciones_tablas" method="POST"> -->
       <?php
           if(isset($tablas))
           {
@@ -118,72 +118,4 @@
   </div>
   <br>
   </div>
-
-  <div class="row">
-    <div class="col-xs-2"></div>
-      <div class="col-xs-4">
-        <?php
-          if(isset($tablas))
-          {
-              echo '<h4>Campos de la tabla</h4>';
-          }
-        ?>
-      </div>
-      <div class="col-xs-4">
-        <?php
-          if(isset($tablas))
-          {
-            foreach ($tablas as $row)
-            {
-              echo '<a class="btn btn-sm btn-info mitooltip" title="Agregar campos a esta Tabla" href="'.base_url().'tablas/agregarCampos/'.$row->IDTabla.'"><i class="fa fa-plus fa-fw"></i></a>';
-            }
-          }
-          else
-          {
-
-          }
-        ?>
-      </div>
-      <div class="col-xs-2"></div>
-    <div class="col-xs-4"></div>
-  </div><!--row-->
-  <div class="row">
-    <div class="col-xs-2"></div>
-    <div class="col-xs-4">
-      <ul class="list-group">
-        <?php
-          if(isset($campos))
-          {
-            echo '<table class="table">';
-            echo '<thead>';
-            echo '<tr>';
-            echo '<th>#</th>';
-            echo '<th>Orden</th>';
-            echo '<th>Campo</th>';
-            echo '<th>Tipo</th>';
-            echo '<th>Acciones</th>';
-            echo '<th></th>';
-            echo '</tr>';
-            echo '</thead>';
-            foreach ($campos as $rowAux)
-            {
-              echo '<tbody>';
-              echo '<tr>';
-              echo '<td>'.$rowAux->IDCampo.'</td>';
-              echo '<td>'.$rowAux->ORDER.'</td>';
-              echo '<td>'.$rowAux->NOMCampo.'</td>';
-              echo '<td>'.$rowAux->TYPCampo.'</td>';
-              echo '<td><a class="btn btn-xs btn-success mitooltip" title="Modificar este Campo" href="'.base_url().'tablas/modificarCampo/'.$rowAux->IDTabla.'/'.$rowAux->IDCampo.'"><i class="fa fa-pencil-square-o"></i></a></td>';
-              //echo '<td><a class="btn btn-xs btn-info mitooltip" title="Agregar Documento al Item" href="'.base_url().'documentos/index/'.$rowAux->IDProyecto.'/'.$rowAux->IDItemProyecto .'"><i class="fa fa-file-text-o"></i></a></td>';
-              echo '</tr>';
-            }
-              echo '</tbody>';
-              echo '</table>';
-          }
-        ?>
-      </ul>
-    </div>
-    <div class="col-xs-4"></div>
-  </div><!--row-->
-
 </div> <!-- /container -->

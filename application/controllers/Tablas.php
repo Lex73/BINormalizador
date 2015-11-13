@@ -43,9 +43,7 @@ class Tablas extends CI_Controller {
 		}
 		else
 		{
-			$this->load->view('Plantillas/Header',$data);
-			$this->load->view('errors/Index');
-			$this->load->view('Plantillas/Footer');
+			show_error('No tiene permisos para ver esta página.', 1, $heading = 'Permisos');
 		}
 	}
 
@@ -67,6 +65,7 @@ class Tablas extends CI_Controller {
 	{
 		$data['titulo'] = 'ABM Tablas';
 		$val['tablas'] = $this->Tablas_model->obtener_tabla($id);
+		$val['campos'] = $this->Tablas_model->get_campos($id);
 		$data['cuentas'] = $this->Usuarios_model->gettodas_cuentas();
 		$data['usuario'] = $this->session->userdata('usuario');
 		$data['nombre'] = $this->session->userdata('nombre');
@@ -75,6 +74,20 @@ class Tablas extends CI_Controller {
 
 		$this->load->view('Plantillas/Header',$data);
 		$this->load->view('Tablas/ABMTablas',$val);
+		$this->load->view('Plantillas/Footer');
+	}
+
+	public function campos($id)
+	{
+		$data['titulo'] = 'ABM Campos';
+		$val['campos'] = $this->Tablas_model->get_campos($id);
+		$data['usuario'] = $this->session->userdata('usuario');
+		$data['nombre'] = $this->session->userdata('nombre');
+		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
+
+		$this->load->view('Plantillas/Header',$data);
+		$this->load->view('Tablas/ABMCampos',$val);
 		$this->load->view('Plantillas/Footer');
 	}
 
