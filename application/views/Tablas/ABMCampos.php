@@ -2,89 +2,125 @@
 <div class="row">
   <div class="col-xs-8">
             <div class="alert alert-success">
-                <i class="fa fa-bookmark-o fa-fw fa-2x"></i>
+                <i class="fa fa-server fa-fw fa-2x"></i>
                 <?php
-                  if(isset($campos))
+                  if(isset($campo))
                   {
-                      foreach ($campos as $row)
+                      foreach ($campo as $row)
                       {
-                          echo 'Campos de la tabla: '.$row->IDTabla;
+                          echo 'Modificando el campo:'.$row->IDCampo.' : '.$row->NOMCampo.' de la tabla: '.$row->IDTabla;
+                      }
+                      foreach ($tablas as $row)
+                      {
+                          echo ' : '.$row->NOMTabla;
                       }
                   }
                   else
                   {
-                    echo 'Tabla sin campos';
+                    foreach ($tablas as $row)
+                    {
+                        echo 'Agregar nuevo campo para la tabla:'.$row->IDTabla.' : '.$row->NOMTabla;
+                    }
                   }
                 ?>
             </div>
         </div>
 </div>
 <div class="row">
-  <!-- <form class="form-horizontal" role="form" name="Form_Agregar_Tablas" action="<?php echo base_url(); ?>tablas/operaciones_tablas" method="POST"> -->
+<form class="form-horizontal" role="form" name="Form_Agregar_Campos" action="<?php echo base_url(); ?>tablas/operaciones_tablas" method="POST">
       <?php
-          if(isset($tablas))
+          foreach ($tablas as $row)
           {
-               foreach ($tablas as $row)
-               {
-                 echo '<div class="form-group">';
-                 echo '<label for="IDTabla" class="col-lg-2 control-label">ID Tabla</label>';
-                 echo '<div class="col-lg-4">';
-                 echo '<input type="text" class="form-control" name ="IDTabla" id="IDTabla"';
-                 echo ' value="'.$row->IDTabla.'" readonly';
-               }
-               echo '>';
-               echo '</div>';
-               echo '</div>';
+              echo '<div class="form-group">';
+              echo '<label for="IDTabla" class="col-lg-2 control-label">ID Tabla</label>';
+              echo '<div class="col-lg-2">';
+              echo '<input type="text" class="form-control" name ="IDTabla" id="IDTabla"';
+              echo ' value="'.$row->IDTabla.'" readonly';
           }
+            echo '>';
+            echo '</div>';
+            echo '</div>';
       ?>
-      <div class="form-group">
-        <label for="NombreTabla" class="col-lg-2 control-label">Nombre Tabla</label>
-        <div class="col-lg-6">
-          <input type="text" class="form-control" name ="NombreTabla" id="NombreTabla"
-          <?php
-              if(isset($tablas))
+      <?php
+          if(isset($campo))
+          {
+              foreach ($campo as $row)
               {
-                  foreach ($tablas as $row)
-                  {
-                    echo ' value="'.$row->NOMTabla.'"';
-                  }
+                  echo '<div class="form-group">';
+                  echo '<label for="IDCampo" class="col-lg-2 control-label">ID Campo</label>';
+                  echo '<div class="col-lg-2">';
+                  echo '<input type="text" class="form-control" name ="IDCampo" id="IDCampo"';
+                  echo ' value="'.$row->IDCampo.'" readonly>';
+                  echo '</div>';
+                  echo '</div>';
               }
-              else
-              {
-                  echo ' value="'.@set_value('NombreTabla').'" placeholder="Nombre Tabla"';
-              }
-          ?>
-          >
+          }
+    ?>
+    <div class="form-group">
+      <label for="NOMCampo" class="col-lg-2 control-label">Nombre del Campo</label>
+      <div class="col-lg-6">
+        <input type="text" class="form-control" name ="NOMCampo" id="NOMCampo"
+        <?php
+            if(isset($campo))
+            {
+                foreach ($campo as $row)
+                {
+                  echo ' value="'.$row->NOMCampo.'" readonly';
+                }
+            }
+            else
+            {
+                echo ' value="'.@set_value('Nombre del Campo').'" placeholder="Nombre del Campo"';
+            }
+        ?>
+        >
       </div>
     </div>
     <div class="form-group">
-      <label for="IDCuenta" class="col-lg-2 control-label">Cuenta</label>
-      <div class="col-lg-4">
-              <select class="input-large form-control" name="IDCuenta" id="IDCuenta">
+      <label for="TYPCampo" class="col-lg-2 control-label">Tipo de dato</label>
+      <div class="col-lg-2">
+              <select class="input-large form-control" name="TYPCampo" id="TYPCampo">
                 <?php
-                      if(!isset($tablas))
+                      if(!isset($campo))
                       {
-                        echo '<option value="">Seleccione una cuenta</option>';
-                        foreach ($cuentas as $row)
-                        {
-                          echo '<option value="'.$row->IDCuenta.'">'.$row->DESCCuenta.'</option>';
-                        }
+                        echo '<option value="">Seleccione un tipo</option>';
+                        echo '<option value="Fecha">Fecha</option>';
+                        echo '<option value="Cadena">Cadena</option>';
+                        echo '<option value="Entero">Entero</option>';
+                        echo '<option value="Flotante">Flotante</option>';
                       }
                       else
                       {
-                        foreach ($cuentas as $row)
+                        foreach ($campo as $row)
                         {
-                          foreach ($tablas as $rowAux)
-                          {
-                            if($rowAux->IDCuenta == $row->IDCuenta)
+                            if( $row->TYPCampo == 'Fecha')
                             {
-                              echo '<option selected value="'.$row->IDCuenta.'">'.$row->DESCCuenta.'</option>';
+                              echo '<option selected value="Fecha">Fecha</option>';
+                              echo '<option value="Cadena">Cadena</option>';
+                              echo '<option value="Entero">Entero</option>';
+                              echo '<option value="Flotante">Flotante</option>';
                             }
-                            else
+                            else if ( $row->TYPCampo == 'Cadena')
                             {
-                              echo '<option value="'.$row->IDCuenta.'">'.$row->DESCCuenta.'</option>';
+                              echo '<option selected value="Cadena">Cadena</option>';
+                              echo '<option value="Fecha">Fecha</option>';
+                              echo '<option value="Entero">Entero</option>';
+                              echo '<option value="Flotante">Flotante</option>';
                             }
-                          }
+                            else if ( $row->TYPCampo == 'Entero')
+                            {
+                              echo '<option selected value="Entero">Entero</option>';
+                              echo '<option value="Cadena">Cadena</option>';
+                              echo '<option value="Entero">Entero</option>';
+                              echo '<option value="Flotante">Flotante</option>';
+                            }
+                            else if ( $row->TYPCampo == 'Flotante')
+                            {
+                              echo '<option selected value="Entero">Entero</option>';
+                              echo '<option value="Cadena">Cadena</option>';
+                              echo '<option value="Entero">Entero</option>';
+                              echo '<option value="Flotante">Flotante</option>';
+                            }
                         }
                       }
                 ?>
@@ -92,20 +128,65 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-lg-offset-2 col-lg-10">
-       <input class="btn btn-sm btn-primary" type="submit" id="submit"
-         <?php
-            if(!isset($tablas))
+      <label for="LONGCampo" class="col-lg-2 control-label">Longitud de Campo</label>
+      <div class="col-lg-2">
+        <input type="text" class="form-control" name ="LONGCampo" id="LONGCampo"
+        <?php
+            if(isset($campo))
             {
-                echo 'name="submit_Agregar_Tablas"';
+                foreach ($campo as $row)
+                {
+                  echo ' value="'.$row->LONGCampo.'"';
+                }
             }
             else
             {
-                echo 'name="submit_Modificar_Tablas"';
+                echo ' value="'.@set_value('Longitud de campo').'" placeholder="Longitud de campo"';
             }
-          ?>
-        value="Aceptar"/>
-        <a class="btn btn-sm btn-primary" href="<?php echo base_url(); ?>tablas/">Volver</a>
+        ?>
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="ORDER" class="col-lg-2 control-label">Orden</label>
+      <div class="col-lg-2">
+        <input type="text" class="form-control" name ="ORDER" id="ORDER"
+        <?php
+            if(isset($campo))
+            {
+                foreach ($campo as $row)
+                {
+                  echo ' value="'.$row->ORDER.'" readonly';
+                }
+            }
+            else
+            {
+                echo ' value="'.@set_value('Ingrese el orden').'" placeholder="Orden"';
+            }
+        ?>
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <input class="btn btn-sm btn-primary" type="submit" id="submit"
+         <?php
+            if(!isset($campo))
+            {
+                echo 'name="submit_Agregar_Campo"';
+            }
+            else
+            {
+                echo 'name="submit_Modificar_Campo"';
+            }
+         ?>
+         value="Aceptar"/>
+         <?php
+            foreach ($tablas as $row)
+            {
+                echo '<a class="btn btn-sm btn-primary" href="'.base_url().'tablas/modificar/'.$row->IDTabla.'">Volver</a>';
+            }
+         ?>
       </div>
     </div>
   </form>

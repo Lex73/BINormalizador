@@ -61,6 +61,33 @@ class Tablas extends CI_Controller {
 		$this->load->view('Plantillas/Footer');
 	}
 
+	public function agregarCampos($id)
+	{
+		$data['titulo'] = 'ABM Campos';
+		$val['tablas'] = $this->Tablas_model->obtener_tabla($id);
+		$data['usuario'] = $this->session->userdata('usuario');
+		$data['nombre'] = $this->session->userdata('nombre');
+		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
+		$this->load->view('Plantillas/Header',$data);
+		$this->load->view('Tablas/ABMCampos',$val);
+		$this->load->view('Plantillas/Footer');
+	}
+
+	public function modificarCampo($tabla, $campo)
+	{
+		$data['titulo'] = 'ABM Campos';
+		$val['tablas'] = $this->Tablas_model->obtener_tabla($tabla);
+		$val['campo'] =$this->Tablas_model->obtener_campo($campo);
+		$data['usuario'] = $this->session->userdata('usuario');
+		$data['nombre'] = $this->session->userdata('nombre');
+		$data['perfil'] = $this->session->userdata('perfil');
+		$data['cuenta'] = $this->session->userdata('cuenta');
+		$this->load->view('Plantillas/Header',$data);
+		$this->load->view('Tablas/ABMCampos',$val);
+		$this->load->view('Plantillas/Footer');
+	}
+
 	public function modificar($id)
 	{
 		$data['titulo'] = 'ABM Tablas';
@@ -141,10 +168,99 @@ class Tablas extends CI_Controller {
 				$this->index();
 			}
 		}
+		else if($this->input->post('submit_Agregar_Campo'))
+		{
+			$this->form_validation->set_rules("NOMCampo","Nombre del campo","required|trim|xss_clean|callback_campo_check");
+      $this->form_validation->set_rules("TYPCampo","Tipo de campo","required|trim|xss_clean");
+			$this->form_validation->set_rules("LONGCampo","Longitud de campo","required|integer|trim|xss_clean");
+			$this->form_validation->set_rules("ORDER","Orden","required|integer|trim|xss_clean|callback_order_check");
+
+			$this->form_validation->set_message('required','El campo %s es obligatorio.');
+			$this->form_validation->set_message('integer','El campo %s debe ser numerico.');
+			$this->form_validation->set_message('order_check','El orden asignado ya existe para esta tabla.');
+			$this->form_validation->set_message('campo_check','El nombre de campo asignado ya existe para esta tabla.');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				$this->agregarCampos($this->input->post('IDTabla',TRUE));
+			}
+			else
+			{
+				$data = array(
+          'IDTabla' => $this->input->post('IDTabla',TRUE),
+					'NOMCampo' => $this->input->post('NOMCampo',TRUE),
+          'TYPCampo' => $this->input->post('TYPCampo',TRUE),
+					'LONGCampo' => $this->input->post('LONGCampo',TRUE),
+          'ORDER' => $this->input->post('ORDER',TRUE));
+
+				$this->Tablas_model->insert_campo($data);
+
+				$this->mensaje  = 'Acción completada exitosamente.';
+				$this->modificar($this->input->post('IDTabla',TRUE));
+			}
+		}
+		else if($this->input->post('submit_Modificar_Campo'))
+		{
+			$this->form_validation->set_rules("NOMCampo","Nombre del campo","required|trim|xss_clean");
+      $this->form_validation->set_rules("TYPCampo","Tipo de campo","required|trim|xss_clean");
+			$this->form_validation->set_rules("LONGCampo","Longitud de campo","required|integer|trim|xss_clean");
+			$this->form_validation->set_rules("ORDER","Orden","required|integer|trim|xss_clean");
+
+			$this->form_validation->set_message('required','El campo %s es obligatorio.');
+			$this->form_validation->set_message('integer','El campo %s debe ser numerico.');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				$this->agregarCampos($this->input->post('IDTabla',TRUE));
+			}
+			else
+			{
+				$data = array(
+					'IDCampo' => $this->input->post('IDCampo',TRUE),
+          'IDTabla' => $this->input->post('IDTabla',TRUE),
+					'NOMCampo' => $this->input->post('NOMCampo',TRUE),
+          'TYPCampo' => $this->input->post('TYPCampo',TRUE),
+					'LONGCampo' => $this->input->post('LONGCampo',TRUE),
+          'ORDER' => $this->input->post('ORDER',TRUE));
+
+				$this->Tablas_model->update_campo($data);
+
+				$this->mensaje  = 'Acción completada exitosamente.';
+				$this->modificar($this->input->post('IDTabla',TRUE));
+			}
+		}
 		else
 		{
 
 		}
+	}
+
+	function order_check($order)
+	{
+			$val = $this->Tablas_model->verif_order($order, $this->input->post('IDTabla',TRUE));
+
+			if($val == true)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+	}
+
+	function campo_check($nombre)
+	{
+			$val = $this->Tablas_model->verif_campo($nombre, $this->input->post('IDTabla',TRUE));
+
+			if($val == true)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 	}
 
   function tabname_check($id)

@@ -84,9 +84,29 @@ class Tablas_model extends CI_Model
 
 	}
 
+	public function obtener_campo($id)
+	{
+    $this->db->where('IDCampo', $id);
+		$query = $this->db->get('bicampos');
+
+		return $query->result();
+
+	}
+
 	public function insert_tabla($data)
 	{
 		$this->db->insert('bitablas',$data);
+	}
+
+	public function insert_campo($data)
+	{
+		$this->db->insert('bicampos',$data);
+	}
+
+	public function update_campo($data)
+	{
+			$this->db->update('bicampos', $data, "IDCampo ='".$data['IDCampo']."'",
+																					 "IDTabla ='".$data['IDTabla']."'");
 	}
 
 	public function update_tabla($data)
@@ -97,6 +117,22 @@ class Tablas_model extends CI_Model
 	public function verif_tabla($data)
 	{
 		$query = $this->db->get_where('bitablas',array('NOMTabla' => $data));
+
+		return $query->result();
+	}
+
+	public function verif_order($order, $tabla)
+	{
+		$query = $this->db->get_where('bicampos',array('IDTabla' => $tabla,
+																									 'ORDER' => $order));
+
+		return $query->result();
+	}
+
+	public function verif_campo($nombre, $tabla)
+	{
+		$query = $this->db->get_where('bicampos',array('IDTabla' => $tabla,
+																									 'NOMCampo' => $nombre));
 
 		return $query->result();
 	}

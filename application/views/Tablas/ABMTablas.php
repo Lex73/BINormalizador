@@ -162,7 +162,6 @@
             echo '<th>Campo</th>';
             echo '<th>Tipo</th>';
             echo '<th>Acciones</th>';
-            echo '<th></th>';
             echo '</tr>';
             echo '</thead>';
             foreach ($campos as $rowAux)
@@ -174,7 +173,6 @@
               echo '<td>'.$rowAux->NOMCampo.'</td>';
               echo '<td>'.$rowAux->TYPCampo.'</td>';
               echo '<td><a class="btn btn-xs btn-success mitooltip" title="Modificar este Campo" href="'.base_url().'tablas/modificarCampo/'.$rowAux->IDTabla.'/'.$rowAux->IDCampo.'"><i class="fa fa-pencil-square-o"></i></a></td>';
-              //echo '<td><a class="btn btn-xs btn-info mitooltip" title="Agregar Documento al Item" href="'.base_url().'documentos/index/'.$rowAux->IDProyecto.'/'.$rowAux->IDItemProyecto .'"><i class="fa fa-file-text-o"></i></a></td>';
               echo '</tr>';
             }
               echo '</tbody>';
