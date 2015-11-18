@@ -34,9 +34,9 @@ class Login extends CI_Controller {
 						$datos = array('usuario'=> $row->IDUsuarios,
 												   'nombre'=> $row->NOMBUsuario,
 												   'perfil'=> $row->PERFUsuario,
-												 	 'IDcuenta'=> $row->IDCuenta,
-												 	 'cuenta'=> $cuenta,
-												 	 'cambia'=> $row->Cambia);
+												   'IDcuenta'=> $row->IDCuenta,
+												   'cuenta'=> $cuenta,
+												   'cambia'=> $row->Cambia);
 
 						$this->session->set_userdata($datos);
 						redirect(base_url().'Home/');

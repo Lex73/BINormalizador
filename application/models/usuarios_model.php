@@ -14,6 +14,7 @@ class Usuarios_model extends CI_Model
 		$this->db->join('biperfil', 'biperfil.IDPerfil = biusuarios.PERFUsuario');
 
 		$query = $this->db->get();
+		log_message('info', 'getall_usuarios()');
 		return $query->result();
 	}
 
@@ -24,12 +25,14 @@ class Usuarios_model extends CI_Model
 		$this->db->join('biclientes', 'biclientes.IDCliente = bicuentas.IDCliente');
 
 		$query = $this->db->get();
+		log_message('info', 'getall_cuentas()');
 		return $query->result();
 	}
 
 	public function gettodas_cuentas()
 	{
 		$query = $this->db->get('bicuentas');
+		log_message('info', 'gettodas_cuentas()');
 		return $query->result();
 	}
 
@@ -41,7 +44,7 @@ class Usuarios_model extends CI_Model
 		$query = $this->db->get();
 
 		$res = $query->result();
-
+		log_message('info', 'get_cuenta()');
 		foreach ($res as $value)
 		{
 			return $value->DESCCuenta;
@@ -54,7 +57,7 @@ class Usuarios_model extends CI_Model
 		$this->db->from('bicuentas');
 		$this->db->where('IDCuenta',$id);
 		$query = $this->db->get();
-
+		log_message('info', 'get_cuenta_1()');
 		return $query->result();
 	}
 
@@ -65,7 +68,7 @@ class Usuarios_model extends CI_Model
 		$this->db->join('biperfil', 'biperfil.IDPerfil = biusuarios.PERFUsuario');
 		$this->db->where('IDUsuarios',$id);
 		$query = $this->db->get();
-
+		log_message('info', 'get_usuario()');
 		return $query->result();
 	}
 
@@ -73,6 +76,7 @@ class Usuarios_model extends CI_Model
 	{
 		$consulta = $this->db->get_where('biusuarios', array('IDUsuarios =' => $id));
 
+		log_message('info', 'verif_usuario()');
 		if($consulta->num_rows() == 1)
 		{
 			return true;
@@ -87,28 +91,32 @@ class Usuarios_model extends CI_Model
 	public function insert_cuenta($data)
 	{
 		$this->db->insert('bicuentas',$data);
+		log_message('info', 'insert_cuenta()');
 	}
 
 	public function update_cuenta($data)
 	{
 		$this->db->update('bicuentas', $data, "IDCuenta ='".$data['IDCuenta']."'");
+		log_message('info', 'update_cuenta()');
 	}
 
 	public function insert_usuario($data)
 	{
 		$data['CLAVUsuario'] = do_hash($data['CLAVUsuario'], 'md5');
 		$this->db->insert('biusuarios',$data);
+		log_message('info', 'insert_usuario()');
 	}
 
 	public function update_usuario($data)
 	{
 		$this->db->update('biusuarios', $data, "IDUsuarios ='".$data['IDUsuarios']."'");
+		log_message('info', 'update_usuario()');
 	}
 
 	public function very_user($data)
 	{
 		$query = $this->db->get_where('biusuarios',$data);
-
+		log_message('info', 'very_user()');
 		return $query->result();
 	}
 
@@ -124,6 +132,7 @@ class Usuarios_model extends CI_Model
 		//echo $str;
 
 		$this->db->query($str);
+		log_message('info', 'blanquea_clave()');
 	}
 
 	public function cambia_clave($data)
@@ -136,6 +145,7 @@ class Usuarios_model extends CI_Model
 		$str = $this->db->update_string('biusuarios', $sql, $condicion);
 
 		$this->db->query($str);
+		log_message('info', 'cambia_clave()');
 	}
 }
 ?>

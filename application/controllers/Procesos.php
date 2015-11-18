@@ -649,9 +649,8 @@ class Procesos extends CI_Controller
 		$mensaje['nombre'] = $this->session->userdata('nombre');
 		$mensaje['perfil'] = $this->session->userdata('perfil');
 		$mensaje['cuenta'] = $this->session->userdata('cuenta');
-		$this->load->view('Plantillas/Header',$mensaje);
-		$this->load->view('errors/errores');
-		$this->load->view('Plantillas/Footer');
+
+		show_error($mensaje['error'], 3, $heading = 'Error Proceso');
 	}
 
 	function very_sesion()

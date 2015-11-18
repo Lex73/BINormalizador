@@ -21,10 +21,10 @@ class Usuarios extends CI_Controller {
 		$data['titulo'] = 'Usuarios';
 		$data['query'] = $this->Usuarios_model->getall_usuarios();
 		$data['mensaje'] = $this->mensaje;
-    $mensaje['usuario'] = $this->session->userdata('usuario');
-    $mensaje['nombre'] = $this->session->userdata('nombre');
-    $mensaje['perfil'] = $this->session->userdata('perfil');
-    $mensaje['cuenta'] = $this->session->userdata('cuenta');
+		$mensaje['usuario'] = $this->session->userdata('usuario');
+		$mensaje['nombre'] = $this->session->userdata('nombre');
+		$mensaje['perfil'] = $this->session->userdata('perfil');
+		$mensaje['cuenta'] = $this->session->userdata('cuenta');
 
 		$data['accion'] = 'VER';
 

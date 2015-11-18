@@ -41,7 +41,7 @@ class Home extends CI_Controller
 	  }
 		else
 		{
-			echo 'Error al cargar la configuración';
+			show_error('Error al cargar la configuración.', 2, $heading = 'Configuracion');
 		}
 	}
 
