@@ -14,6 +14,7 @@ class Login extends CI_Controller {
 	{
 		$data['titulo'] = 'Login';
 		$this->load->view('Login/Index',$data);
+		//$this->Usuarios_model->blanquea_clave('alopez');
 	}
 
 	public function ingresar()
